@@ -100,14 +100,18 @@ void ChangeDate(){
         str = strtok(NULL, delim);
         i++;
     }
+    free(str);
 
     month = vars[0];
     day = vars[1];
     year = vars[2];
 
     tm.tm_mon = atoi(month) - 1;
+    free(month);
     tm.tm_mday = atoi(day);
+    free(day);
     tm.tm_year = atoi(year) - 1900;
+    free(year);
 }
 
 void DisplayTime(){
