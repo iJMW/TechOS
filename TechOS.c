@@ -85,27 +85,44 @@ char *getMonth(int month){
     }
 }
 
+/*
+ * When the user issues the command chdate ##-##-####,
+ * the string provided is tokenized and iterated over to get the month, day and year.
+ * The date is then set to those parameters.
+ */
 void ChangeDate(){
+    //Define the size of the string
     size_t size = 20;
+    //Allocate memory for the string
     char *str = (char *)malloc(size * sizeof(char));
+    //Declare the delimiters, hyphens are the delimiters but it will also skip over the space at the beginning
     char delim[] = " -";
+    //Get the line
     getline(&str, &size, stdin);
+    //Get the first portion
     str = strtok(str, delim);
 
+    //Declare the variables
     char *month, *day, *year;
+    //Declare an array of char pointers (strings)
     char *vars[3];
+    //Iterate over the string
     int i = 0;
     while(str != NULL && i < 3){
         vars[i] = str;
         str = strtok(NULL, delim);
         i++;
     }
+    //Free the str pointer
     free(str);
 
+    //Assign the month, day and year from the array
     month = vars[0];
     day = vars[1];
     year = vars[2];
 
+    //Assign the tm values to the parameters and any adjustments necessary
+    //Free them after they are assigned
     tm.tm_mon = atoi(month) - 1;
     free(month);
     tm.tm_mday = atoi(day);
