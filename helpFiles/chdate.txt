@@ -1,0 +1,11 @@
+
+chdate:
+
+    Description:
+        Changes the TechOS's date
+
+    Syntax:
+        chdate {{mm-dd-yyyy}}
+
+    Example:
+        TechOS> chdate 01-01-21

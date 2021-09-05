@@ -1,0 +1,26 @@
+
+chdate:
+    
+    Changes the TechOS's date
+
+dispdate:
+    
+    Displays the current date
+
+disptime:
+
+    Displays the current Time
+
+help:
+
+    Provides information on how to use each command
+    Specific commands can be passed as such 'help {{commandName}}'
+
+quit:
+
+    Exits the TechOS
+
+version:
+
+    Displays the current version, authors, and date completed 
+    of the TechOS

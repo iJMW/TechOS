@@ -1,0 +1,12 @@
+
+disptime:
+
+    Description:
+        Displays the current time of the TechOS
+
+    Syntax:
+        disptime
+
+    Example:
+        TechOS> disptime
+    
