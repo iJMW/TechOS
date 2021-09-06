@@ -9,6 +9,11 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
+
+time_t currentTime;
+struct tm tm;
 
 void COMHAN();
 void Help();
@@ -19,6 +24,12 @@ void DisplayTime();
 void TerminateTechOS();
 
 int main(){
+
+    currentTime = time(NULL);
+    tm = *localtime(&currentTime);
+
+    COMHAN();
+
     COMHAN();
 
     return 0;
@@ -37,7 +48,7 @@ void COMHAN(){
             DisplayDate();
         }else if(strcmp(userInput, "chdate") == 0){
             ChangeDate();
-        }else if(strcmp(userInput, "disptime") == 0){
+        }else if(strcmp(userInput, "time") == 0){
             DisplayTime();
         }else if(strcmp(userInput, "quit") == 0){
             TerminateTechOS();
@@ -64,9 +75,10 @@ void ChangeDate(){
 }
 
 void DisplayTime(){
-    printf("Display Time");
+    printf("%d : %d \n" , tm.tm_hour, tm.tm_min);
 }
 
 void TerminateTechOS(){
-    printf("Terminate Tech OS");
+    printf("Goodbye!");
+    exit(0);
 }
