@@ -21,6 +21,7 @@ void Version();
 void DisplayDate();
 char *getMonth(int month);
 void ChangeDate();
+int checkMonth(int month, int day, int year);
 void DisplayTime();
 void TerminateTechOS();
 
@@ -101,15 +102,16 @@ void ChangeDate(){
     char delim[] = " -";
     //Get the line
     getline(&str, &size, stdin);
-    //Get the first portion
-    str = strtok(str, delim);
 
     //Declare the variables
     char *month, *day, *year;
+
     //Declare an array of char pointers (strings)
     char *vars[3];
     //Iterate over the string
     int i = 0;
+    //Get the first portion
+    str = strtok(str, delim);
     while(str != NULL && i < 3){
         vars[i] = str;
         str = strtok(NULL, delim);
@@ -123,14 +125,40 @@ void ChangeDate(){
     day = vars[1];
     year = vars[2];
 
+    if(checkMonth(atoi(month) - 1, atoi(day), atoi(year)) == 1 && atoi(day) > 0){
     //Assign the tm values to the parameters and any adjustments necessary
     //Free them after they are assigned
-    tm.tm_mon = atoi(month) - 1;
-    free(month);
-    tm.tm_mday = atoi(day);
-    free(day);
-    tm.tm_year = atoi(year) - 1900;
-    free(year);
+        tm.tm_mon = atoi(month) - 1;
+        tm.tm_mday = atoi(day);
+        tm.tm_year = atoi(year) - 1900;
+        printf("Changed date to: ");
+        DisplayDate();
+    }else{
+        printf("Invalid date selection. Please try again.");
+    }
+
+    // free(month);
+    // free(day);
+    // free(year);
+}
+
+//Checks the user input for changing the date to ensure it is a valid day
+int checkMonth(int month, int day, int year){
+    //Total Number of days in each month
+    int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    //If it is a leap year, then there are 29 days in February
+    if((year % 4) == 0){
+        numDays[1] = 29;
+    }
+
+    //If the specified day is greater than the number of days in the month, return false
+    if(day > numDays[month]){
+        return 0;
+    }
+
+    //Otherwise, return true
+    return 1;
 }
 
 void DisplayTime(){
