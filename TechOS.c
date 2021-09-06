@@ -64,10 +64,12 @@ void Version(){
     printf("Version");
 }
 
+//Displays the current date for the user
 void DisplayDate(){
     printf("%s %d, %d", getMonth(tm.tm_mon), tm.tm_mday, tm.tm_year + 1900);
 }
 
+//Gets the month correlating to the integer (i.e. 0 = January, 11 = December) and returns it
 char *getMonth(int month){
     switch(month){
         case 0: return "January"; break;
