@@ -86,6 +86,34 @@ void DisplayTime(){
 }
 
 void TerminateTechOS(){
+
+    int one = 1;
+    char in;
+    printf("Are you sure you would like to exit? y/n \n");
+    
+    while(one = 1){
+    scanf(" %c" , &in);
+    if(in == 'y'){
     printf("Goodbye!");
     exit(0);
+    }
+
+    else if (in == 'n')
+    {
+       COMHAN();
+    }
+    
+
+    else{
+        printf("Invalid command, please try again: ");
+    }
+
+    }
+    
+scanf(" %c" , &in);
+    
+  
+
+
+    
 }
