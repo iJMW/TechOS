@@ -75,7 +75,14 @@ void ChangeDate(){
 }
 
 void DisplayTime(){
-    printf("%d : %d \n" , tm.tm_hour, tm.tm_min);
+
+    if(tm.tm_hour < 13){
+    printf("%d : %d  \n" , tm.tm_hour, tm.tm_min);
+    }
+
+    else{
+    printf("%d : %d \n" , tm.tm_hour - 12, tm.tm_min);
+    }
 }
 
 void TerminateTechOS(){
