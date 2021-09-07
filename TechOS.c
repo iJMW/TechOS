@@ -125,7 +125,7 @@ void ChangeDate(){
     day = vars[1];
     year = vars[2];
 
-    if(checkMonth(atoi(month) - 1, atoi(day), atoi(year)) == 1 && atoi(day) > 0){
+    if(atoi(day) > 0 && atoi(month) >= 1 && atoi(month) <= 12 && checkMonth(atoi(month) - 1, atoi(day), atoi(year)) == 1){
     //Assign the tm values to the parameters and any adjustments necessary
     //Free them after they are assigned
         tm.tm_mon = atoi(month) - 1;
