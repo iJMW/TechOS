@@ -126,8 +126,7 @@ void ChangeDate(){
 
     //If the checkMonth method returns 1, continue
     if(checkMonth(month - 1, day, year) == 1){
-    //Assign the tm values to the parameters and any adjustments necessary
-    //Free them after they are assigned
+        //Assign the tm values to the parameters and any adjustments necessary
         tm.tm_mon = month - 1;
         tm.tm_mday = day;
         tm.tm_year = year - 1900;
@@ -135,7 +134,7 @@ void ChangeDate(){
         //Print the date for the user to verify that it was changed properly
         printf("Changed date to: ");
         DisplayDate();
-    }else{//otherwise, display an error message
+    }else{//Otherwise, display an error message
         printf("Invalid date selection. Please try again.");
     }
     
