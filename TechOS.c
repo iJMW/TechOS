@@ -72,8 +72,10 @@ void Help(){
         printFile("disptime.txt");
     } else if (strcmp(str, " quit\n") == 0) { // Print the help file for the quit command
         printFile("quit.txt");
-    } else { // Print the overview help
+    } else if (strcmp(str, "\n") == 0) { // Print the overview help
         printFile("overview.txt");
+    } else { // Print an error for unknown command
+        printf("Command not found:%s", str);
     }
 }
 
@@ -97,7 +99,7 @@ void printFile(char *fileName) {
         // Close the file
         fclose(file);
     } else { // Else inform the user that no details were found
-        printf("No details were found about the command... Please try again...");
+        printf("Description file %s not found\n");
     }
 }
 
