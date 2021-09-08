@@ -103,43 +103,41 @@ void ChangeDate(){
     //Get the line
     getline(&str, &size, stdin);
 
-    //Declare the variables
-    char *month, *day, *year;
-
     //Declare an array of char pointers (strings)
-    char *vars[3];
+    int *date = (int *)malloc(size * sizeof(int));
+    int month, day, year;
+
     //Iterate over the string
     int i = 0;
     //Get the first portion
     str = strtok(str, delim);
     while(str != NULL && i < 3){
-        vars[i] = str;
+        date[i] = atoi(str);
         str = strtok(NULL, delim);
         i++;
     }
     //Free the str pointer
     free(str);
 
-    //Assign the month, day and year from the array
-    month = vars[0];
-    day = vars[1];
-    year = vars[2];
+    //Assign the variables
+    month = date[0];
+    day = date[1];
+    year = date[2];
 
-    if(atoi(day) > 0 && atoi(month) >= 1 && atoi(month) <= 12 && checkMonth(atoi(month) - 1, atoi(day), atoi(year)) == 1){
+    if(checkMonth(month - 1, day, year) == 1){
     //Assign the tm values to the parameters and any adjustments necessary
     //Free them after they are assigned
-        tm.tm_mon = atoi(month) - 1;
-        tm.tm_mday = atoi(day);
-        tm.tm_year = atoi(year) - 1900;
+        tm.tm_mon = month - 1;
+        tm.tm_mday = day;
+        tm.tm_year = year - 1900;
         printf("Changed date to: ");
         DisplayDate();
     }else{
         printf("Invalid date selection. Please try again.");
     }
-
-    // free(month);
-    // free(day);
-    // free(year);
+    
+    //Free the date pointer
+    free(date);
 }
 
 //Checks the user input for changing the date to ensure it is a valid day
@@ -153,7 +151,9 @@ int checkMonth(int month, int day, int year){
     }
 
     //If the specified day is greater than the number of days in the month, return false
-    if(day > numDays[month]){
+    //If the day is less than zero, return false
+    //If the month is not greater than 0 and less than 11 (tm_mon ranges from 0 to 11), return false
+    if(day > numDays[month] || day <= 0 || !(month >= 0 && month <= 11)){
         return 0;
     }
 
