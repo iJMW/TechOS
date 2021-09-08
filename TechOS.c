@@ -14,6 +14,7 @@
 
 time_t currentTime;
 struct tm tm;
+int dateDifference = 0;
 
 void COMHAN();
 void Help();
@@ -22,6 +23,8 @@ void DisplayDate();
 char *getMonth(int month);
 void ChangeDate();
 int checkMonth(int month, int day, int year);
+void calculateDateDifference();
+void calculateDate();
 void DisplayTime();
 void TerminateTechOS();
 
@@ -161,6 +164,14 @@ int checkMonth(int month, int day, int year){
 
     //Otherwise, return true
     return 1;
+}
+
+void calculateDateDifference(){
+
+}
+
+void calculateDate(){
+    
 }
 
 void DisplayTime(){
