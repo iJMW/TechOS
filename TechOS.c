@@ -33,7 +33,6 @@ char *getMonth(int month);
 void ChangeDate();
 int checkMonth(int month, int day, int year);
 void calculateDateDifference();
-void calculateDate();
 void DisplayTime();
 void TerminateTechOS();
 
@@ -199,10 +198,6 @@ void calculateDateDifference(int month, int day, int year){
         dateDiff.numMonths = dateDiff.numMonths + (dateDiff.numDays / 30);
         dateDiff.numDays = dateDiff.numDays % 30;
     }
-}
-
-void calculateDate(){
-    
 }
 
 void DisplayTime(){
