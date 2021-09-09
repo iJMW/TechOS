@@ -186,12 +186,16 @@ void calculateDateDifference(int month, int day, int year){
     dateDiff.numMonths = month - tm.tm_mon;
     dateDiff.numDays = day - tm.tm_mday;
 
+    //Will this ever happen?
     if(dateDiff.numMonths > 12){
         dateDiff.numYears = dateDiff.numYears + (dateDiff.numMonths / 12);
         dateDiff.numMonths = dateDiff.numMonths % 12;
+        printf("Changing Months");
     }
 
+    //Will this ever happen?
     if(dateDiff.numDays > 30){
+        printf("Changing Days");
         dateDiff.numMonths = dateDiff.numMonths + (dateDiff.numDays / 30);
         dateDiff.numDays = dateDiff.numDays % 30;
     }
