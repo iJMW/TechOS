@@ -14,7 +14,16 @@
 
 time_t currentTime;
 struct tm tm;
-int dateDifference = 0;
+
+typedef struct DateDifference{
+    int numMonths;
+    int numDays;
+    int numYears;
+}DateDifference;
+DateDifference dateDiff;
+
+//Total Number of days in each month
+int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 void COMHAN();
 void Help();
@@ -31,6 +40,9 @@ void TerminateTechOS();
 int main(){
     currentTime = time(NULL);
     tm = *localtime(&currentTime);
+    dateDiff.numDays = 0;
+    dateDiff.numMonths = 0;
+    dateDiff.numYears = 0;
 
     COMHAN();
 
@@ -70,7 +82,7 @@ void Version(){
 
 //Displays the current date for the user
 void DisplayDate(){
-    printf("%s %d, %d", getMonth(tm.tm_mon), tm.tm_mday, tm.tm_year + 1900);
+    printf("%s %d, %d", getMonth(tm.tm_mon + dateDiff.numMonths), tm.tm_mday + dateDiff.numDays, tm.tm_year + 1900 + dateDiff.numYears);
 }
 
 //Gets the month correlating to the integer (i.e. 0 = January, 11 = December) and returns it
@@ -129,10 +141,11 @@ void ChangeDate(){
 
     //If the checkMonth method returns 1, continue
     if(checkMonth(month - 1, day, year) == 1){
+        calculateDateDifference(month-1, day, year);
         //Assign the tm values to the parameters and any adjustments necessary
-        tm.tm_mon = month - 1;
+        /*tm.tm_mon = month - 1;
         tm.tm_mday = day;
-        tm.tm_year = year - 1900;
+        tm.tm_year = year - 1900;*/
 
         //Print the date for the user to verify that it was changed properly
         printf("Changed date to: ");
@@ -147,12 +160,11 @@ void ChangeDate(){
 
 //Checks the user input for changing the date to ensure it is a valid day
 int checkMonth(int month, int day, int year){
-    //Total Number of days in each month
-    int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
     //If it is a leap year, then there are 29 days in February
-    if((year % 4) == 0){
+    if(((year % 4) == 0 && (year % 100) != 0) || year % 400 == 0){
         numDays[1] = 29;
+    }else{
+        numDays[1] = 28;
     }
 
     //If the specified day is greater than the number of days in the month, return false
@@ -166,8 +178,23 @@ int checkMonth(int month, int day, int year){
     return 1;
 }
 
-void calculateDateDifference(){
+void calculateDateDifference(int month, int day, int year){
+    currentTime = time(NULL);
+    tm = *localtime(&currentTime);
 
+    dateDiff.numYears = year - (tm.tm_year + 1900);
+    dateDiff.numMonths = month - tm.tm_mon;
+    dateDiff.numDays = day - tm.tm_mday;
+
+    if(dateDiff.numMonths > 12){
+        dateDiff.numYears = dateDiff.numYears + (dateDiff.numMonths / 12);
+        dateDiff.numMonths = dateDiff.numMonths % 12;
+    }
+
+    if(dateDiff.numDays > 30){
+        dateDiff.numMonths = dateDiff.numMonths + (dateDiff.numDays / 30);
+        dateDiff.numDays = dateDiff.numDays % 30;
+    }
 }
 
 void calculateDate(){
