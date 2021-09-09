@@ -8,4 +8,4 @@ chdate:
         chdate {{mm-dd-yyyy}}
 
     Example:
-        TechOS> chdate 01-01-21
+        TechOS> chdate 01-01-2021

@@ -1,12 +1,12 @@
 
-dispdate:
+date:
 
     Description:
         Displays the current date
 
     Syntax:
-        dispdate
+        date
 
     Example:
-        TechOS> dispdate
+        TechOS> date
  

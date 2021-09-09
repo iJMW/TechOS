@@ -64,8 +64,8 @@ void Help(){
         printFile("help.txt");
     } else if (strcmp(str, " version\n") == 0) { // Print the help file for the version command
         printFile("version.txt");
-    } else if (strcmp(str, " dispdate\n") == 0) { // Print the help file for the dispdate command
-        printFile("dispdate.txt");
+    } else if (strcmp(str, " date\n") == 0) { // Print the help file for the dispdate command
+        printFile("date.txt");
     } else if (strcmp(str, " chdate\n") == 0) { // Print the help file for the chdate command
         printFile("chdate.txt");
     } else if (strcmp(str, " disptime\n") == 0) { // Print the help file for the disptime command
