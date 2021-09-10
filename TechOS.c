@@ -137,6 +137,11 @@ void Version(){
 
 //Displays the current date for the user
 void DisplayDate(){
+    //Refreshes the time variable
+    currentTime = time(NULL);
+    tm = *localtime(&currentTime);
+
+    //Outputs the date
     printf("%s %d, %d", getMonth(tm.tm_mon + dateDiff.numMonths), tm.tm_mday + dateDiff.numDays, tm.tm_year + 1900 + dateDiff.numYears);
 }
 
