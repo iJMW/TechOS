@@ -11,9 +11,6 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-#include <stdlib.h>
-#include <time.h>
-#include <stdlib.h>
 
 #define VERSION_NUMBER "1.0"
 
