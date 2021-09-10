@@ -1,0 +1,11 @@
+
+version:
+
+    Description:
+        Displays the TechOS's version number, authors, and completion date
+
+    Syntax:
+        version
+
+    Example:
+        TechOS> version

@@ -1,0 +1,15 @@
+
+help:
+
+    Description:
+        Provides information on how to use each command
+        Specific commands can be passed to view a more detailed description of the command
+
+    Syntax:
+        For short description on all commands: help 
+        For detailed description on a single command: help {{commandName}}
+
+    Example:
+        TechOS> help
+        ...
+        TechOS> help dispdate

@@ -11,6 +11,11 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdlib.h>
+
+#define VERSION_NUMBER "1.0"
 
 time_t currentTime;
 struct tm tm;
@@ -25,6 +30,9 @@ DateDifference dateDiff;
 //Total Number of days in each month
 int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+time_t currentTime;
+struct tm tm;
+
 void COMHAN();
 void Help();
 void Version();
@@ -36,12 +44,14 @@ void calculateDateDifference();
 void DisplayTime();
 void TerminateTechOS();
 
+void printFile(char *fileName);
+
 int main(){
-    currentTime = time(NULL);
-    tm = *localtime(&currentTime);
     dateDiff.numDays = 0;
     dateDiff.numMonths = 0;
     dateDiff.numYears = 0;
+    currentTime = time(NULL);
+    tm = *localtime(&currentTime);
 
     COMHAN();
 
@@ -54,7 +64,7 @@ void COMHAN(){
         printf("\nTechOS > ");
         scanf("%s", userInput);
         if(strcmp(userInput, "help") == 0){
-            Help();
+            Help(userInput);
         }else if(strcmp(userInput, "version") == 0){
             Version();
         }else if(strcmp(userInput, "date") == 0){
@@ -72,11 +82,60 @@ void COMHAN(){
 }
 
 void Help(){
-    printf("Help");
+    // Define the size of the string
+    size_t size = 50;
+    // Allocate memory for the string
+    char *str = (char *)malloc(size * sizeof(char));
+    // Get the line
+    getline(&str, &size, stdin);
+    // Determine which command the user wants to view and 
+    if (strcmp(str, " help\n") == 0) { // Print the help file for the help command
+        printFile("help.txt");
+    } else if (strcmp(str, " version\n") == 0) { // Print the help file for the version command
+        printFile("version.txt");
+    } else if (strcmp(str, " date\n") == 0) { // Print the help file for the dispdate command
+        printFile("date.txt");
+    } else if (strcmp(str, " chdate\n") == 0) { // Print the help file for the chdate command
+        printFile("chdate.txt");
+    } else if (strcmp(str, " disptime\n") == 0) { // Print the help file for the disptime command
+        printFile("disptime.txt");
+    } else if (strcmp(str, " quit\n") == 0) { // Print the help file for the quit command
+        printFile("quit.txt");
+    } else if (strcmp(str, "\n") == 0) { // Print the overview help
+        printFile("overview.txt");
+    } else { // Print an error for unknown command
+        printf("Command not found:%s", str);
+    }
+}
+
+void printFile(char *fileName) {
+    // Create the path to the file
+    char path[80] = "./helpFiles/";
+    // Add the file name to the path
+    strcat(path, fileName);
+    // Holds the character of the file as an integer value
+    int c;
+    // Pointer to hold the file
+    FILE *file;
+    // Open the file
+    file = fopen(path, "r");
+    // If the file exists, print the contents
+    if (file) {
+        // Loop to get all the charcaters of the file
+        while ((c = fgetc(file)) != EOF)
+            // Print the charcater to the console
+            printf("%c", c);
+        // Close the file
+        fclose(file);
+    } else { // Else inform the user that no details were found
+        printf("Description file %s not found\n");
+    }
 }
 
 void Version(){
-    printf("Version");
+    printf("Version Number: %s\n", VERSION_NUMBER);
+    printf("Authors: Logan Bland, John Clay, Jalen Wayt\n");
+    printf("Completion Date: 09/14/2021");
 }
 
 //Displays the current date for the user
@@ -201,9 +260,45 @@ void calculateDateDifference(int month, int day, int year){
 }
 
 void DisplayTime(){
-    printf("Display Time");
+
+    if(tm.tm_hour < 13){
+    printf("%d : %d  \n" , tm.tm_hour, tm.tm_min);
+    }
+
+    else{
+    printf("%d : %d \n" , tm.tm_hour - 12, tm.tm_min);
+    }
 }
 
 void TerminateTechOS(){
-    printf("Terminate Tech OS");
+
+    int one = 1;
+    char in;
+    printf("Are you sure you would like to exit? y/n \n");
+    
+    while(one = 1){
+    scanf(" %c" , &in);
+    if(in == 'y'){
+    printf("Goodbye!");
+    exit(0);
+    }
+
+    else if (in == 'n')
+    {
+       COMHAN();
+    }
+    
+
+    else{
+        printf("Invalid command, please try again: ");
+    }
+
+    }
+    
+scanf(" %c" , &in);
+    
+  
+
+
+    
 }
