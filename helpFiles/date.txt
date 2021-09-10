@@ -1,0 +1,12 @@
+
+date:
+
+    Description:
+        Displays the current date
+
+    Syntax:
+        date
+
+    Example:
+        TechOS> date
+ 

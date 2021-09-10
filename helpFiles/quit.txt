@@ -1,0 +1,12 @@
+
+quit:
+
+    Description:
+        Exits the TechOS
+
+    Syntax:
+        quit
+
+    Example:
+        TechOS> quit
+    
