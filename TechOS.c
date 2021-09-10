@@ -197,10 +197,6 @@ void ChangeDate(){
     //If the checkMonth method returns 1, continue
     if(checkMonth(month - 1, day, year) == 1){
         calculateDateDifference(month-1, day, year);
-        //Assign the tm values to the parameters and any adjustments necessary
-        /*tm.tm_mon = month - 1;
-        tm.tm_mday = day;
-        tm.tm_year = year - 1900;*/
 
         //Print the date for the user to verify that it was changed properly
         printf("Changed date to: ");
@@ -233,15 +229,19 @@ int checkMonth(int month, int day, int year){
     return 1;
 }
 
+//Calculates the date difference between the system time and the chosen time
 void calculateDateDifference(int month, int day, int year){
+    //Refreshes the time variable
     currentTime = time(NULL);
     tm = *localtime(&currentTime);
 
+    //Stores the differences
     dateDiff.numYears = year - (tm.tm_year + 1900);
     dateDiff.numMonths = month - tm.tm_mon;
     dateDiff.numDays = day - tm.tm_mday;
 
     //Will this ever happen?
+    /*
     if(dateDiff.numMonths > 12){
         dateDiff.numYears = dateDiff.numYears + (dateDiff.numMonths / 12);
         dateDiff.numMonths = dateDiff.numMonths % 12;
@@ -253,7 +253,7 @@ void calculateDateDifference(int month, int day, int year){
         printf("Changing Days");
         dateDiff.numMonths = dateDiff.numMonths + (dateDiff.numDays / 30);
         dateDiff.numDays = dateDiff.numDays % 30;
-    }
+    }*/
 }
 
 void DisplayTime(){
