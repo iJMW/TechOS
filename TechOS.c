@@ -283,6 +283,9 @@ void calculateDateDifference(int month, int day, int year){
 }
 
 void DisplayTime(){
+    //Refreshes the time variable
+    currentTime = time(NULL);
+    tm = *localtime(&currentTime);
 
     if(tm.tm_hour < 13){
     printf("%d : %d  \n" , tm.tm_hour, tm.tm_min);
