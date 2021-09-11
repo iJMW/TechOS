@@ -1,12 +1,12 @@
 
-disptime:
+time:
 
     Description:
         Displays the current time of the TechOS
 
     Syntax:
-        disptime
+        time
 
     Example:
-        TechOS> disptime
+        TechOS> time
     

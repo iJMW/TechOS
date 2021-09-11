@@ -12,7 +12,25 @@
 #include <time.h>
 #include <stdlib.h>
 
+// Version number of the TechOS
 #define VERSION_NUMBER "1.0"
+#define AUTHORS "Logan Bland, John Clay, Jalen Wayt"
+#define COMPLETION_DATE "09/14/2021"
+
+// Command names within the TechOs
+#define CMD_CDDATE "chdate"
+#define CMD_DATE "date"
+#define CMD_HELP "help"
+#define CMD_QUIT "quit"
+#define CMD_TIME "time"
+#define CMD_VERSION "version"
+
+#define INPUT_CDDATE " chdate\n"
+#define INPUT_DATE " date\n"
+#define INPUT_HELP " help\n"
+#define INPUT_QUIT " quit\n"
+#define INPUT_TIME " time\n"
+#define INPUT_VERSION " version\n"
 
 time_t currentTime;
 struct tm tm;
@@ -57,20 +75,20 @@ int main(){
 
 void COMHAN(){
     char userInput[50];
-    while(strcmp(userInput, "quit") != 0){
+    while(strcmp(userInput, CMD_QUIT) != 0){
         printf("\nTechOS > ");
         scanf("%s", userInput);
-        if(strcmp(userInput, "help") == 0){
+        if(strcmp(userInput, CMD_HELP) == 0){
             Help(userInput);
-        }else if(strcmp(userInput, "version") == 0){
+        }else if(strcmp(userInput, CMD_VERSION) == 0){
             Version();
-        }else if(strcmp(userInput, "date") == 0){
+        }else if(strcmp(userInput, CMD_DATE) == 0){
             DisplayDate();
-        }else if(strcmp(userInput, "chdate") == 0){
+        }else if(strcmp(userInput, CMD_CDDATE) == 0){
             ChangeDate();
-        }else if(strcmp(userInput, "time") == 0){
+        }else if(strcmp(userInput, CMD_TIME) == 0){
             DisplayTime();
-        }else if(strcmp(userInput, "quit") == 0){
+        }else if(strcmp(userInput, CMD_QUIT) == 0){
             TerminateTechOS();
         }else{
             printf("\nUnrecognized command. Please try again.");
@@ -78,6 +96,7 @@ void COMHAN(){
     }
 }
 
+// Displays a help description to the user based on the command passed
 void Help(){
     // Define the size of the string
     size_t size = 50;
@@ -86,17 +105,17 @@ void Help(){
     // Get the line
     getline(&str, &size, stdin);
     // Determine which command the user wants to view and 
-    if (strcmp(str, " help\n") == 0) { // Print the help file for the help command
+    if (strcmp(str, INPUT_HELP) == 0) { // Print the help file for the help command
         printFile("help.txt");
-    } else if (strcmp(str, " version\n") == 0) { // Print the help file for the version command
+    } else if (strcmp(str, INPUT_VERSION) == 0) { // Print the help file for the version command
         printFile("version.txt");
-    } else if (strcmp(str, " date\n") == 0) { // Print the help file for the dispdate command
+    } else if (strcmp(str, INPUT_DATE) == 0) { // Print the help file for the date command
         printFile("date.txt");
-    } else if (strcmp(str, " chdate\n") == 0) { // Print the help file for the chdate command
+    } else if (strcmp(str, INPUT_CDDATE) == 0) { // Print the help file for the chdate command
         printFile("chdate.txt");
-    } else if (strcmp(str, " disptime\n") == 0) { // Print the help file for the disptime command
-        printFile("disptime.txt");
-    } else if (strcmp(str, " quit\n") == 0) { // Print the help file for the quit command
+    } else if (strcmp(str, INPUT_TIME) == 0) { // Print the help file for the time command
+        printFile("time.txt");
+    } else if (strcmp(str, INPUT_QUIT) == 0) { // Print the help file for the quit command
         printFile("quit.txt");
     } else if (strcmp(str, "\n") == 0) { // Print the overview help
         printFile("overview.txt");
@@ -105,6 +124,7 @@ void Help(){
     }
 }
 
+// Print a file character by character 
 void printFile(char *fileName) {
     // Create the path to the file
     char path[80] = "./helpFiles/";
@@ -129,10 +149,11 @@ void printFile(char *fileName) {
     }
 }
 
+// Print the version number, authors, and completion
 void Version(){
     printf("Version Number: %s\n", VERSION_NUMBER);
-    printf("Authors: Logan Bland, John Clay, Jalen Wayt\n");
-    printf("Completion Date: 09/14/2021");
+    printf("Authors: %s\n", AUTHORS);
+    printf("Completion Date: %s", COMPLETION_DATE);
 }
 
 //Displays the current date for the user

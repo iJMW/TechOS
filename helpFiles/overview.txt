@@ -3,11 +3,11 @@ chdate:
     
     Changes the TechOS's date
 
-dispdate:
+date:
     
     Displays the current date
 
-disptime:
+time:
 
     Displays the current Time
 
