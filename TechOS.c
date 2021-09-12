@@ -58,7 +58,6 @@ int checkMonth(int month, int day, int year);
 void calculateDateDifference();
 void DisplayTime();
 void TerminateTechOS();
-
 void printFile(char *fileName);
 
 int main(){
@@ -74,7 +73,25 @@ int main(){
 }
 
 void COMHAN(){
-    char userInput[50];
+    size_t size = 50;
+    char userInput[size];
+    char ch, c;
+    //Allocate memory for the string
+    char *str = (char *)malloc(size * sizeof(char));
+    //Declare the delimiters, hyphens are the delimiters but it will also skip over the space at the beginning
+    char delim[] = " -";
+    //Get the line
+    getline(&str, &size, stdin);
+
+    //Iterate over the string
+    int i = 0;
+    //Get the first portion
+    str = strtok(str, delim);
+    while(str != NULL && i < 3){
+        str = strtok(NULL, delim);
+        i++;
+    }
+
     while(strcmp(userInput, CMD_QUIT) != 0){
         printf("\nTechOS > ");
         scanf("%s", userInput);
@@ -300,7 +317,7 @@ void TerminateTechOS(){
 
     int one = 1;
     char in;
-    printf("Are you sure you would like to exit? y/n \n");
+    printf("Are you sure you would like to exit (y/n)?: ");
     
     while(one = 1){
     scanf(" %c" , &in);
