@@ -403,7 +403,7 @@ void TerminateTechOS(){
                 printf("Invalid command, please try again: ");
             }
         }
-        //Get the leftover char in the input buffer
+        //Get the leftover characters in the input buffer
         while(getchar() != '\n');
     }
 }
