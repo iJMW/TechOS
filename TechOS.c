@@ -166,7 +166,6 @@ void convertToLowercase(char *input){
 
 // Displays a help description to the user based on the command passed
 void Help(char* cmdName){
-    printf("Parameters: %d\n", numParameters);
     // Check the number of parameters passed with the help command
     if (numParameters != 1 && numParameters != 0) { // If too many parameters passed, display an error message
         printf("Invalid number of parameters. The format for the '%s' command is: '%s' or '%s {{command name}}'", CMD_HELP, CMD_HELP, CMD_HELP);
