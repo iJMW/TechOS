@@ -327,7 +327,7 @@ int checkMonth(int month, int day, int year){
     //If the specified day is greater than the number of days in the month, return false
     //If the day is less than zero, return false
     //If the month is not greater than 0 and less than 11 (tm_mon ranges from 0 to 11), return false
-    if(day > numDays[month] || day <= 0 || !(month >= 0 && month <= 11)){
+    if(day > numDays[month] || day <= 0 || !(month >= 0 && month <= 11) || year < 0){
         return 0;
     }
 
