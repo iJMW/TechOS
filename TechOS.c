@@ -151,8 +151,8 @@ void COMHAN(){
 // Displays a help description to the user based on the command passed
 void Help(char* cmdName){
     // Check the number of parameters passed with the help command
-    if (numParameters > 1) { // If too many parameters passed, display an error message
-        printf("Too many parameters. The format for the '%s' command is: '%s' or '%s {{command name}}'", CMD_HELP, CMD_HELP, CMD_HELP);
+    if (numParameters != 1) { // If too many parameters passed, display an error message
+        printf("Invalid number of parameters. The format for the '%s' command is: '%s' or '%s {{command name}}'", CMD_HELP, CMD_HELP, CMD_HELP);
     } else { // Else, display the proper help file
         // Determine which command the user wants to view and 
         if (strcmp(cmdName, INPUT_HELP) == 0) { // Print the help file for the help command
@@ -202,7 +202,7 @@ void printFile(char *fileName) {
 
 // Print the version number, authors, and completion
 void Version(){
-    if (numParameters > 0) {
+    if (numParameters != 0) {
         printf("Too many parameters. The format for the '%s' command is: %s", CMD_VERSION, CMD_VERSION);
     } else {
         printf("Version Number: %s\n", VERSION_NUMBER);
@@ -214,7 +214,7 @@ void Version(){
 //Displays the current date for the user
 void DisplayDate(){
     //No parameters should be passed with this command
-    if(numParameters > 0){
+    if(numParameters != 0){
         printf("Too many parameters. The format for the '%s' command is: %s", CMD_DATE, CMD_DATE);
     }else{
         //Refreshes the time variable
@@ -251,8 +251,8 @@ char *getMonth(int month){
  */
 void ChangeDate(char *parameters){
     //There should only be one parameter, if there are more this is incorrect
-    if(numParameters > 1){
-        printf("Too many parameters. The format for the '%s' command is: %s {{MM-DD-YYYY}}", CMD_CDDATE, CMD_CDDATE);
+    if(numParameters != 1){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{MM-DD-YYYY}}", CMD_CDDATE, CMD_CDDATE);
     }else{
         //Define the size of the string
         size_t size = 20;
@@ -329,27 +329,12 @@ void calculateDateDifference(int month, int day, int year){
     dateDiff.numYears = year - (tm.tm_year + 1900);
     dateDiff.numMonths = month - tm.tm_mon;
     dateDiff.numDays = day - tm.tm_mday;
-
-    //Will this ever happen?
-    /*
-    if(dateDiff.numMonths > 12){
-        dateDiff.numYears = dateDiff.numYears + (dateDiff.numMonths / 12);
-        dateDiff.numMonths = dateDiff.numMonths % 12;
-        printf("Changing Months");
-    }
-
-    //Will this ever happen?
-    if(dateDiff.numDays > 30){
-        printf("Changing Days");
-        dateDiff.numMonths = dateDiff.numMonths + (dateDiff.numDays / 30);
-        dateDiff.numDays = dateDiff.numDays % 30;
-    }*/
 }
 
 //Displays the current system time
 void DisplayTime(){
     //There should not be any parameters with this command
-    if (numParameters > 0) {
+    if (numParameters != 0) {
         printf("Too many parameters. The format for the '%s' command is: %s", CMD_TIME, CMD_TIME);
     } else {
         //Refreshes the time variable
@@ -379,7 +364,7 @@ void DisplayTime(){
 //Terminates the TechOS program
 void TerminateTechOS(){
     //There should not be any parameters with this command
-    if(numParameters > 0){
+    if(numParameters != 0){
         printf("Too many parameters. The format for the '%s' command is: %s", CMD_QUIT, CMD_QUIT);
     }else{
         //Used for while loop
