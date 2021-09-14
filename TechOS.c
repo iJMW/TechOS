@@ -98,8 +98,8 @@ void COMHAN(){
         printf("\nTechOS > ");
         //Allocate memory for the string
         char *str = (char *)malloc(size * sizeof(char));
-        //Declare the delimiters, a whitespace is the delimeter
-        char delim[] = " ";
+        //Declare the delimiters, a whitespace and \n is the delimeter
+        char delim[] = " \n";
         //Get the line
         getline(&str, &size, stdin);
 
@@ -156,8 +156,6 @@ void COMHAN(){
     free(userInput);
 }
 
-
-
 //Converts the string to all lowercase characters
 void convertToLowercase(char *input){
     //Iterates through the string
@@ -173,17 +171,17 @@ void Help(char* cmdName){
         printf("Invalid number of parameters. The format for the '%s' command is: '%s' or '%s {{command name}}'", CMD_HELP, CMD_HELP, CMD_HELP);
     } else { // Else, display the proper help file
         // Determine which command the user wants to view and 
-        if (strcmp(cmdName, INPUT_HELP) == 0) { // Print the help file for the help command
+        if (strcmp(cmdName, CMD_HELP) == 0) { // Print the help file for the help command
             printFile("help.txt");
-        } else if (strcmp(cmdName, INPUT_VERSION) == 0) { // Print the help file for the version command
+        } else if (strcmp(cmdName, CMD_VERSION) == 0) { // Print the help file for the version command
             printFile("version.txt");
-        } else if (strcmp(cmdName, INPUT_DATE) == 0) { // Print the help file for the date command
+        } else if (strcmp(cmdName, CMD_DATE) == 0) { // Print the help file for the date command
             printFile("date.txt");
-        } else if (strcmp(cmdName, INPUT_CDDATE) == 0) { // Print the help file for the chdate command
+        } else if (strcmp(cmdName, CMD_CDDATE) == 0) { // Print the help file for the chdate command
             printFile("chdate.txt");
-        } else if (strcmp(cmdName, INPUT_TIME) == 0) { // Print the help file for the time command
+        } else if (strcmp(cmdName, CMD_TIME) == 0) { // Print the help file for the time command
             printFile("time.txt");
-        } else if (strcmp(cmdName, INPUT_QUIT) == 0) { // Print the help file for the quit command
+        } else if (strcmp(cmdName, CMD_QUIT) == 0) { // Print the help file for the quit command
             printFile("quit.txt");
         } else if (strcmp(cmdName, "") == 0) { // Print the overview help
             printFile("overview.txt");
@@ -406,6 +404,6 @@ void TerminateTechOS(){
             }
         }
         //Get the leftover char in the input buffer
-        getchar();
+        while(getchar() != '\n');
     }
 }
