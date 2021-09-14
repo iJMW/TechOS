@@ -110,8 +110,10 @@ void COMHAN(){
         while(str != NULL){
             if(numParameters == 0){ // Store the command the user wants to run
                 userInput = str;
+                convertToLowercase(userInput);
             }else{  // Store the parameters 
                 parameters[numParameters - 1] = str;
+                convertToLowercase(parameters[numParameters-1]);
             }
             // Tokenize the same line by passing NULL
             str = strtok(NULL, delim);
@@ -128,10 +130,7 @@ void COMHAN(){
         // e.g. dont include 'help' in the parameter cound when user entered
         // 'help version'
         numParameters = numParameters - 1;
-
-        convertToLowercase(userInput);
         
-
         // Run the specific command entered by the user, pass the parameters to the command if needed
         if(strcmp(userInput, CMD_HELP) == 0 || strcmp(userInput, INPUT_HELP) == 0){
             Help(parameters[0]);
@@ -148,6 +147,8 @@ void COMHAN(){
         }else{
             printf("Unrecognized command. Please try again.");
         }
+
+        free(str);
     }
 
     free(userInput);
@@ -156,7 +157,7 @@ void COMHAN(){
 //Converts the string to all lowercase characters
 void convertToLowercase(char *input){
     //Iterates through the string
-    for(int i = 0; i < sizeof(input) / sizeof(char); i++){
+    for(int i = 0; i <= (sizeof(input) / sizeof(char)); i++){
         input[i] = tolower(input[i]);
     }
 }
