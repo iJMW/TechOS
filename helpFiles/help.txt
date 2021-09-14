@@ -12,4 +12,4 @@ help:
     Example:
         TechOS> help
         ...
-        TechOS> help dispdate
+        TechOS> help date
