@@ -11,6 +11,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 // Version information for the TechOS
 #define VERSION_NUMBER "1.0"
@@ -65,6 +66,7 @@ void calculateDateDifference();
 void DisplayTime();
 void TerminateTechOS();
 void printFile(char *fileName);
+void convertToLowercase(char *input);
 
 //Main method that calls COMHAN function
 int main(){
@@ -127,6 +129,9 @@ void COMHAN(){
         // 'help version'
         numParameters = numParameters - 1;
 
+        convertToLowercase(userInput);
+        
+
         // Run the specific command entered by the user, pass the parameters to the command if needed
         if(strcmp(userInput, CMD_HELP) == 0 || strcmp(userInput, INPUT_HELP) == 0){
             Help(parameters[0]);
@@ -148,10 +153,16 @@ void COMHAN(){
     free(userInput);
 }
 
+void convertToLowercase(char *input){
+    for(int i = 0; i < sizeof(input) / sizeof(char); i++){
+        input[i] = tolower(input[i]);
+    }
+}
+
 // Displays a help description to the user based on the command passed
 void Help(char* cmdName){
     // Check the number of parameters passed with the help command
-    if (numParameters != 1) { // If too many parameters passed, display an error message
+    if (numParameters > 1) { // If too many parameters passed, display an error message
         printf("Invalid number of parameters. The format for the '%s' command is: '%s' or '%s {{command name}}'", CMD_HELP, CMD_HELP, CMD_HELP);
     } else { // Else, display the proper help file
         // Determine which command the user wants to view and 
