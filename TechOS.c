@@ -159,7 +159,7 @@ void COMHAN(){
 //Converts the string to all lowercase characters
 void convertToLowercase(char *input){
     //Iterates through the string
-    for(int i = 0; i < (sizeof(input) / sizeof(char)); i++){
+    for(int i = 0; i < strlen(input); i++){
         input[i] = tolower(input[i]);
     }
 }
