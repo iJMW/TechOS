@@ -1,16 +1,22 @@
+#include <stdio.h>
+
+#ifndef MYCUSTOMPROCESS_H_
+# define MYCUSTOMPROCESS_H_
 typedef struct PCB {
     char processName[9];
     int processClass;
     int priority;
-    int states;
+    int state;
 }PCB;
 
-void AllocatePCB();
-void FreePCB();
-void SetupPCB();
-void FindPCB();
-void InsertPCB();
-void RemovePCB();
+PCB *AllocatePCB();
+char *FreePCB(PCB *p);
+PCB *SetupPCB(char processName[9], int processClass, int priority);
+PCB *FindPCB(char processName[9]);
+void InsertPCB(PCB *p);
+char *RemovePCB(PCB *p);
+
+#endif
 
 
 

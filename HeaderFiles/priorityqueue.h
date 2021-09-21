@@ -2,28 +2,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
-typedef struct Node {
+typedef struct PNode {
     PCB *pcb;
-    Node *next;
-}Node;
+    struct PNode *next;
+}PNode;
 
-typedef struct Queue {
-    Node *head;
-    Node *tail;
+typedef struct PQueue {
+    PNode *head;
+    PNode *tail;
     int count;
-}Queue;
+}PQueue;
 
-//Initialize the Queue to null head and tail
-void initializeQueue(Queue *q){
+//Initialize the PQueue to null head and tail
+void initializePQueue(PQueue *q){
     q->head = NULL;
     q->tail = NULL;
 }
 
 //Returns the length of the queue
-int length(Queue *q){
+int Plength(PQueue *q){
     int count = 0;
-    Node *temp = q->head;
+    PNode *temp = q->head;
     while(temp != NULL){
         count++;
         temp = temp->next;
@@ -33,22 +34,22 @@ int length(Queue *q){
 }
 
 //Return true if both the head and tail are null
-bool isEmpty(Queue *q){
+bool isPEmpty(PQueue *q){
     return q->head == NULL && q->tail == NULL;
 }
 
-Node *peek(Queue *q){
+PNode *Ppeek(PQueue *q){
     return q->head;
 }
 
-Node *dequeue(Queue *q){
+PNode *Pdequeue(PQueue *q){
     //Then we do not have a queue
     if(q->head != NULL){
         //Are these two lines necessary?
         //Preserve the value of q->head
-        Node *temp = q->head;
+        PNode *temp = q->head;
         //Get the result to be returned
-        Node *result = temp;
+        PNode *result = temp;
 
         //Remove the head of the queue
         q->head = q->head->next;
@@ -65,37 +66,37 @@ Node *dequeue(Queue *q){
 }
 
 //Returns true if the value is in the queue
-bool contains(Queue *q, char *str){
-    Node *temp = q->head;
+PNode* Pcontains(PQueue *q, char *str){
+    PNode *temp = q->head;
     while(temp != NULL){
         //If the value of temp is equivalent to the val then return true
         if(strcmp(temp->pcb->processName, str) == 0){
-            return true;
+            return temp;
         }
         temp = temp->next;
     }
 
     //Otherwise, return false
-    return false;
+    return NULL;
 }
 
-void enqueue(Queue *q, PCB *p){
-    // Create a new node
-    Node *newNode = (Node *)malloc(sizeof(Node));
-    // Set the new node's PCB to the passed PCB
-    newNode->pcb = p;
+void Penqueue(PQueue *q, PCB *p){
+    // Create a new PNode
+    PNode *newPNode = (PNode *)malloc(sizeof(PNode));
+    // Set the new PNode's PCB to the passed PCB
+    newPNode->pcb = p;
     
     // If the queue is empty, inserted new PCB to the front
     if(q->head == NULL) {
-        q->head = newNode;
+        q->head = newPNode;
         q->tail = q->head;
     } else { // If the queue is not empty, inserted new PCB to appropriate location based on priority
-        Node *prev = NULL;
-        Node *temp = q->head;
+        PNode *prev = NULL;
+        PNode *temp = q->head;
         while(temp != NULL){
             if (temp->pcb->priority > p->priority) {
-                prev->next = newNode;
-                newNode->next = temp;
+                prev->next = newPNode;
+                newPNode->next = temp;
                 break;
             }
             prev = temp;
@@ -103,19 +104,39 @@ void enqueue(Queue *q, PCB *p){
         }
     }
 
-    // If the newNode was not inserted, add it to the end of the queue
-    if(newNode->next == NULL && q->count > 0) {
-        q->tail->next = newNode;
-        q->tail = newNode;
+    // If the newPNode was not inserted, add it to the end of the queue
+    if(newPNode->next == NULL && q->count > 0) {
+        q->tail->next = newPNode;
+        q->tail = newPNode;
     }
 
-    // Increase the count of nodes within the queue
+    // Increase the count of PNodes within the queue
     q->count = q->count + 1;
 }
 
-//Outputs the Queue for testing
-// void printQueue(Queue *q){
-//     Node *temp = q->head;
+void removeFromPQueue(PQueue *q, PCB *p){
+    PNode *temp = q->head;
+    PNode *prev = NULL;
+    while(temp != NULL){
+        if(strcmp(temp->pcb->processName, p->processName) == 0){
+            if(prev != NULL){
+                prev->next = temp->next;
+            }else{
+                q->head = temp->next;
+                if (q->head == NULL) {
+                    q->tail = NULL;
+                }
+            }
+            break;
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+}
+
+//Outputs the PQueue for testing
+// void printQueue(PQueue *q){
+//     PNode *temp = q->head;
 //     printf("[ ");
 //     while(temp != NULL){
 //         if(temp == q->tail){

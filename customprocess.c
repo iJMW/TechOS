@@ -1,27 +1,60 @@
 #include <stdio.h>
-#include "HeaderFiles/customprocess.h"
-#include "HeaderFiles/queue.h"
+#include "HeaderFiles/priorityqueue.h"
+#include "HeaderFiles/fifoqueue.h"
 
-void AllocatePCB() {
+PQueue *readyQueue;
+FQueue *blockedQueue;
+
+PCB *AllocatePCB() {
+    PCB *p = (PCB *)malloc(sizeof(PCB));
+    return p;
+}
+
+char *FreePCB(PCB *p) {
+    free(p);
+    return "SUCCESS";
+}
+
+PCB *SetupPCB(char processName[9], int processClass, int priority) {
+    PCB *p = AllocatePCB();
+    strcpy(p->processName, processName);
+    p->processClass = processClass;
+    p->priority = priority;
+    return p;
+}
+
+PCB *FindPCB(char processName[9]) {
+    PCB *p = Pcontains(readyQueue, processName)->pcb;
+    if (p == NULL) {
+        p = Fcontains(blockedQueue, processName)->pcb;
+    }
     
+    return p;
 }
 
-void FreePCB() {
-    
+void InsertPCB(PCB *p) {
+    //State ai0 is ready?????
+    if(p->state == 0){
+        Penqueue(readyQueue, p);
+    }else{//Otherwise in blocking?????
+        Fenqueue(blockedQueue, p);
+    }
 }
 
-void SetupPCB() {
-
-}
-
-void FindPCB() {
-    
-}
-
-void InsertPCB() {
-
-}
-
-void RemovePCB() {
-    
+char *RemovePCB(PCB *p) {
+     // If the PCB is present in one of the queues
+    if (FindPCB(p->processName) != NULL) {
+        // Determine which queue to remove it from
+        if (Pcontains(readyQueue, p->processName)) {
+            // Remove from ready queue
+            removeFromPQueue(readyQueue, p);
+        } else {
+            // Remove from blocked queue
+            removeFromFQueue(blockedQueue, p);
+        }
+        // Return the success messsage
+        return "SUCCESS";
+    } else { // Else the PCB is not present in one of the queues
+        return "ERROR: PCB was not found in any queues";
+    }
 }

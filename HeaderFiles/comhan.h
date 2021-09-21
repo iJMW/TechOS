@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#ifndef COMHAN_H_
+# define COMHAN_H_
+
 // Version information for the TechOS
 #define VERSION_NUMBER "1.0"
 #define AUTHORS "Logan Bland, John Clay, Jalen Wayt"
@@ -31,13 +34,6 @@ typedef struct DateDifference{
     int numYears;
 }DateDifference;
 
-//Used for keeping track of the time and date of the system
-time_t currentTime;
-struct tm tm;
-
-//Global Variable for the struct DateDifference
-DateDifference dateDiff;
-
 //Function Prototypes
 void COMHAN();
 void Help(char* cmdName);
@@ -51,3 +47,5 @@ void DisplayTime();
 void TerminateTechOS();
 void printFile(char *fileName);
 void convertToLowercase(char *input);
+
+#endif

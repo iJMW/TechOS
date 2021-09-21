@@ -16,14 +16,6 @@
 
 //Main method that calls COMHAN function
 int main(){
-    //Initialize the date difference elements
-    dateDiff.numDays = 0;
-    dateDiff.numMonths = 0;
-    dateDiff.numYears = 0;
-    //Initialize the time
-    currentTime = time(NULL);
-    tm = *localtime(&currentTime);
-
     //Call the COMHAN function to execute the program
     COMHAN();
 

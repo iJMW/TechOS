@@ -7,8 +7,23 @@ int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 int numParameters;
 int didUserQuit = 0;
 
+//Used for keeping track of the time and date of the system
+time_t currentTime;
+struct tm tm;
+
+//Global Variable for the struct DateDifference
+DateDifference dateDiff;
+
 //Function controls flow of program
 void COMHAN(){
+    //Initialize the date difference elements
+    dateDiff.numDays = 0;
+    dateDiff.numMonths = 0;
+    dateDiff.numYears = 0;
+    //Initialize the time
+    currentTime = time(NULL);
+    tm = *localtime(&currentTime);
+
     //Size of input
     size_t size = 50;
     //UserInput will store the specific command
