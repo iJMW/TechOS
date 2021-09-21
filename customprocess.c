@@ -13,6 +13,10 @@ PCB *AllocatePCB() {
 
 //How to catch errors
 char *FreePCB(PCB *p) {
+    if(p == NULL){
+        return "ERROR: PCB was never allocated";
+    }
+
     free(p);
     return "SUCCESS";
 }
