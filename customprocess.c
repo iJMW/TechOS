@@ -5,11 +5,13 @@
 PQueue *readyQueue;
 FQueue *blockedQueue;
 
+//Look up how to catch errors
 PCB *AllocatePCB() {
     PCB *p = (PCB *)malloc(sizeof(PCB));
     return p;
 }
 
+//How to catch errors
 char *FreePCB(PCB *p) {
     free(p);
     return "SUCCESS";
@@ -17,9 +19,12 @@ char *FreePCB(PCB *p) {
 
 PCB *SetupPCB(char processName[9], int processClass, int priority) {
     PCB *p = AllocatePCB();
-    strcpy(p->processName, processName);
-    p->processClass = processClass;
-    p->priority = priority;
+    if(p != NULL){
+        strcpy(p->processName, processName);
+        p->processClass = processClass;
+        p->priority = priority;
+    }
+
     return p;
 }
 
