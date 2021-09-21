@@ -1,1 +1,1 @@
-gcc TechOS.c comhan.c
+gcc TechOS.c comhan.c customprocess.c
