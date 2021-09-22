@@ -376,13 +376,17 @@ void createPCB(char *name, int class, int priority)
 
 // Delete the PCB from the appropriate queue
 void deletePCB(char *processName) {
-    // Find the PCB then remove it
-    PCB *p = FindPCB(processName);
-    // If the process is present in one of the queues, remove it
-    if (p != NULL) {
-        printf("\n%s\n", RemovePCB(p));
+    if(numParameters != 1){
+        printf("Invalied number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_BLOCK, CMD_BLOCK);
     }else{
-        printf("ERROR: Process %s does not exist\n", processName);
+        // Find the PCB then remove it
+        PCB *p = FindPCB(processName);
+        // If the process is present in one of the queues, remove it
+        if (p != NULL) {
+            printf("\n%s\n", RemovePCB(p));
+        }else{
+            printf("ERROR: Process %s does not exist\n", processName);
+        }
     }
 }
 
