@@ -67,15 +67,16 @@ FNode *Fdequeue(FQueue *q){
 
 //Returns true if the value is in the queue
 FNode *Fcontains(FQueue *q, char processName[9]){
-    FNode *temp = q->head;
-    while(temp != NULL){
-        //If the value of temp is equivalent to the val then return true
-        if(strcmp(temp->pcb->processName, processName) == 0){
-            return temp;
+    if(q->head != NULL){
+        FNode *temp = q->head;
+        while(temp != NULL){
+            //If the value of temp is equivalent to the val then return true
+            if(strcmp(temp->pcb->processName, processName) == 0){
+                return temp;
+            }
+            temp = temp->next;
         }
-        temp = temp->next;
     }
-
     //Otherwise, return false
     return NULL;
 }
@@ -119,17 +120,20 @@ void removeFromFQueue(FQueue *q, PCB *p){
     }
 }
 
-//Outputs the FQueue for testing
-// void printQueue(FQueue *q){
-//     FNode *temp = q->head;
-//     printf("[ ");
-//     while(temp != NULL){
-//         if(temp == q->tail){
-//             printf("%d ]", temp->processNum);
-//         }else{
-//             printf("%d, ", temp->processNum);
-//         }
-        
-//         temp = temp->next;
-//     }
-// }
+//Outputs the PQueue for testing
+void printFIFOQueue(FQueue *q){
+    FNode *temp = q->head;
+    printf("[ ");
+    while(temp != NULL){
+        printf("%s, ", temp->pcb->processName);
+        temp = temp->next;
+    }
+    printf("]");
+
+    // PNode *temp = q->head;
+    // PNode *temp2 = temp->next;
+    // printf("%s\n", temp->pcb->processName);
+    // if (temp2 != NULL) {
+    //     printf("%s\n", temp2->pcb->processName);
+    // }
+}

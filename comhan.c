@@ -1,4 +1,5 @@
 #include "HeaderFiles/comhan.h"
+#include "HeaderFiles/customprocess.h"
 
 //Total Number of days in each month
 int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -82,6 +83,14 @@ void COMHAN(){
             DisplayTime();
         }else if(strcmp(userInput, CMD_QUIT) == 0 || strcmp(userInput, INPUT_QUIT) == 0){
             TerminateTechOS();
+        }else if(strcmp(userInput, CMD_CREATE_PCB) == 0 || strcmp(userInput, INPUT_CREATE_PCB) == 0){
+            createPCB(parameters[0], atoi(parameters[1]), atoi(parameters[2]));
+        }else if(strcmp(userInput, CMD_DELETE_PCB) == 0 || strcmp(userInput, INPUT_DELETE_PCB) == 0){
+            deletePCB(parameters[0]);
+        }else if(strcmp(userInput, CMD_BLOCK) == 0 || strcmp(userInput, INPUT_BLOCK) == 0){
+            block(parameters[0]);
+        }else if(strcmp(userInput, CMD_UNBLOCK) == 0 || strcmp(userInput, INPUT_UNBLOCK) == 0){
+            unblock(parameters[0]);
         }else{
             printf("Unrecognized command. Please try again.");
         }
@@ -343,5 +352,86 @@ void TerminateTechOS(){
         }
         //Get the leftover characters in the input buffer
         while(getchar() != '\n');
+    }
+}
+
+void createPCB(char *name, int class, int priority)
+{
+    if(numParameters != 3){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{processClass}} {{priority}}", CMD_CREATE_PCB, CMD_CREATE_PCB);
+    }else{
+        if (strlen(name) > 8){
+            printf("Error: Process name must be less than 8 characters!");
+        }else if(priority < 0 || priority > 9){
+            printf("Error: Priority must be between 0 and 9");
+        }else if(FindPCB(name) != NULL){ //name must be unique
+            printf("Error: Process name must be Unique!");
+        }else if((class != 1) && (class != 2)){ //must be of appropriate class
+            printf("Error: Process class must be 1 (System Process) or 2 (Application Process)!");
+        }else{ //if conditions met create the PCB
+            SetUpPCB(name, class, priority);
+        }
+    }
+}
+
+// Delete the PCB from the appropriate queue
+void deletePCB(char *processName) {
+    // Find the PCB then remove it
+    PCB *p = FindPCB(processName);
+    // If the process is present in one of the queues, remove it
+    if (p != NULL) {
+        printf("\n%s\n", RemovePCB(p));
+    }else{
+        printf("ERROR: Process %s does not exist\n", processName);
+    }
+}
+
+// Place a process in the blocked time
+void block(char *processName) {
+    if (numParameters != 1) {
+         printf("Invalied number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_BLOCK, CMD_BLOCK);
+    } else {
+        // Get the PCB
+        PCB *p = FindPCB(processName);
+        // If the process name is not a valid length
+        if (strlen(processName) > 9) {
+            printf("Error: Process name must be less than 8 characters\n");
+        } else if (p == NULL) { // If the process is not present within one of the queues
+            printf("Process of name %s not found...\n", processName);
+        } else if (p->state == 0) {
+            printf("Process of name %s is already blocked\n", processName);
+        }else { // Remove the process from its current queue, put it in blocked state, then reinsert it
+            // Remove the PCB from its current queue
+            RemovePCB(p);
+            // Blocked state is represented by integer 0
+            p->state = 0;
+            // Insert PCB into appropriate queue
+            InsertPCB(p);
+        }
+    }
+}
+
+//Unblock a PCB and remove it from the blocked queue and insert into the ready queue
+void unblock(char *processName) {
+    if(numParameters != 1){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_UNBLOCK, CMD_UNBLOCK);
+    }else{
+        //Get the PCB
+        PCB *p = FindPCB(processName);
+        //If the length of the name is more than 8, return an error
+        if(strlen(processName) > 8){
+            printf("Error: Process name must be less than 8 characters");
+        }else if(p == NULL){//If the process does not exist, tell the user
+            printf("Error: Process of name %s does not exist\n", processName);
+        }else if(p->state == 1){
+            printf("Error: Process of name %s is already unblocked\n", processName);
+        }else{//Otherwise, remove the PCB from its current queue
+            //Remove from current queue
+            RemovePCB(p);
+            //Set the state to 1 (1 = ready)
+            p->state = 1;
+            //Insert into queue
+            InsertPCB(p);
+        }
     }
 }

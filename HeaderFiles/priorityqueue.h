@@ -17,8 +17,10 @@ typedef struct PQueue {
 
 //Initialize the PQueue to null head and tail
 void initializePQueue(PQueue *q){
+    //q = (PQueue *)malloc(sizeof(PQueue));
     q->head = NULL;
     q->tail = NULL;
+    q->count = 0;
 }
 
 //Returns the length of the queue
@@ -67,15 +69,16 @@ PNode *Pdequeue(PQueue *q){
 
 //Returns true if the value is in the queue
 PNode* Pcontains(PQueue *q, char *str){
-    PNode *temp = q->head;
-    while(temp != NULL){
-        //If the value of temp is equivalent to the val then return true
-        if(strcmp(temp->pcb->processName, str) == 0){
-            return temp;
+    if(q->head != NULL){
+        PNode *temp = q->head;
+        while(temp != NULL){
+            //If the value of temp is equivalent to the val then return true
+            if(strcmp(temp->pcb->processName, str) == 0){
+                return temp;
+            }
+            temp = temp->next;
         }
-        temp = temp->next;
     }
-
     //Otherwise, return false
     return NULL;
 }
@@ -85,7 +88,8 @@ void Penqueue(PQueue *q, PCB *p){
     PNode *newPNode = (PNode *)malloc(sizeof(PNode));
     // Set the new PNode's PCB to the passed PCB
     newPNode->pcb = p;
-    
+    newPNode->next = NULL;
+
     // If the queue is empty, inserted new PCB to the front
     if(q->head == NULL) {
         q->head = newPNode;
@@ -95,8 +99,14 @@ void Penqueue(PQueue *q, PCB *p){
         PNode *temp = q->head;
         while(temp != NULL){
             if (temp->pcb->priority > p->priority) {
-                prev->next = newPNode;
+                if (prev != NULL) {
+                    prev->next = newPNode;
+                }else{
+                    q->head = newPNode;
+                }
+                
                 newPNode->next = temp;
+
                 break;
             }
             prev = temp;
@@ -135,16 +145,19 @@ void removeFromPQueue(PQueue *q, PCB *p){
 }
 
 //Outputs the PQueue for testing
-// void printQueue(PQueue *q){
-//     PNode *temp = q->head;
-//     printf("[ ");
-//     while(temp != NULL){
-//         if(temp == q->tail){
-//             printf("%d ]", temp->processNum);
-//         }else{
-//             printf("%d, ", temp->processNum);
-//         }
-        
-//         temp = temp->next;
-//     }
-// }
+void printPriorityQueue(PQueue *q){
+    PNode *temp = q->head;
+    printf("[ ");
+    while(temp != NULL){
+        printf("%s, ", temp->pcb->processName);
+        temp = temp->next;
+    }
+    printf("]");
+
+    // PNode *temp = q->head;
+    // PNode *temp2 = temp->next;
+    // printf("%s\n", temp->pcb->processName);
+    // if (temp2 != NULL) {
+    //     printf("%s\n", temp2->pcb->processName);
+    // }
+}

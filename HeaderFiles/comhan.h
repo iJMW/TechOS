@@ -19,6 +19,10 @@
 #define CMD_QUIT "quit"
 #define CMD_TIME "time"
 #define CMD_VERSION "version"
+#define CMD_CREATE_PCB "crprocess"
+#define CMD_DELETE_PCB "delprocess"
+#define CMD_BLOCK "block"
+#define CMD_UNBLOCK "unblock"
 //Input Names including the next line character
 #define INPUT_CDDATE "chdate\n"
 #define INPUT_DATE "date\n"
@@ -26,6 +30,10 @@
 #define INPUT_QUIT "quit\n"
 #define INPUT_TIME "time\n"
 #define INPUT_VERSION "version\n"
+#define INPUT_CREATE_PCB "crprocess\n"
+#define INPUT_DELETE_PCB "delprocess\n"
+#define INPUT_BLOCK "block\n"
+#define INPUT_UNBLOCK "unblock\n"
 
 //Used to calculate the date difference if the user decides to change the date
 typedef struct DateDifference{
@@ -47,5 +55,9 @@ void DisplayTime();
 void TerminateTechOS();
 void printFile(char *fileName);
 void convertToLowercase(char *input);
+void createPCB(char name[], int class, int priority);
+void deletePCB(char *processName);
+void block(char *processName);
+void unblock(char *processName);
 
 #endif

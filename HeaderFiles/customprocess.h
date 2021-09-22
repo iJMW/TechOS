@@ -7,11 +7,12 @@ typedef struct PCB {
     int processClass;
     int priority;
     int state;
+    int suspended;
 }PCB;
 
 PCB *AllocatePCB();
 char *FreePCB(PCB *p);
-PCB *SetupPCB(char processName[9], int processClass, int priority);
+PCB *SetUpPCB(char processName[9], int processClass, int priority);
 PCB *FindPCB(char processName[9]);
 void InsertPCB(PCB *p);
 char *RemovePCB(PCB *p);

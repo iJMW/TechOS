@@ -2,8 +2,8 @@
 #include "HeaderFiles/priorityqueue.h"
 #include "HeaderFiles/fifoqueue.h"
 
-PQueue *readyQueue;
-FQueue *blockedQueue;
+PQueue *readyQueue = NULL;
+FQueue *blockedQueue = NULL;
 
 //Look up how to catch errors
 PCB *AllocatePCB() {
@@ -21,33 +21,56 @@ char *FreePCB(PCB *p) {
     return "SUCCESS";
 }
 
-PCB *SetupPCB(char processName[9], int processClass, int priority) {
+PCB *SetUpPCB(char processName[9], int processClass, int priority) {
     PCB *p = AllocatePCB();
     if(p != NULL){
         strcpy(p->processName, processName);
         p->processClass = processClass;
         p->priority = priority;
+        p->state = 1;
+        p->suspended = 0;
+        InsertPCB(p);    
     }
-
     return p;
 }
 
 PCB *FindPCB(char processName[9]) {
-    PCB *p = Pcontains(readyQueue, processName)->pcb;
-    if (p == NULL) {
-        p = Fcontains(blockedQueue, processName)->pcb;
+    if (readyQueue == NULL) {
+        readyQueue = (PQueue *)malloc(sizeof(PQueue));
+        initializePQueue(readyQueue);
     }
-    
+    if (blockedQueue == NULL) {
+        blockedQueue = (FQueue *)malloc(sizeof(FQueue));
+        initializeFQueue(blockedQueue);
+    }
+    PCB *p = NULL;
+    if (Pcontains(readyQueue, processName) != NULL) {
+        printf("PCB found in PQueue\n");
+        p = Pcontains(readyQueue, processName)->pcb;
+    }
+    if (p == NULL) {
+        if (Fcontains(blockedQueue, processName) != NULL) {
+            printf("PCB found in FQueue\n");
+            p = Fcontains(blockedQueue, processName)->pcb;
+        }
+    }
     return p;
 }
 
 void InsertPCB(PCB *p) {
-    //State ai0 is ready?????
-    if(p->state == 0){
+    
+    //State 1 is ready
+    if(p->state == 1){
         Penqueue(readyQueue, p);
-    }else{//Otherwise in blocking?????
+    }else{//State 0 is blocked
         Fenqueue(blockedQueue, p);
     }
+
+    printf("\nInserting: \n");
+    printf("Ready: ");
+    printPriorityQueue(readyQueue);
+    printf("\n\nBlocked: ");
+    printFIFOQueue(blockedQueue);
 }
 
 char *RemovePCB(PCB *p) {
@@ -61,6 +84,11 @@ char *RemovePCB(PCB *p) {
             // Remove from blocked queue
             removeFromFQueue(blockedQueue, p);
         }
+        printf("\nRemoving: \n");
+        printf("Ready: ");
+        printPriorityQueue(readyQueue);
+        printf("\n\nBlocked: ");
+        printFIFOQueue(blockedQueue);
         // Return the success messsage
         return "SUCCESS";
     } else { // Else the PCB is not present in one of the queues
