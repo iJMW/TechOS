@@ -17,6 +17,8 @@ typedef struct PQueue {
     int count;
 }PQueue;
 
+extern PQueue *readyQueue;
+
 //Function Prototypes
 void initializePQueue(PQueue *q);
 int Plength(PQueue *q);

@@ -18,6 +18,8 @@ typedef struct FQueue {
     int count;
 }FQueue;
 
+extern FQueue *blockedQueue;
+
 //Function Prototypes
 void initializeFQueue(FQueue *q);
 int Flength(FQueue *q);
