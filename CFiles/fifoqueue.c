@@ -1,4 +1,4 @@
-#include "HeaderFiles/fifoqueue.h"
+#include "../HeaderFiles/fifoqueue.h"
 
 //Initialize the FQueue to null head and tail
 void initializeFQueue(FQueue *q){
