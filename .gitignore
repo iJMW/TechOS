@@ -53,3 +53,4 @@ dkms.conf
 
 #VSCode specific
 .vscode/
+compile_files.sh
