@@ -84,11 +84,7 @@ void COMHAN(){
         }else if(strcmp(userInput, CMD_QUIT) == 0 || strcmp(userInput, INPUT_QUIT) == 0){
             TerminateTechOS();
         }else if(strcmp(userInput, CMD_CREATE_PCB) == 0 || strcmp(userInput, INPUT_CREATE_PCB) == 0){
-            if(parameters[1] != NULL && parameters[2] != NULL){
-                createPCB(parameters[0], atoi(parameters[1]), atoi(parameters[2]));
-            }else{
-                printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{processClass}} {{priority}}", CMD_CREATE_PCB, CMD_CREATE_PCB);
-            }
+            createPCB(parameters[0], atoi(parameters[1]), atoi(parameters[2]));
         }else if(strcmp(userInput, CMD_DELETE_PCB) == 0 || strcmp(userInput, INPUT_DELETE_PCB) == 0){
             deletePCB(parameters[0]);
         }else if(strcmp(userInput, CMD_BLOCK) == 0 || strcmp(userInput, INPUT_BLOCK) == 0){
