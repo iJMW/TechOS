@@ -84,13 +84,21 @@ void COMHAN(){
         }else if(strcmp(userInput, CMD_QUIT) == 0 || strcmp(userInput, INPUT_QUIT) == 0){
             TerminateTechOS();
         }else if(strcmp(userInput, CMD_CREATE_PCB) == 0 || strcmp(userInput, INPUT_CREATE_PCB) == 0){
-            createPCB(parameters[0], atoi(parameters[1]), atoi(parameters[2]));
+            if(parameters[1] != NULL && parameters[2] != NULL){
+                createPCB(parameters[0], atoi(parameters[1]), atoi(parameters[2]));
+            }else{
+                printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{processClass}} {{priority}}", CMD_CREATE_PCB, CMD_CREATE_PCB);
+            }
         }else if(strcmp(userInput, CMD_DELETE_PCB) == 0 || strcmp(userInput, INPUT_DELETE_PCB) == 0){
             deletePCB(parameters[0]);
         }else if(strcmp(userInput, CMD_BLOCK) == 0 || strcmp(userInput, INPUT_BLOCK) == 0){
             block(parameters[0]);
         }else if(strcmp(userInput, CMD_UNBLOCK) == 0 || strcmp(userInput, INPUT_UNBLOCK) == 0){
             unblock(parameters[0]);
+        }else if(strcmp(userInput, CMD_SHOW_READY_PROCESSES) == 0 || strcmp(userInput, INPUT_SHOW_READY_PROCESSES) == 0){
+            ShowReadyProcesses();
+        }else if(strcmp(userInput, CMD_SHOW_BLOCKED_PROCESSES) == 0 || strcmp(userInput, INPUT_SHOW_BLOCKED_PROCESSES) == 0){
+            ShowBlockedProcesses();
         }else{
             printf("Unrecognized command. Please try again.");
         }
@@ -437,5 +445,45 @@ void unblock(char *processName) {
             //Insert into queue
             InsertPCB(p);
         }
+    }
+}
+
+void ShowReadyProcesses(){
+    //Need to figure out how to determine if the head is null. If it is, we can't assign it
+    PNode *temp = readyQueue->head;
+
+    if(temp == NULL){
+        printf("\nThere are no processes in the ready queue.");
+    }else{
+        printf("\n------------------All Processes in the Ready Queue------------------");
+        while(temp != NULL){
+            printf("\nProcess Name: %s", temp->pcb->processName);
+            printf("\nClass: %d", temp->pcb->processClass);
+            printf("\nState: %d", temp->pcb->state);
+            printf("\nSuspended Status: %d", temp->pcb->suspended);
+            printf("\nPriority: %d", temp->pcb->priority);
+            printf("\n");
+            temp = temp->next;
+        }
+        printf("--------------------------------------------------------------------\n");
+    }
+}
+
+void ShowBlockedProcesses(){
+    FNode *temp = blockedQueue->head;
+    if(temp == NULL){
+        printf("\nThere are no processes in the ready queue.");
+    }else{
+        printf("\n-----------------All Processes in the Blocked Queue-----------------");
+        while(temp != NULL){
+            printf("\nProcess Name: %s", temp->pcb->processName);
+            printf("\nClass: %d", temp->pcb->processClass);
+            printf("\nState: %d", temp->pcb->state);
+            printf("\nSuspended Status: %d", temp->pcb->suspended);
+            printf("\nPriority: %d", temp->pcb->priority);
+            printf("\n");
+            temp = temp->next;
+        }
+        printf("--------------------------------------------------------------------\n");
     }
 }

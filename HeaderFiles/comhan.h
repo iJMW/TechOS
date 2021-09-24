@@ -25,6 +25,8 @@
 #define CMD_DELETE_PCB "delprocess"
 #define CMD_BLOCK "block"
 #define CMD_UNBLOCK "unblock"
+#define CMD_SHOW_READY_PROCESSES "shready"
+#define CMD_SHOW_BLOCKED_PROCESSES "shblocked"
 //Input Names including the next line character
 #define INPUT_CDDATE "chdate\n"
 #define INPUT_DATE "date\n"
@@ -36,6 +38,8 @@
 #define INPUT_DELETE_PCB "delprocess\n"
 #define INPUT_BLOCK "block\n"
 #define INPUT_UNBLOCK "unblock\n"
+#define INPUT_SHOW_READY_PROCESSES "shready\n"
+#define INPUT_SHOW_BLOCKED_PROCESSES "shblocked\n"
 
 //Used to calculate the date difference if the user decides to change the date
 typedef struct DateDifference{
@@ -61,5 +65,7 @@ void createPCB(char name[], int class, int priority);
 void deletePCB(char *processName);
 void block(char *processName);
 void unblock(char *processName);
+void ShowReadyProcesses();
+void ShowBlockedProcesses();
 
 #endif
