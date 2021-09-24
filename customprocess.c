@@ -45,12 +45,10 @@ PCB *FindPCB(char processName[9]) {
     }
     PCB *p = NULL;
     if (Pcontains(readyQueue, processName) != NULL) {
-        printf("PCB found in PQueue\n");
         p = Pcontains(readyQueue, processName)->pcb;
     }
     if (p == NULL) {
         if (Fcontains(blockedQueue, processName) != NULL) {
-            printf("PCB found in FQueue\n");
             p = Fcontains(blockedQueue, processName)->pcb;
         }
     }
@@ -58,19 +56,12 @@ PCB *FindPCB(char processName[9]) {
 }
 
 void InsertPCB(PCB *p) {
-    
     //State 1 is ready
     if(p->state == 1){
         Penqueue(readyQueue, p);
     }else{//State 0 is blocked
         Fenqueue(blockedQueue, p);
     }
-
-    printf("\nInserting: \n");
-    printf("Ready: ");
-    printPriorityQueue(readyQueue);
-    printf("\n\nBlocked: ");
-    printFIFOQueue(blockedQueue);
 }
 
 char *RemovePCB(PCB *p) {
@@ -84,11 +75,6 @@ char *RemovePCB(PCB *p) {
             // Remove from blocked queue
             removeFromFQueue(blockedQueue, p);
         }
-        printf("\nRemoving: \n");
-        printf("Ready: ");
-        printPriorityQueue(readyQueue);
-        printf("\n\nBlocked: ");
-        printFIFOQueue(blockedQueue);
         // Return the success messsage
         return "SUCCESS";
     } else { // Else the PCB is not present in one of the queues
