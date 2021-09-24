@@ -3,6 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "priorityqueue.h"
 
 #ifndef COMHAN_H_
 # define COMHAN_H_

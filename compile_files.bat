@@ -1,1 +1,1 @@
-gcc TechOS.c comhan.c customprocess.c
+gcc TechOS.c comhan.c customprocess.c priorityqueue.c fifoqueue.c
