@@ -1,5 +1,5 @@
-#include "HeaderFiles/comhan.h"
-#include "HeaderFiles/customprocess.h"
+#include "../HeaderFiles/comhan.h"
+#include "../HeaderFiles/customprocess.h"
 
 //Total Number of days in each month
 int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};

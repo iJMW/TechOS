@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "HeaderFiles/priorityqueue.h"
-#include "HeaderFiles/fifoqueue.h"
+#include "../HeaderFiles/priorityqueue.h"
+#include "../HeaderFiles/fifoqueue.h"
 
 PQueue *readyQueue = NULL;
 FQueue *blockedQueue = NULL;

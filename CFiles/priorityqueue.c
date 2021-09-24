@@ -1,4 +1,4 @@
-#include "HeaderFiles/priorityqueue.h"
+#include "../HeaderFiles/priorityqueue.h"
 
 //Initialize the PQueue to null head and tail
 void initializePQueue(PQueue *q){
