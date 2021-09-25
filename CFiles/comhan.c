@@ -476,7 +476,6 @@ void showPCB(char *processName) {
 
 // Displays the name, class, state, suspended staus, and priority of the process
 void showAllPCB() {
-    /*
     // Check for valid number of parameters
     if(numParameters > 0) {
          printf("Invalid number of parameters. The format for the '%s' command is: %s", CMD_SHALLPCB, CMD_SHALLPCB);
@@ -486,7 +485,6 @@ void showAllPCB() {
         // Display the blocked queu
         ShowBlockedProcesses();
     }
-    */
 }
 
 // Takes in an integer that represents the state and returns the appropriate string
