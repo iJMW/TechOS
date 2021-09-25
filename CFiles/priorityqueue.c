@@ -98,7 +98,7 @@ void Penqueue(PQueue *q, PCB *p){
             temp = temp->next;
         }
     }
-
+    
     // If the newPNode was not inserted, add it to the end of the queue
     if(newPNode->next == NULL && q->count > 0) {
         q->tail->next = newPNode;
@@ -115,8 +115,12 @@ void removeFromPQueue(PQueue *q, PCB *p){
     while(temp != NULL){
         if(strcmp(temp->pcb->processName, p->processName) == 0){
             if(prev != NULL){
+                // If we are removing the tail
+                if (strcmp(temp->pcb->processName, q->tail->pcb->processName) == 0) {
+                    q->tail = prev;
+                }
                 prev->next = temp->next;
-            }else{
+            } else{
                 q->head = temp->next;
                 if (q->head == NULL) {
                     q->tail = NULL;
@@ -127,6 +131,8 @@ void removeFromPQueue(PQueue *q, PCB *p){
         prev = temp;
         temp = temp->next;
     }
+    // Decrease the count of PNodes within the queue
+    q->count = q->count - 1;
 }
 
 //Outputs the PQueue for testing

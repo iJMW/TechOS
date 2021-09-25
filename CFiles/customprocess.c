@@ -30,6 +30,8 @@ PCB *SetUpPCB(char processName[9], int processClass, int priority) {
         p->state = 1;
         p->suspended = 0;
         InsertPCB(p);    
+    } else {
+        printf("Memory errors...Not inserting process into queue\n");
     }
     return p;
 }
@@ -71,10 +73,14 @@ char *RemovePCB(PCB *p) {
         if (Pcontains(readyQueue, p->processName)) {
             // Remove from ready queue
             removeFromPQueue(readyQueue, p);
+            printPriorityQueue(readyQueue);
         } else {
             // Remove from blocked queue
             removeFromFQueue(blockedQueue, p);
+            printFIFOQueue(blockedQueue);
         }
+        // Free the pointer
+        free(p);
         // Return the success messsage
         return "SUCCESS";
     } else { // Else the PCB is not present in one of the queues

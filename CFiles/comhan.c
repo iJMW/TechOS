@@ -91,6 +91,10 @@ void COMHAN(){
             block(parameters[0]);
         }else if(strcmp(userInput, CMD_UNBLOCK) == 0 || strcmp(userInput, INPUT_UNBLOCK) == 0){
             unblock(parameters[0]);
+        }else if(strcmp(userInput, CMD_SHPCB) == 0 || strcmp(userInput, INPUT_SHPCB) == 0){
+            showPCB(parameters[0]);
+        }else if(strcmp(userInput, CMD_SHALLPCB) == 0 || strcmp(userInput, INPUT_SHALLPCB) == 0){
+            showAllPCB();
         }else{
             printf("Unrecognized command. Please try again.");
         }
@@ -438,4 +442,65 @@ void unblock(char *processName) {
             InsertPCB(p);
         }
     }
+}
+
+// Displays the name, class, state, suspended staus, and priority of the process
+void showPCB(char *processName) {
+
+    // Check the number of parameters
+   if (numParameters != 1) {
+       printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_SHPCB, CMD_SHPCB);
+   } else { // If the correct number of parameters are passed
+    
+    // Find the PCB with the passed name
+    PCB *p = FindPCB(processName);
+
+    // If no process with the passed name is found
+    if (p == NULL) {
+        printf("No process was found with the name %s", processName);
+    } else { // Else, find print the process information
+        printf("Process Name: %s\n", p->processName);
+        printf("Class: %d\n", p->processClass);
+        printf("State: %s\n", getState(p->state));
+        printf("Suspended Status: %s\n", getSuspendedStatus(p->suspended));
+        printf("Priority: %d\n", p->priority);
+    }
+
+   }
+
+}
+
+// Displays the name, class, state, suspended staus, and priority of the process
+void showAllPCB() {
+    /*
+    // Check for valid number of parameters
+    if(numParameters > 0) {
+         printf("Invalid number of parameters. The format for the '%s' command is: %s", CMD_SHALLPCB, CMD_SHALLPCB);
+    } else {
+        // Display the ready queue
+        ShowReadyProcesses();
+        // Display the blocked queu
+        ShowBlockedProcesses();
+    }
+    */
+}
+
+// Takes in an integer that represents the state and returns the appropriate string
+char *getState(int s) {
+    if (s == 0) {
+        return "Blocked";
+    } else if (s == 1) {
+        return "Ready";
+    } else if (s == 2) {
+        return "Running";
+    }
+}
+
+// Takes in an integer that represents the suspended staus and returns the appropriate string
+char *getSuspendedStatus(int s) {
+    if (s == 0) {
+        return "Not Suspended";
+    } else {
+        return "Suspended";
+    } 
 }
