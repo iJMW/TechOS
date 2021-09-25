@@ -73,6 +73,7 @@ void showPCB(char *processName);
 void showAllPCB();
 char *getState(int s);
 char *getSuspendedStatus(int s);
+char *getClass(int val);
 void ShowReadyProcesses();
 void ShowBlockedProcesses();
 int isNumber(char *s);

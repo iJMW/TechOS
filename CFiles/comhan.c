@@ -521,6 +521,14 @@ char *getSuspendedStatus(int s) {
     } 
 }
 
+char *getClass(int val){
+    if(val == 1){
+        return "System Process";
+    }else{
+        return "Application Process";
+    }
+}
+
 void ShowReadyProcesses(){
     //Need to figure out how to determine if the head is null. If it is, we can't assign it
     PNode *temp = readyQueue->head;
@@ -531,9 +539,9 @@ void ShowReadyProcesses(){
         printf("\n------------------All Processes in the Ready Queue------------------");
         while(temp != NULL){
             printf("\nProcess Name: %s", temp->pcb->processName);
-            printf("\nClass: %d", temp->pcb->processClass);
-            printf("\nState: %d", temp->pcb->state);
-            printf("\nSuspended Status: %d", temp->pcb->suspended);
+            printf("\nClass: %s", getClass(temp->pcb->processClass));
+            printf("\nState: %s", getState(temp->pcb->state));
+            printf("\nSuspended Status: %s", getSuspendedStatus(temp->pcb->suspended));
             printf("\nPriority: %d", temp->pcb->priority);
             printf("\n");
             temp = temp->next;
@@ -550,9 +558,9 @@ void ShowBlockedProcesses(){
         printf("\n-----------------All Processes in the Blocked Queue-----------------");
         while(temp != NULL){
             printf("\nProcess Name: %s", temp->pcb->processName);
-            printf("\nClass: %d", temp->pcb->processClass);
-            printf("\nState: %d", temp->pcb->state);
-            printf("\nSuspended Status: %d", temp->pcb->suspended);
+            printf("\nClass: %s", getClass(temp->pcb->processClass));
+            printf("\nState: %s", getState(temp->pcb->state));
+            printf("\nSuspended Status: %s", getSuspendedStatus(temp->pcb->suspended));
             printf("\nPriority: %d", temp->pcb->priority);
             printf("\n");
             temp = temp->next;
