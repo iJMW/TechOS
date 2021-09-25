@@ -37,14 +37,6 @@ PCB *SetUpPCB(char processName[9], int processClass, int priority) {
 }
 
 PCB *FindPCB(char processName[9]) {
-    if (readyQueue == NULL) {
-        readyQueue = (PQueue *)malloc(sizeof(PQueue));
-        initializePQueue(readyQueue);
-    }
-    if (blockedQueue == NULL) {
-        blockedQueue = (FQueue *)malloc(sizeof(FQueue));
-        initializeFQueue(blockedQueue);
-    }
     PCB *p = NULL;
     if (Pcontains(readyQueue, processName) != NULL) {
         p = Pcontains(readyQueue, processName)->pcb;

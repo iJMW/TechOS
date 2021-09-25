@@ -13,9 +13,14 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "HeaderFiles/comhan.h"
+#include "HeaderFiles/customprocess.h"
 
 //Main method that calls COMHAN function
 int main(){
+    readyQueue = (PQueue *)malloc(sizeof(PQueue));
+    initializePQueue(readyQueue);
+    blockedQueue = (FQueue *)malloc(sizeof(FQueue));
+    initializeFQueue(blockedQueue);
     //Call the COMHAN function to execute the program
     COMHAN();
 
