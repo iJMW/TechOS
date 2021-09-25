@@ -531,7 +531,7 @@ void ShowReadyProcesses(){
 void ShowBlockedProcesses(){
     FNode *temp = blockedQueue->head;
     if(temp == NULL){
-        printf("\nThere are no processes in the ready queue.");
+        printf("\nThere are no processes in the blocked queue.");
     }else{
         printf("\n-----------------All Processes in the Blocked Queue-----------------");
         while(temp != NULL){
