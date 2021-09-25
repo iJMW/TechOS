@@ -91,6 +91,10 @@ void COMHAN(){
             block(parameters[0]);
         }else if(strcmp(userInput, CMD_UNBLOCK) == 0 || strcmp(userInput, INPUT_UNBLOCK) == 0){
             unblock(parameters[0]);
+        }else if(strcmp(userInput, CMD_SHOW_READY_PROCESSES) == 0 || strcmp(userInput, INPUT_SHOW_READY_PROCESSES) == 0){
+            ShowReadyProcesses();
+        }else if(strcmp(userInput, CMD_SHOW_BLOCKED_PROCESSES) == 0 || strcmp(userInput, INPUT_SHOW_BLOCKED_PROCESSES) == 0){
+            ShowBlockedProcesses();
         }else{
             printf("Unrecognized command. Please try again.");
         }
@@ -437,5 +441,45 @@ void unblock(char *processName) {
             //Insert into queue
             InsertPCB(p);
         }
+    }
+}
+
+void ShowReadyProcesses(){
+    //Need to figure out how to determine if the head is null. If it is, we can't assign it
+    PNode *temp = readyQueue->head;
+
+    if(temp == NULL){
+        printf("\nThere are no processes in the ready queue.");
+    }else{
+        printf("\n------------------All Processes in the Ready Queue------------------");
+        while(temp != NULL){
+            printf("\nProcess Name: %s", temp->pcb->processName);
+            printf("\nClass: %d", temp->pcb->processClass);
+            printf("\nState: %d", temp->pcb->state);
+            printf("\nSuspended Status: %d", temp->pcb->suspended);
+            printf("\nPriority: %d", temp->pcb->priority);
+            printf("\n");
+            temp = temp->next;
+        }
+        printf("--------------------------------------------------------------------\n");
+    }
+}
+
+void ShowBlockedProcesses(){
+    FNode *temp = blockedQueue->head;
+    if(temp == NULL){
+        printf("\nThere are no processes in the ready queue.");
+    }else{
+        printf("\n-----------------All Processes in the Blocked Queue-----------------");
+        while(temp != NULL){
+            printf("\nProcess Name: %s", temp->pcb->processName);
+            printf("\nClass: %d", temp->pcb->processClass);
+            printf("\nState: %d", temp->pcb->state);
+            printf("\nSuspended Status: %d", temp->pcb->suspended);
+            printf("\nPriority: %d", temp->pcb->priority);
+            printf("\n");
+            temp = temp->next;
+        }
+        printf("--------------------------------------------------------------------\n");
     }
 }
