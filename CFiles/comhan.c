@@ -84,7 +84,7 @@ void COMHAN(){
         }else if(strcmp(userInput, CMD_QUIT) == 0 || strcmp(userInput, INPUT_QUIT) == 0){
             TerminateTechOS();
         }else if(strcmp(userInput, CMD_CREATE_PCB) == 0 || strcmp(userInput, INPUT_CREATE_PCB) == 0){
-            createPCB(parameters[0], atoi(parameters[1]), atoi(parameters[2]));
+            createPCB(parameters[0], parameters[1], parameters[2]);
         }else if(strcmp(userInput, CMD_DELETE_PCB) == 0 || strcmp(userInput, INPUT_DELETE_PCB) == 0){
             deletePCB(parameters[0]);
         }else if(strcmp(userInput, CMD_BLOCK) == 0 || strcmp(userInput, INPUT_BLOCK) == 0){
@@ -363,23 +363,37 @@ void TerminateTechOS(){
     }
 }
 
-void createPCB(char *name, int class, int priority)
-{
+void createPCB(char *name, char *class, char *priority)
+{   
     if(numParameters != 3){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{processClass}} {{priority}}", CMD_CREATE_PCB, CMD_CREATE_PCB);
     }else{
         if (strlen(name) > 8){
             printf("Error: Process name must be less than 8 characters!");
-        }else if(priority < 0 || priority > 9){
+        }else if (!isNumber(class)) {
+            printf("Please provide numbers for the class\n");
+        }else if (!isNumber(priority)){
+             printf("Please provide numbers for the priority\n");
+        }else if(atoi(priority) < 0 || atoi(priority) > 9){
             printf("Error: Priority must be between 0 and 9");
         }else if(FindPCB(name) != NULL){ //name must be unique
             printf("Error: Process name must be Unique!");
-        }else if((class != 1) && (class != 2)){ //must be of appropriate class
+        }else if((atoi(class) != 1) && (atoi(class) != 2)){ //must be of appropriate class
             printf("Error: Process class must be 1 (System Process) or 2 (Application Process)!");
         }else{ //if conditions met create the PCB
-            SetUpPCB(name, class, priority);
+            SetUpPCB(name, atoi(class), atoi(priority));
         }
     }
+}
+
+int isNumber(char *s)
+{
+    for (int i = 0; i < strlen(s); i++)
+    {
+        if (isdigit(s[i]) == 0)
+              return 0;
+    }
+    return 1;
 }
 
 // Delete the PCB from the appropriate queue

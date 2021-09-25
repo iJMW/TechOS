@@ -65,7 +65,7 @@ void DisplayTime();
 void TerminateTechOS();
 void printFile(char *fileName);
 void convertToLowercase(char *input);
-void createPCB(char name[], int class, int priority);
+void createPCB(char name[], char *class, char *priority);
 void deletePCB(char *processName);
 void block(char *processName);
 void unblock(char *processName);
@@ -75,5 +75,6 @@ char *getState(int s);
 char *getSuspendedStatus(int s);
 void ShowReadyProcesses();
 void ShowBlockedProcesses();
+int isNumber(char *s);
 
 #endif
