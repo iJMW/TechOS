@@ -533,6 +533,7 @@ void ShowReadyProcesses(){
     if(numParameters > 0){
         printf("Invalid number of parameters. The format for the '%s' command is: %s", CMD_SHOW_READY_PROCESSES, CMD_SHOW_READY_PROCESSES);
     }else{
+        //Need to figure out how to test for null readyQueue???
         PNode *temp = readyQueue->head;
 
         if(temp == NULL){
@@ -558,6 +559,7 @@ void ShowBlockedProcesses(){
     if(numParameters > 0){
         printf("Invalid number of parameters. The format for the '%s' command is: %s", CMD_SHOW_BLOCKED_PROCESSES, CMD_SHOW_BLOCKED_PROCESSES);
     }else{
+        //Need to figure out how to test for null blockedQueue???
         FNode *temp = blockedQueue->head;
         if(temp == NULL){
             printf("\nThere are no processes in the blocked queue.");
