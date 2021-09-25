@@ -405,7 +405,7 @@ void deletePCB(char *processName) {
         PCB *p = FindPCB(processName);
         // If the process is present in one of the queues, remove it
         if (p != NULL) {
-            printf("\n%s\n", RemovePCB(p));
+            printf("\n%s\n", RemovePCB(p, 1));
         }else{
             printf("ERROR: Process %s does not exist\n", processName);
         }
@@ -428,7 +428,7 @@ void block(char *processName) {
             printf("Process of name %s is already blocked\n", processName);
         }else { // Remove the process from its current queue, put it in blocked state, then reinsert it
             // Remove the PCB from its current queue
-            RemovePCB(p);
+            RemovePCB(p, 0);
             // Blocked state is represented by integer 0
             p->state = 0;
             // Insert PCB into appropriate queue
@@ -453,7 +453,7 @@ void unblock(char *processName) {
             printf("Error: Process of name %s is already unblocked\n", processName);
         }else{//Otherwise, remove the PCB from its current queue
             //Remove from current queue
-            RemovePCB(p);
+            RemovePCB(p, 0);
             //Set the state to 1 (1 = ready)
             p->state = 1;
             //Insert into queue

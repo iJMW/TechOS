@@ -15,7 +15,7 @@ char *FreePCB(PCB *p);
 PCB *SetUpPCB(char processName[9], int processClass, int priority);
 PCB *FindPCB(char processName[9]);
 void InsertPCB(PCB *p);
-char *RemovePCB(PCB *p);
+char *RemovePCB(PCB *p, int remInd);
 
 #endif
 

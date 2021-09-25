@@ -66,7 +66,7 @@ void InsertPCB(PCB *p) {
     }
 }
 
-char *RemovePCB(PCB *p) {
+char *RemovePCB(PCB *p, int remInd) {
      // If the PCB is present in one of the queues
     if (FindPCB(p->processName) != NULL) {
         // Determine which queue to remove it from
@@ -79,8 +79,10 @@ char *RemovePCB(PCB *p) {
             removeFromFQueue(blockedQueue, p);
             printFIFOQueue(blockedQueue);
         }
-        // Free the pointer
-        free(p);
+        // Free the pointer if the process is being removed, not moved to a different queue
+        if (remInd == 1) {
+            free(p);
+        }
         // Return the success messsage
         return "SUCCESS";
     } else { // Else the PCB is not present in one of the queues
