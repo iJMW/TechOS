@@ -530,41 +530,50 @@ char *getClass(int val){
 }
 
 void ShowReadyProcesses(){
-    //Need to figure out how to determine if the head is null. If it is, we can't assign it
-    PNode *temp = readyQueue->head;
-
-    if(temp == NULL){
-        printf("\nThere are no processes in the ready queue.");
+    if(numParameters > 0){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s", CMD_SHOW_READY_PROCESSES, CMD_SHOW_READY_PROCESSES);
     }else{
-        printf("\n------------------All Processes in the Ready Queue------------------");
-        while(temp != NULL){
-            printf("\nProcess Name: %s", temp->pcb->processName);
-            printf("\nClass: %s", getClass(temp->pcb->processClass));
-            printf("\nState: %s", getState(temp->pcb->state));
-            printf("\nSuspended Status: %s", getSuspendedStatus(temp->pcb->suspended));
-            printf("\nPriority: %d", temp->pcb->priority);
-            printf("\n");
-            temp = temp->next;
+        PNode *temp = readyQueue->head;
+
+        if(temp == NULL){
+            printf("\nThere are no processes in the ready queue.");
+        }else{
+            printf("\n------------------All Processes in the Ready Queue------------------");
+            while(temp != NULL){
+                printf("\nProcess Name: %s", temp->pcb->processName);
+                printf("\nClass: %s", getClass(temp->pcb->processClass));
+                printf("\nState: %s", getState(temp->pcb->state));
+                printf("\nSuspended Status: %s", getSuspendedStatus(temp->pcb->suspended));
+                printf("\nPriority: %d", temp->pcb->priority);
+                printf("\n");
+                temp = temp->next;
+            }
+            printf("--------------------------------------------------------------------\n");
         }
-        printf("--------------------------------------------------------------------\n");
     }
+    
 }
 
 void ShowBlockedProcesses(){
-    FNode *temp = blockedQueue->head;
-    if(temp == NULL){
-        printf("\nThere are no processes in the blocked queue.");
+    if(numParameters > 0){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s", CMD_SHOW_BLOCKED_PROCESSES, CMD_SHOW_BLOCKED_PROCESSES);
     }else{
-        printf("\n-----------------All Processes in the Blocked Queue-----------------");
-        while(temp != NULL){
-            printf("\nProcess Name: %s", temp->pcb->processName);
-            printf("\nClass: %s", getClass(temp->pcb->processClass));
-            printf("\nState: %s", getState(temp->pcb->state));
-            printf("\nSuspended Status: %s", getSuspendedStatus(temp->pcb->suspended));
-            printf("\nPriority: %d", temp->pcb->priority);
-            printf("\n");
-            temp = temp->next;
+        FNode *temp = blockedQueue->head;
+        if(temp == NULL){
+            printf("\nThere are no processes in the blocked queue.");
+        }else{
+            printf("\n-----------------All Processes in the Blocked Queue-----------------");
+            while(temp != NULL){
+                printf("\nProcess Name: %s", temp->pcb->processName);
+                printf("\nClass: %s", getClass(temp->pcb->processClass));
+                printf("\nState: %s", getState(temp->pcb->state));
+                printf("\nSuspended Status: %s", getSuspendedStatus(temp->pcb->suspended));
+                printf("\nPriority: %d", temp->pcb->priority);
+                printf("\n");
+                temp = temp->next;
+            }
+            printf("--------------------------------------------------------------------\n");
         }
-        printf("--------------------------------------------------------------------\n");
     }
+    
 }
