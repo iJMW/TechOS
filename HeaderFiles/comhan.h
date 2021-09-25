@@ -10,9 +10,9 @@
 # define COMHAN_H_
 
 // Version information for the TechOS
-#define VERSION_NUMBER "1.0"
+#define VERSION_NUMBER "2.0"
 #define AUTHORS "Logan Bland, John Clay, Jalen Wayt"
-#define COMPLETION_DATE "09/14/2021"
+#define COMPLETION_DATE "09/28/2021"
 
 // Command names within the TechOs
 #define CMD_CDDATE "chdate"
@@ -46,36 +46,36 @@
 #define INPUT_SHOW_BLOCKED_PROCESSES "shblocked\n"
 
 //Used to calculate the date difference if the user decides to change the date
-typedef struct DateDifference{
+/*typedef struct DateDifference{
     int numMonths;
     int numDays;
     int numYears;
-}DateDifference;
+}DateDifference;*/
 
 //Function Prototypes
 void COMHAN();
 void Help(char* cmdName);
 void Version();
 void DisplayDate();
-char *getMonth(int month);
+//char *getMonth(int month);
 void ChangeDate(char *parameters);
-int checkMonth(int month, int day, int year);
-void calculateDateDifference();
+//int checkMonth(int month, int day, int year);
+//void calculateDateDifference();
 void DisplayTime();
 void TerminateTechOS();
-void printFile(char *fileName);
-void convertToLowercase(char *input);
+//void printFile(char *fileName);
+//void convertToLowercase(char *input);
 void createPCB(char name[], char *class, char *priority);
 void deletePCB(char *processName);
 void block(char *processName);
 void unblock(char *processName);
 void showPCB(char *processName);
 void showAllPCB();
-char *getState(int s);
-char *getSuspendedStatus(int s);
-char *getClass(int val);
+//char *getState(int s);
+//char *getSuspendedStatus(int s);
+//char *getClass(int val);
 void ShowReadyProcesses();
 void ShowBlockedProcesses();
-int isNumber(char *s);
+//int isNumber(char *s);
 
 #endif

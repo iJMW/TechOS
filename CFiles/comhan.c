@@ -1,8 +1,9 @@
 #include "../HeaderFiles/comhan.h"
 #include "../HeaderFiles/customprocess.h"
+#include "../HeaderFiles/helpermethods.h"
 
 //Total Number of days in each month
-int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+//int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 //Global Variables for keeping track of parameters and if the user chose to quit
 int numParameters;
@@ -111,14 +112,6 @@ void COMHAN(){
     free(userInput);
 }
 
-//Converts the string to all lowercase characters
-void convertToLowercase(char *input){
-    //Iterates through the string
-    for(int i = 0; i < strlen(input); i++){
-        input[i] = tolower(input[i]);
-    }
-}
-
 // Displays a help description to the user based on the command passed
 void Help(char* cmdName){
     // Check the number of parameters passed with the help command
@@ -146,31 +139,6 @@ void Help(char* cmdName){
     }
 }
 
-// Print a file character by character 
-void printFile(char *fileName) {
-    // Create the path to the file
-    char path[80] = "./helpFiles/";
-    // Add the file name to the path
-    strcat(path, fileName);
-    // Holds the character of the file as an integer value
-    int c;
-    // Pointer to hold the file
-    FILE *file;
-    // Open the file
-    file = fopen(path, "r");
-    // If the file exists, print the contents
-    if (file) {
-        // Loop to get all the charcaters of the file
-        while ((c = fgetc(file)) != EOF)
-            // Print the charcater to the console
-            printf("%c", c);
-        // Close the file
-        fclose(file);
-    } else { // Else inform the user that no details were found
-        printf("Description file %s not found\n");
-    }
-}
-
 // Print the version number, authors, and completion
 void Version(){
     if (numParameters != 0) {
@@ -194,24 +162,6 @@ void DisplayDate(){
 
         //Outputs the date
         printf("%s %d, %d", getMonth(tm.tm_mon + dateDiff.numMonths), tm.tm_mday + dateDiff.numDays, tm.tm_year + 1900 + dateDiff.numYears);
-    }
-}
-
-//Gets the month correlating to the integer (i.e. 0 = January, 11 = December) and returns it
-char *getMonth(int month){
-    switch(month){
-        case 0: return "January"; break;
-        case 1: return "February"; break;
-        case 2: return "March"; break;
-        case 3: return "April"; break;
-        case 4: return "May"; break;
-        case 5: return "June"; break;
-        case 6: return "July"; break;
-        case 7: return "August"; break;
-        case 8: return "September"; break;
-        case 9: return "October"; break;
-        case 10: return "November"; break;
-        case 11: return "December"; break;
     }
 }
 
@@ -268,38 +218,6 @@ void ChangeDate(char *parameters){
         //Free the date pointer
         free(date);
     }
-}
-
-//Checks the user input for changing the date to ensure it is a valid day
-int checkMonth(int month, int day, int year){
-    //If it is a leap year, then there are 29 days in February
-    if(((year % 4) == 0 && (year % 100) != 0) || year % 400 == 0){
-        numDays[1] = 29;
-    }else{
-        numDays[1] = 28;
-    }
-
-    //If the specified day is greater than the number of days in the month, return false
-    //If the day is less than zero, return false
-    //If the month is not greater than 0 and less than 11 (tm_mon ranges from 0 to 11), return false
-    if(day > numDays[month] || day <= 0 || !(month >= 0 && month <= 11) || year < 0){
-        return 0;
-    }
-
-    //Otherwise, return true
-    return 1;
-}
-
-//Calculates the date difference between the system time and the chosen time
-void calculateDateDifference(int month, int day, int year){
-    //Refreshes the time variable
-    currentTime = time(NULL);
-    tm = *localtime(&currentTime);
-
-    //Stores the differences
-    dateDiff.numYears = year - (tm.tm_year + 1900);
-    dateDiff.numMonths = month - tm.tm_mon;
-    dateDiff.numDays = day - tm.tm_mday;
 }
 
 //Displays the current system time
@@ -384,16 +302,6 @@ void createPCB(char *name, char *class, char *priority)
             SetUpPCB(name, atoi(class), atoi(priority));
         }
     }
-}
-
-int isNumber(char *s)
-{
-    for (int i = 0; i < strlen(s); i++)
-    {
-        if (isdigit(s[i]) == 0)
-              return 0;
-    }
-    return 1;
 }
 
 // Delete the PCB from the appropriate queue
@@ -498,34 +406,6 @@ void showAllPCB() {
         ShowReadyProcesses();
         // Display the blocked queu
         ShowBlockedProcesses();
-    }
-}
-
-// Takes in an integer that represents the state and returns the appropriate string
-char *getState(int s) {
-    if (s == 0) {
-        return "Blocked";
-    } else if (s == 1) {
-        return "Ready";
-    } else if (s == 2) {
-        return "Running";
-    }
-}
-
-// Takes in an integer that represents the suspended staus and returns the appropriate string
-char *getSuspendedStatus(int s) {
-    if (s == 0) {
-        return "Not Suspended";
-    } else {
-        return "Suspended";
-    } 
-}
-
-char *getClass(int val){
-    if(val == 1){
-        return "System Process";
-    }else{
-        return "Application Process";
     }
 }
 
