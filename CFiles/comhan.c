@@ -414,6 +414,7 @@ void ShowReadyProcesses(){
         printf("Invalid number of parameters. The format for the '%s' command is: %s", CMD_SHOW_READY_PROCESSES, CMD_SHOW_READY_PROCESSES);
     }else{
         //Need to figure out how to test for null readyQueue???
+        //Was this fixed by the main initialization of the queues?
         PNode *temp = readyQueue->head;
 
         if(temp == NULL){

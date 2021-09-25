@@ -65,14 +65,12 @@ char *RemovePCB(PCB *p, int remInd) {
         if (Pcontains(readyQueue, p->processName)) {
             // Remove from ready queue
             removeFromPQueue(readyQueue, p);
-            printPriorityQueue(readyQueue);
         } else {
             // Remove from blocked queue
             removeFromFQueue(blockedQueue, p);
-            printFIFOQueue(blockedQueue);
         }
         // Free the pointer if the process is being removed, not moved to a different queue
-        if (remInd == 1) {
+        if (remInd == 1) {//Change this to FreePCB instead of free
             free(p);
         }
         // Return the success messsage
