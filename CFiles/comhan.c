@@ -379,7 +379,7 @@ void unblock(char *processName) {
 
 void setPriority(char *processName, char *priority){
     if(numParameters != 2){
-        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{processClass}} {{priority}}", CMD_CREATE_PCB, CMD_CREATE_PCB);
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{priority}}", CMD_SETPRIORITY, CMD_SETPRIORITY);
     }else{
         if (strlen(processName) > 8){
             printf("Error: Process name must be less than 8 characters!");
@@ -387,18 +387,20 @@ void setPriority(char *processName, char *priority){
              printf("Please provide numbers for the priority\n");
         }else{
             PCB *p = FindPCB(processName);
+            if(priority != NULL){
+                int newPriority = atoi(priority);
+        
+             if(p->priority == newPriority){
+                    printf("Error: Process of name %s already has priority %d!\n", processName, newPriority);
+                }else{
+                    p->priority = newPriority;
 
-            int newPriority = atoi(priority);
-
-            if(p->priority == newPriority){
-                printf("Error: Process of name %s already has priority %d!\n", processName, newPriority);
-            }else{
-                p->priority = newPriority;
-
-                if(Pcontains(readyQueue, processName)){
-                    RemovePCB(p, 0);
-                    InsertPCB(p);
-            }    }
+                    if(Pcontains(readyQueue, processName)){
+                        RemovePCB(p, 0);
+                        InsertPCB(p);
+                    }
+                }
+             }
         }
     }
 }
