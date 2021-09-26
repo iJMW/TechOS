@@ -24,6 +24,7 @@
 #define CMD_CREATE_PCB "crprocess"
 #define CMD_DELETE_PCB "delprocess"
 #define CMD_BLOCK "block"
+#define CMD_SETPRIORITY "setpr"
 #define CMD_SUSPEND "suspend"
 #define CMD_RESUME "resume"
 #define CMD_UNBLOCK "unblock"
@@ -40,6 +41,7 @@
 #define INPUT_VERSION "version\n"
 #define INPUT_CREATE_PCB "crprocess\n"
 #define INPUT_DELETE_PCB "delprocess\n"
+#define INPUT_SETPRIORITY "setpr\n"
 #define INPUT_SUSPEND "suspend\n"
 #define INPUT_RESUME "resume\n"
 #define INPUT_BLOCK "block\n"
@@ -72,6 +74,7 @@ void TerminateTechOS();
 void createPCB(char name[], char *class, char *priority);
 void deletePCB(char *processName);
 void block(char *processName);
+void setPriority(char *processName, char *priority);
 void suspend(char *processName);
 void resume(char *processName);
 void block(char *processName);
