@@ -153,6 +153,12 @@ void Help(char* cmdName){
             printFile("crprocess.txt");
         } else if (strcmp(cmdName, CMD_DELETE_PCB) == 0) { // Print the overview help
             printFile("delprocess.txt");
+        } else if (strcmp(cmdName, CMD_SETPRIORITY) == 0) { // Print the overview help
+            printFile("setpr.txt");
+        } else if (strcmp(cmdName, CMD_SUSPEND) == 0) { // Print the overview help
+            printFile("suspend.txt");
+        } else if (strcmp(cmdName, CMD_RESUME) == 0) { // Print the overview help
+            printFile("resume.txt");
         } else if (strcmp(cmdName, "") == 0) { // Print the overview help
             printFile("overview.txt");
         } else { // Print an error for unknown command
