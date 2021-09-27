@@ -387,7 +387,11 @@ void setPriority(char *processName, char *priority){
              printf("Please provide numbers for the priority\n");
         }else{
             PCB *p = FindPCB(processName);
-            if(priority != NULL){
+            
+            if(p == NULL){
+
+            }
+            else{
                 int newPriority = atoi(priority);
         
              if(p->priority == newPriority){
@@ -401,6 +405,7 @@ void setPriority(char *processName, char *priority){
                     }
                 }
              }
+        
         }
     }
 }
@@ -419,7 +424,7 @@ void suspend(char *processName){
         }else{//change suspended state
             //Set the suspended to 1 (1 = suspended)
             p->suspended = 1;
-            //Insert into queue
+           
             
         }
 
@@ -444,7 +449,7 @@ void resume(char *processName){
         }else{//change suspended state
             //Set suspended to 0 (0 = not suspended)
             p->suspended = 0;
-            //Insert into queue
+           
         }
 
     }
