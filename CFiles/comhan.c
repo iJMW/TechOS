@@ -88,6 +88,12 @@ void COMHAN(){
             createPCB(parameters[0], parameters[1], parameters[2]);
         }else if(strcmp(userInput, CMD_DELETE_PCB) == 0 || strcmp(userInput, INPUT_DELETE_PCB) == 0){
             deletePCB(parameters[0]);
+        }else if(strcmp(userInput, CMD_SETPRIORITY) == 0 || strcmp(userInput, INPUT_SETPRIORITY) == 0){
+            setPriority(parameters[0], parameters[1]);
+        }else if(strcmp(userInput, CMD_SUSPEND) == 0 || strcmp(userInput, INPUT_SUSPEND) == 0){
+            suspend(parameters[0]);
+        }else if(strcmp(userInput, CMD_RESUME) == 0 || strcmp(userInput, INPUT_RESUME) == 0){
+            resume(parameters[0]);
         }else if(strcmp(userInput, CMD_BLOCK) == 0 || strcmp(userInput, INPUT_BLOCK) == 0){
             block(parameters[0]);
         }else if(strcmp(userInput, CMD_UNBLOCK) == 0 || strcmp(userInput, INPUT_UNBLOCK) == 0){
@@ -383,6 +389,85 @@ void unblock(char *processName) {
             //Insert into queue
             InsertPCB(p);
         }
+    }
+}
+
+
+void setPriority(char *processName, char *priority){
+    if(numParameters != 2){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{priority}}", CMD_SETPRIORITY, CMD_SETPRIORITY);
+    }else{
+        if (strlen(processName) > 8){
+            printf("Error: Process name must be less than 8 characters!");
+        }else if (!isNumber(priority)){
+             printf("Please provide numbers for the priority\n");
+        }else{
+            PCB *p = FindPCB(processName);
+            
+            if(p == NULL){
+
+            }
+            else{
+                int newPriority = atoi(priority);
+        
+             if(p->priority == newPriority){
+                    printf("Error: Process of name %s already has priority %d!\n", processName, newPriority);
+                }else{
+                    p->priority = newPriority;
+
+                    if(Pcontains(readyQueue, processName)){
+                        RemovePCB(p, 0);
+                        InsertPCB(p);
+                    }
+                }
+             }
+        
+        }
+    }
+}
+void suspend(char *processName){
+    if(numParameters != 1){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_UNBLOCK, CMD_UNBLOCK);
+    }else{
+
+        PCB *p = FindPCB(processName);
+        if(strlen(processName) > 8){
+            printf("Error: Process name must be less than 8 characters");
+        }else if(p == NULL){//If the process does not exist, tell the user
+            printf("Error: Process of name %s does not exist\n", processName);
+        }else if(p->suspended == 1){
+            printf("Error: Process of name %s is already suspended!\n", processName);
+        }else{//change suspended state
+            //Set the suspended to 1 (1 = suspended)
+            p->suspended = 1;
+           
+            
+        }
+
+    }
+}
+
+
+
+
+void resume(char *processName){
+    if(numParameters != 1){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_UNBLOCK, CMD_UNBLOCK);
+    }else{
+
+        PCB *p = FindPCB(processName);
+        if(strlen(processName) > 8){
+            printf("Error: Process name must be less than 8 characters");
+        }else if(p == NULL){//If the process does not exist, tell the user
+            printf("Error: Process of name %s does not exist\n", processName);
+        }else if(p->suspended == 0){
+            printf("Error: Process of name %s is already resumed!\n", processName);
+        }else{//change suspended state
+            //Set suspended to 0 (0 = not suspended)
+            p->suspended = 0;
+           
+        }
+
     }
 }
 
