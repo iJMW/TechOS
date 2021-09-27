@@ -454,6 +454,7 @@ void suspend(char *processName){
         }else{//change suspended state
             //Set the suspended to 1 (1 = suspended)
             p->suspended = 1;
+            printf("Process %s suspended", processName);
         }
     }
 }
@@ -472,6 +473,7 @@ void resume(char *processName){
         }else{//change suspended state
             //Set suspended to 0 (0 = not suspended)
             p->suspended = 0;
+            printf("Process %s resumed", processName);
         }
 
     }
