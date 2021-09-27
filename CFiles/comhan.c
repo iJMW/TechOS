@@ -322,6 +322,7 @@ void createPCB(char *name, char *class, char *priority)
             printf("Error: Process class must be 1 (System Process) or 2 (Application Process)!");
         }else{ //if conditions met create the PCB
             SetUpPCB(name, atoi(class), atoi(priority));
+            printf("Created process %s", name);
         }
     }
 }
@@ -335,7 +336,13 @@ void deletePCB(char *processName) {
         PCB *p = FindPCB(processName);
         // If the process is present in one of the queues, remove it
         if (p != NULL) {
-            printf("\n%s\n", RemovePCB(p, 1));
+            //printf("\n%s\n", RemovePCB(p, 1));
+            if(strcmp(RemovePCB(p, 1), "SUCCESS") == 0){
+                printf("Deleted process %s", processName);
+            }else{
+                printf("Process %s could not be deleted", processName);
+            }
+            
         }else{
             printf("ERROR: Process %s does not exist\n", processName);
         }
@@ -361,6 +368,7 @@ void block(char *processName) {
             RemovePCB(p, 0);
             // Blocked state is represented by integer 0
             p->state = 0;
+            printf("Process %s blocked", processName);
             // Insert PCB into appropriate queue
             InsertPCB(p);
         }
@@ -386,12 +394,12 @@ void unblock(char *processName) {
             RemovePCB(p, 0);
             //Set the state to 1 (1 = ready)
             p->state = 1;
+            printf("Process %s unblocked", processName);
             //Insert into queue
             InsertPCB(p);
         }
     }
 }
-
 
 void setPriority(char *processName, char *priority){
     if(numParameters != 2){
@@ -405,26 +413,26 @@ void setPriority(char *processName, char *priority){
             PCB *p = FindPCB(processName);
             
             if(p == NULL){
-
+                printf("ERROR: Process %s does not exist\n", processName);
             }
             else{
                 int newPriority = atoi(priority);
         
-             if(p->priority == newPriority){
-                    printf("Error: Process of name %s already has priority %d!\n", processName, newPriority);
-                }else{
-                    p->priority = newPriority;
+                if(p->priority == newPriority){
+                        printf("Error: Process of name %s already has priority %d!\n", processName, newPriority);
+                    }else{
+                        p->priority = newPriority;
 
-                    if(Pcontains(readyQueue, processName)){
-                        RemovePCB(p, 0);
-                        InsertPCB(p);
+                        if(Pcontains(readyQueue, processName)){
+                            RemovePCB(p, 0);
+                            InsertPCB(p);
+                        }
                     }
                 }
-             }
-        
         }
     }
 }
+
 void suspend(char *processName){
     if(numParameters != 1){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_UNBLOCK, CMD_UNBLOCK);
@@ -440,21 +448,14 @@ void suspend(char *processName){
         }else{//change suspended state
             //Set the suspended to 1 (1 = suspended)
             p->suspended = 1;
-           
-            
         }
-
     }
 }
-
-
-
 
 void resume(char *processName){
     if(numParameters != 1){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_UNBLOCK, CMD_UNBLOCK);
     }else{
-
         PCB *p = FindPCB(processName);
         if(strlen(processName) > 8){
             printf("Error: Process name must be less than 8 characters");
@@ -465,7 +466,6 @@ void resume(char *processName){
         }else{//change suspended state
             //Set suspended to 0 (0 = not suspended)
             p->suspended = 0;
-           
         }
 
     }
@@ -478,21 +478,19 @@ void showPCB(char *processName) {
    if (numParameters != 1) {
        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_SHPCB, CMD_SHPCB);
    } else { // If the correct number of parameters are passed
-    
-    // Find the PCB with the passed name
-    PCB *p = FindPCB(processName);
+        // Find the PCB with the passed name
+        PCB *p = FindPCB(processName);
 
-    // If no process with the passed name is found
-    if (p == NULL) {
-        printf("No process was found with the name %s", processName);
-    } else { // Else, find print the process information
-        printf("Process Name: %s\n", p->processName);
-        printf("Class: %d\n", p->processClass);
-        printf("State: %s\n", getState(p->state));
-        printf("Suspended Status: %s\n", getSuspendedStatus(p->suspended));
-        printf("Priority: %d\n", p->priority);
-    }
-
+        // If no process with the passed name is found
+        if (p == NULL) {
+            printf("No process was found with the name %s", processName);
+        } else { // Else, find print the process information
+            printf("Process Name: %s\n", p->processName);
+            printf("Class: %d\n", p->processClass);
+            printf("State: %s\n", getState(p->state));
+            printf("Suspended Status: %s\n", getSuspendedStatus(p->suspended));
+            printf("Priority: %d\n", p->priority);
+        }
    }
 
 }
@@ -519,7 +517,7 @@ void ShowReadyProcesses(){
         PNode *temp = readyQueue->head;
 
         if(temp == NULL){
-            printf("\nThere are no processes in the ready queue.");
+            printf("There are no processes in the ready queue.");
         }else{
             printf("\n------------------All Processes in the Ready Queue------------------");
             while(temp != NULL){
@@ -544,7 +542,7 @@ void ShowBlockedProcesses(){
         //Need to figure out how to test for null blockedQueue???
         FNode *temp = blockedQueue->head;
         if(temp == NULL){
-            printf("\nThere are no processes in the blocked queue.");
+            printf("There are no processes in the blocked queue.");
         }else{
             printf("\n-----------------All Processes in the Blocked Queue-----------------");
             while(temp != NULL){
