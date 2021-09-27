@@ -1,0 +1,12 @@
+shpcb:
+
+    Description:
+        shows the process name, class, state, suspended status, 
+        and priority of the passed process
+
+    Syntax:
+        shpcb {{process name}}
+
+    Example:
+        TechOS> shpcb process1
+        

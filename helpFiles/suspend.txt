@@ -1,0 +1,12 @@
+suspend:
+
+    Description:
+        Places a PCB in the suspended state and inserts in the 
+        appropriate queue
+
+    Syntax:
+        suspend {{process name}}
+
+    Example:
+        TechOS> suspend process1
+        

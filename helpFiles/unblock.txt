@@ -1,0 +1,12 @@
+unblock:
+
+    Description:
+        Unblocks the PCB whose name is equal to the passed 
+        name and places it in the appropriate queue
+
+    Syntax:
+        unblock {{process name}}
+
+    Example:
+        TechOS> unblock process1
+    

@@ -1,0 +1,11 @@
+stpriority:
+
+    Description:
+        Sets the priority of a PCB and reinserts it to the
+        appropriate queue
+
+    Syntax:
+        stpriority {{process name}}
+
+    Example:
+        TechOS> stpriority process1 4

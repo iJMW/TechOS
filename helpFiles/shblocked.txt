@@ -1,0 +1,12 @@
+shblocked:
+
+    Description:
+        Displays the process name, class, state, suspended status, 
+        and priority of the processes within the blocked queue
+
+    Syntax:
+        shblocked
+
+    Example:
+        TechOS> shblocked
+        

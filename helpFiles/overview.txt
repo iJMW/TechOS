@@ -1,15 +1,24 @@
+block:
+
+    Blocks the PCB whose name is equal to the passed 
+    name and places it in the appropriate queue
 
 chdate:
     
     Changes the TechOS's date
 
+crprocess:
+
+        Creates a PCB with the passed information
+
 date:
     
     Displays the current date
 
-time:
+delprocess:
 
-    Displays the current Time
+    Deletes the PCB whose name is equal to the passed 
+    name
 
 help:
 
@@ -19,6 +28,47 @@ help:
 quit:
 
     Exits the TechOS
+
+resume:
+
+    Resumes the PCB whose name is passed and places it in
+    the appropriate queue
+
+shallpcb:
+
+    Displays all the PCBs stored by the system
+
+shblocked:
+
+    Displays all the PCBs stored within the blocked queue
+
+shpcb:
+
+    Displays the name, class, state, suspended status, and
+    priority of the passed process name
+
+shready:
+
+    Displays all the PCBs stored within the ready queue
+
+stpriority:
+
+    Sets the priority of the PCB whose name is passed and
+    reinserts it in the appropriate queue
+
+suspend:
+
+    Suspends the PCB whose name is passed and places it in
+    the appropriate queue
+
+time:
+
+    Displays the current Time
+
+unblock:
+
+    Unblocks the PCB whose name is equal to the passed 
+    name and places it in the appropriate queue
 
 version:
 

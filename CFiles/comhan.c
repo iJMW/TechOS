@@ -131,6 +131,22 @@ void Help(char* cmdName){
             printFile("time.txt");
         } else if (strcmp(cmdName, CMD_QUIT) == 0) { // Print the help file for the quit command
             printFile("quit.txt");
+        } else if (strcmp(cmdName, CMD_SHPCB) == 0) { // Print the help file for the shpcb command
+            printFile("shpcb.txt");
+        } else if (strcmp(cmdName, CMD_SHALLPCB) == 0) { // Print the help file for the shallpcb command
+            printFile("shallpcb.txt");
+        } else if (strcmp(cmdName, CMD_SHOW_READY_PROCESSES) == 0) { // Print the help file for the shready command
+            printFile("shready.txt");
+        } else if (strcmp(cmdName, CMD_SHOW_BLOCKED_PROCESSES) == 0) { // Print the help file for the shblocked command
+            printFile("shblocked.txt");
+        } else if (strcmp(cmdName, CMD_BLOCK) == 0) { // Print the overview help
+            printFile("block.txt");
+        } else if (strcmp(cmdName, CMD_UNBLOCK) == 0) { // Print the overview help
+            printFile("unblock.txt");
+        } else if (strcmp(cmdName, CMD_CREATE_PCB) == 0) { // Print the overview help
+            printFile("crprocess.txt");
+        } else if (strcmp(cmdName, CMD_DELETE_PCB) == 0) { // Print the overview help
+            printFile("delprocess.txt");
         } else if (strcmp(cmdName, "") == 0) { // Print the overview help
             printFile("overview.txt");
         } else { // Print an error for unknown command

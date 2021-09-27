@@ -1,0 +1,12 @@
+shready:
+
+    Description:
+        Displays the process name, class, state, suspended status, 
+        and priority of the processes within the ready queue
+
+    Syntax:
+        shready
+
+    Example:
+        TechOS> shready
+        

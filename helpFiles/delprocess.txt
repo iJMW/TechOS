@@ -1,0 +1,12 @@
+crprocess:
+
+    Description:
+        Deletes the PCB whose name is equal to the passed 
+        name
+
+    Syntax:
+        delprocess {{process name}}
+
+    Example:
+        TechOS> delprocess process1
+        

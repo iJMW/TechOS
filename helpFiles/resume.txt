@@ -1,0 +1,12 @@
+resume:
+
+    Description:
+        Places a PCB in the not suspended state and inserts 
+        it in the appropriate queue
+
+    Syntax:
+        resume {{process name}}
+
+    Example:
+        TechOS> resume process1
+        

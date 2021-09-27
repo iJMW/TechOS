@@ -1,0 +1,12 @@
+shallpcb:
+
+    Description:
+        shows the process name, class, state, suspended status, 
+        and priority of the all processes stored
+
+    Syntax:
+        shallpcb
+
+    Example:
+        TechOS> shallpcb
+        

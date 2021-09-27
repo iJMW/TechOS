@@ -1,0 +1,11 @@
+crprocess:
+
+    Description:
+        Creates a PCB with the passed information
+
+    Syntax:
+        resume {{process name}} {{process class}} {{process priority}}
+
+    Example:
+        TechOS> crprocess process1 1 1
+    

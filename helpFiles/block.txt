@@ -1,0 +1,11 @@
+block:
+
+    Description:
+        Blocks the PCB whose name is equal to the passed 
+        name and places it in the appropriate queue
+
+    Syntax:
+        block {{process name}}
+
+    Example:
+        TechOS> block process1
