@@ -69,9 +69,10 @@ char *RemovePCB(PCB *p, int remInd) {
             // Remove from blocked queue
             removeFromFQueue(blockedQueue, p);
         }
+
         // Free the pointer if the process is being removed, not moved to a different queue
         if (remInd == 1) {//Change this to FreePCB instead of free
-            free(p);
+            FreePCB(p);
         }
         // Return the success messsage
         return "SUCCESS";

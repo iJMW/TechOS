@@ -2,9 +2,9 @@
    Names: Logan Bland
           John Clay
           Jalen Wayt
-   Assignment: Module 1 - User Interface
-   Purpose: Design a user interface for the first part of the OS
-   Due Date: September 14, 2021
+   Assignment: Module 2 - Process Scheduling
+   Purpose: Implement Scheduling queues and process creation
+   Due Date: September 28, 2021
 */
 
 #include <stdio.h>
