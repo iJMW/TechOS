@@ -494,7 +494,7 @@ void showPCB(char *processName) {
             printf("No process was found with the name %s", processName);
         } else { // Else, find print the process information
             printf("Process Name: %s\n", p->processName);
-            printf("Class: %d\n", p->processClass);
+            printf("Class: %d\n", getClass(p->processClass));
             printf("State: %s\n", getState(p->state));
             printf("Suspended Status: %s\n", getSuspendedStatus(p->suspended));
             printf("Priority: %d\n", p->priority);
