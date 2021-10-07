@@ -17,10 +17,16 @@
 
 //Main method that calls COMHAN function
 int main(){
+    //Initialize Ready Queue
     readyQueue = (PQueue *)malloc(sizeof(PQueue));
     initializePQueue(readyQueue);
+    //Initialize Blocked Queue
     blockedQueue = (FQueue *)malloc(sizeof(FQueue));
     initializeFQueue(blockedQueue);
+    //Initialize History Queue
+    history = (HQueue *)malloc(sizeof(HQueue));
+    initializeHQueue(history);
+    
     //Call the COMHAN function to execute the program
     COMHAN();
 

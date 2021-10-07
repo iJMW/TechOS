@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include "priorityqueue.h"
 #include "fifoqueue.h"
+#include "history.h"
 
 #ifndef COMHAN_H_
 # define COMHAN_H_

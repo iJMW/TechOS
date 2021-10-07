@@ -42,7 +42,7 @@ void COMHAN(){
         char delim[] = " \n";
         //Get the line
         getline(&str, &size, stdin);
-
+        
         //Iterate over the string
         numParameters = 0;
         //Get the first portion
@@ -106,6 +106,8 @@ void COMHAN(){
             ShowReadyProcesses();
         }else if(strcmp(userInput, CMD_SHOW_BLOCKED_PROCESSES) == 0 || strcmp(userInput, INPUT_SHOW_BLOCKED_PROCESSES) == 0){
             ShowBlockedProcesses();
+        }else if(strcmp(userInput, "hist") == 0 || strcmp(userInput, "hist") == 0){
+            printHistoryQueue(history);
         }else{
             printf("Unrecognized command. Please try again.");
         }
