@@ -125,6 +125,7 @@ void COMHAN(){
 
         //Free the str variable
         free(str);
+        free(stringToAdd);
     }
 
     //Free the userInput variable
