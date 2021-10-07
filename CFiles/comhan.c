@@ -42,7 +42,7 @@ void COMHAN(){
         char delim[] = " \n";
         //Get the line
         getline(&str, &size, stdin);
-        
+        char *stringToAdd = (char *)malloc(size * sizeof(char));
         //Iterate over the string
         numParameters = 0;
         //Get the first portion
@@ -51,9 +51,12 @@ void COMHAN(){
             if(numParameters == 0){ // Store the command the user wants to run
                 userInput = str;
                 convertToLowercase(userInput);
+                strcpy(stringToAdd, userInput);
             }else{  // Store the parameters 
                 parameters[numParameters - 1] = str;
                 convertToLowercase(parameters[numParameters-1]);
+                strcat(stringToAdd, " ");
+                strcat(stringToAdd, str);
             }
             // Tokenize the same line by passing NULL
             str = strtok(NULL, delim);
@@ -70,6 +73,14 @@ void COMHAN(){
         // e.g. dont include 'help' in the parameter cound when user entered
         // 'help version'
         numParameters = numParameters - 1;
+
+        //Convert it to lowercase
+        convertToLowercase(stringToAdd);
+        //If it is not the history command, add it to the queue
+        //Do we want to get rid of this?
+        if(strcmp(stringToAdd, "hist") != 0){
+            Henqueue(history, stringToAdd);
+        }
         
         // Run the specific command entered by the user, pass the parameters to the command if needed
         if(strcmp(userInput, CMD_HELP) == 0 || strcmp(userInput, INPUT_HELP) == 0){
