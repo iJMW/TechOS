@@ -322,6 +322,7 @@ void TerminateTechOS(){
     }
 }
 
+/*
 void createPCB(char *name, char *class, char *priority)
 {   
     if(numParameters != 3){
@@ -346,6 +347,7 @@ void createPCB(char *name, char *class, char *priority)
     }
 }
 
+
 // Delete the PCB from the appropriate queue
 void deletePCB(char *processName) {
     if(numParameters != 1){
@@ -367,6 +369,7 @@ void deletePCB(char *processName) {
         }
     }
 }
+
 
 // Place a process in the blocked time
 void block(char *processName) {
@@ -419,6 +422,7 @@ void unblock(char *processName) {
         }
     }
 }
+*/
 
 void setPriority(char *processName, char *priority){
     if(numParameters != 2){
@@ -579,4 +583,58 @@ void ShowBlockedProcesses(){
         }
     }
     
+}
+
+void loadProcess(char *name, char priority, char class, char *filePath)
+{
+     if(numParameters != 4){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{processClass}} {{priority}}", CMD_CREATE_PCB, CMD_CREATE_PCB);
+    }else{
+        if (strlen(name) > 8){
+            printf("Error: Process name must be less than 8 characters!");
+        }else if (!isNumber(class)) {
+            printf("Please provide numbers for the class\n");
+        }else if (!isNumber(priority)){
+             printf("Please provide numbers for the priority\n");
+        }else if(atoi(priority) < 0 || atoi(priority) > 9){
+            printf("Error: Priority must be between 0 and 9");
+        }else if(FindPCB(name) != NULL){ //name must be unique
+            printf("Error: Process name must be Unique!");
+        }else if((atoi(class) != 1) && (atoi(class) != 2)){ //must be of appropriate class
+            printf("Error: Process class must be 1 (System Process) or 2 (Application Process)!");
+        }else{ //if conditions met create the PCB
+            SetUpPCB(name, atoi(class), atoi(priority), filePath);
+            printf("Loaded process %s", name);
+        }
+    }
+}
+
+
+void dispatch()
+{
+    int comp = 0;
+    // Check if the ready queue is empty
+    if (isEmpty(readyQueue)){
+        printf("\nERROR: No processes in ready queue.");
+    }else{
+        // Get the process to run
+        PCB *temp = Pdequeue(readyQueue)->pcb;
+        while(temp != NULL){
+            // Set the process' state to running
+            temp->state = 2;\
+            // Execute the process
+            system("./execute %s %d", temp->data, temp->offset+1);
+            // Print that the process has completed
+            printf("\nProcess %s has completed", temp->data);
+            comp++;
+            // Free the process
+            freePCB(temp);
+            // Get the next process to run
+            temp = Pdequeue(readyQueue)->pcb;
+            printf("\nTESTING: next temp");
+        }
+        printf("\n%d processes completed", comp);
+
+        //Push these changes
+    }
 }

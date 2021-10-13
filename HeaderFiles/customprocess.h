@@ -8,6 +8,8 @@ typedef struct PCB {
     int priority;
     int state;
     int suspended;
+    char *data;
+    int offset;
 }PCB;
 
 PCB *AllocatePCB();

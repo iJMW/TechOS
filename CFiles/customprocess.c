@@ -21,7 +21,7 @@ char *FreePCB(PCB *p) {
     return "SUCCESS";
 }
 
-PCB *SetUpPCB(char processName[9], int processClass, int priority) {
+PCB *SetUpPCB(char processName[9], int processClass, int priority, char *filePath) {
     PCB *p = AllocatePCB();
     if(p != NULL){
         strcpy(p->processName, processName);
@@ -29,6 +29,8 @@ PCB *SetUpPCB(char processName[9], int processClass, int priority) {
         p->priority = priority;
         p->state = 1;
         p->suspended = 0;
+        p->offset = 0;
+        p->data = filePath;
         InsertPCB(p);    
     } else {
         printf("Memory errors...Not inserting process into queue\n");

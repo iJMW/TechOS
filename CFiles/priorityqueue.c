@@ -29,7 +29,7 @@ PNode *Ppeek(PQueue *q){
     return q->head;
 }
 
-PNode *Pdequeue(PQueue *q){
+PNode *Pdequeue(PQueue *q){ 
     //Then we do not have a queue
     if(q->head != NULL){
         //Are these two lines necessary?
@@ -45,6 +45,9 @@ PNode *Pdequeue(PQueue *q){
         if(q->head == NULL){
             q->tail = NULL;
         }
+
+         // Update the length of the queue
+        q->count = q->count - 1;
 
         return result;
     }
