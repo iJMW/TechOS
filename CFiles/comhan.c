@@ -585,7 +585,7 @@ void ShowBlockedProcesses(){
     
 }
 
-void loadProcess(char *name, char priority, char class, char *filePath)
+void loadProcess(char *name, char *class, char *priority, char *filePath)
 {
      if(numParameters != 4){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{processClass}} {{priority}}", CMD_CREATE_PCB, CMD_CREATE_PCB);
@@ -623,7 +623,7 @@ void dispatch()
             // Set the process' state to running
             temp->state = 2;\
             // Execute the process
-            system("./execute %s %d", temp->data, temp->offset+1);
+            system("../execute %s %d", temp->data, temp->offset+1);
             // Print that the process has completed
             printf("\nProcess %s has completed", temp->data);
             comp++;
@@ -634,7 +634,5 @@ void dispatch()
             printf("\nTESTING: next temp");
         }
         printf("\n%d processes completed", comp);
-
-        //Push these changes
     }
 }
