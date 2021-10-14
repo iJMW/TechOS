@@ -1,6 +1,8 @@
 #include "../HeaderFiles/comhan.h"
 #include "../HeaderFiles/customprocess.h"
 #include "../HeaderFiles/helpermethods.h"
+#include <time.h>
+#include <stdlib.h>
 
 //Total Number of days in each month
 //int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -428,6 +430,7 @@ void unblock(char *processName) {
 }
 */
 
+
 void setPriority(char *processName, char *priority){
     if(numParameters != 2){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{priority}}", CMD_SETPRIORITY, CMD_SETPRIORITY);
@@ -615,20 +618,57 @@ void loadProcess(char *name, char *class, char *priority, char *filePath)
 
 void dispatch()
 {
+    // Holds the number of processes completed
     int comp = 0;
     // Check if the ready queue is empty
     if (isPEmpty(readyQueue)){
         printf("\nERROR: No processes in ready queue.");
     }else{
-        // Get the process to run
-        PCB *temp = Pdequeue(readyQueue)->pcb;
-        //printf("\nprocess name: %s", temp->processName);
-        //printf("\nprocess data: %s", temp->data);
-        while(temp != NULL){
+        // Stores the value from the system
+        int value;
+        // Get the first PCB to run from the ready queue
+        //PCB *temp = Pdequeue(readyQueue)->pcb;
+        PCB *temp;
+        // Set the prev PCB to NULL
+        //PCB *prev = NULL;
+        //PCB *prev;
+        // While both queues are not empty
+        while((!isPEmpty(readyQueue) || !isFEmpty(blockedQueue))){
+            // If the ready is empty
+            if(isPEmpty(readyQueue)){ // block queue is not empty, but ready queue is
+                printf("\nBlock queue is not empty");
+                //Get the first process in the blocked queue
+                temp = Fdequeue(blockedQueue)->pcb;
+                //Unblock the process
+                temp->state = 1;
+                // Insert process from blocked queue to ready queue
+                InsertPCB(temp);
+            } else if (isFEmpty(blockedQueue)) { // ready queue is not empty, but block queue is
+                printf("\nReady queue is not empty");
+                temp = Pdequeue(readyQueue)->pcb;
+            } else { // Both queues are not empty
+                printf("\nReady queue and Blocked Queue are not empty");
+                temp = Pdequeue(readyQueue)->pcb;
+                srand(time(NULL));
+                int randNum = (rand() % (101-0+1)) + 0;
+                //If random number is less than 50, unblock the first pcb
+                if(randNum < 50){
+                    // Get the first process from the blocked queue
+                    PCB *unblock = Fdequeue(blockedQueue)->pcb;
+                    // Change the state of the process to ready
+                    unblock->state = 1;
+                    //Insert to the ready queue
+                    InsertPCB(unblock);
+                }
+            }
+
+            //prev = temp;
             // Set the process' state to running
             temp->state = 2;
+            // Create a char pointer
             char *str = (char *)malloc(50 * sizeof(char));
-            strcpy(str, "./execute");
+            // Create string to pass to system
+            strcpy(str, "execute");
             strcat(str, " ");
             strcat(str, temp->data);
             strcat(str, " ");
@@ -636,17 +676,28 @@ void dispatch()
             char *offsetStr = (char *)malloc(length * sizeof(char));
             snprintf(offsetStr, length+1, "%d", temp->offset+1);
             strcat(str, offsetStr);
-            system(str);
-            // Print that the process has completed
-            printf("\nProcess %s has completed", temp->processName);
-            comp++;
-            // Free the process
-            //FreePCB(temp);
-            //printf("\nFreed temp");
-            // Get the next process to run
-            temp = Pdequeue(readyQueue)->pcb;
-            printf("\nTESTING: next temp");
+            // Run the process
+            value = system(str);
+            if(value == 0){
+                printf("\nProcess %s has completed", temp->processName);
+                // Increase the number of processes completed
+                comp++;
+                // Free the PCB
+                FreePCB(temp);
+            }else{
+                printf("\nProcess %s suspended at %d", temp->processName, value);
+                // Divide the return
+                temp->offset = value % 256;
+                printf("\nNew Offset: %d",temp->offset);
+                // Change status of PCB to suspended
+                temp->suspended = 1;
+                // Block the PCB
+                temp->state = 0;
+                // Place the PCB into the block queue
+                InsertPCB(temp);
+                // Resume the PCB, but stays in blocked queue
+                temp->suspended = 0;
+            }
         }
-        printf("\n%d processes completed", comp);
     }
 }

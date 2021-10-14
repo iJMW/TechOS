@@ -35,8 +35,6 @@ PNode *Pdequeue(PQueue *q){
         //Are these two lines necessary?
         //Preserve the value of q->head
         PNode *temp = q->head;
-        //Get the result to be returned
-        PNode *result = temp;
 
         //Remove the head of the queue
         q->head = q->head->next;
@@ -49,7 +47,7 @@ PNode *Pdequeue(PQueue *q){
          // Update the length of the queue
         q->count = q->count - 1;
 
-        return result;
+        return temp;
     }
 
     return NULL;
