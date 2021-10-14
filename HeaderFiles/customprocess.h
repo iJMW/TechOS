@@ -14,7 +14,7 @@ typedef struct PCB {
 
 PCB *AllocatePCB();
 char *FreePCB(PCB *p);
-PCB *SetUpPCB(char processName[9], int processClass, int priority);
+PCB *SetUpPCB(char processName[9], int processClass, int priority, char *filePath);
 PCB *FindPCB(char processName[9]);
 void InsertPCB(PCB *p);
 char *RemovePCB(PCB *p, int remInd);

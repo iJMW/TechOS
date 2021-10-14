@@ -33,6 +33,8 @@
 #define CMD_SHALLPCB "shallpcb"
 #define CMD_SHOW_READY_PROCESSES "shready"
 #define CMD_SHOW_BLOCKED_PROCESSES "shblocked"
+#define CMD_DISPATCH "dispatch"
+#define CMD_LOADPCB "loadpcb"
 //Input Names including the next line character
 #define INPUT_CDDATE "chdate\n"
 #define INPUT_DATE "date\n"
@@ -51,6 +53,8 @@
 #define INPUT_SHALLPCB "shallpcb\n"
 #define INPUT_SHOW_READY_PROCESSES "shready\n"
 #define INPUT_SHOW_BLOCKED_PROCESSES "shblocked\n"
+#define INPUT_DISPATCH "dispatch\n"
+#define INPUT_LOADPCB "loadpcb\n"
 
 //Used to calculate the date difference if the user decides to change the date
 /*typedef struct DateDifference{
@@ -72,14 +76,14 @@ void DisplayTime();
 void TerminateTechOS();
 //void printFile(char *fileName);
 //void convertToLowercase(char *input);
-void createPCB(char name[], char *class, char *priority);
+/*void createPCB(char name[], char *class, char *priority);
 void deletePCB(char *processName);
-void block(char *processName);
+void block(char *processName);*/
 void setPriority(char *processName, char *priority);
 void suspend(char *processName);
 void resume(char *processName);
-void block(char *processName);
-void unblock(char *processName);
+//void block(char *processName);
+//void unblock(char *processName);
 void showPCB(char *processName);
 void showAllPCB();
 //char *getState(int s);
@@ -88,5 +92,7 @@ void showAllPCB();
 void ShowReadyProcesses();
 void ShowBlockedProcesses();
 //int isNumber(char *s);
+void loadProcess(char *name, char *class, char *priority, char *filePath);
+void dispatch();
 
 #endif

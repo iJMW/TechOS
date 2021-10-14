@@ -96,9 +96,9 @@ void COMHAN(){
         }else if(strcmp(userInput, CMD_QUIT) == 0 || strcmp(userInput, INPUT_QUIT) == 0){
             TerminateTechOS();
         }else if(strcmp(userInput, CMD_CREATE_PCB) == 0 || strcmp(userInput, INPUT_CREATE_PCB) == 0){
-            createPCB(parameters[0], parameters[1], parameters[2]);
+            //createPCB(parameters[0], parameters[1], parameters[2]);
         }else if(strcmp(userInput, CMD_DELETE_PCB) == 0 || strcmp(userInput, INPUT_DELETE_PCB) == 0){
-            deletePCB(parameters[0]);
+            //deletePCB(parameters[0]);
         }else if(strcmp(userInput, CMD_SETPRIORITY) == 0 || strcmp(userInput, INPUT_SETPRIORITY) == 0){
             setPriority(parameters[0], parameters[1]);
         }else if(strcmp(userInput, CMD_SUSPEND) == 0 || strcmp(userInput, INPUT_SUSPEND) == 0){
@@ -106,9 +106,9 @@ void COMHAN(){
         }else if(strcmp(userInput, CMD_RESUME) == 0 || strcmp(userInput, INPUT_RESUME) == 0){
             resume(parameters[0]);
         }else if(strcmp(userInput, CMD_BLOCK) == 0 || strcmp(userInput, INPUT_BLOCK) == 0){
-            block(parameters[0]);
+            //block(parameters[0]);
         }else if(strcmp(userInput, CMD_UNBLOCK) == 0 || strcmp(userInput, INPUT_UNBLOCK) == 0){
-            unblock(parameters[0]);
+            //unblock(parameters[0]);
         }else if(strcmp(userInput, CMD_SHPCB) == 0 || strcmp(userInput, INPUT_SHPCB) == 0){
             showPCB(parameters[0]);
         }else if(strcmp(userInput, CMD_SHALLPCB) == 0 || strcmp(userInput, INPUT_SHALLPCB) == 0){
@@ -119,6 +119,10 @@ void COMHAN(){
             ShowBlockedProcesses();
         }else if(strcmp(userInput, "hist") == 0 || strcmp(userInput, "hist") == 0){
             printHistoryQueue(history);
+        }else if (strcmp(userInput, CMD_LOADPCB) == 0 || strcmp(userInput, INPUT_LOADPCB) == 0) {
+            loadProcess(parameters[0], parameters[1], parameters[2], parameters[3]);
+        }else if (strcmp(userInput, CMD_DISPATCH) == 0 || strcmp(userInput, INPUT_DISPATCH) == 0){
+            dispatch();
         }else{
             printf("Unrecognized command. Please try again.");
         }
@@ -609,26 +613,36 @@ void loadProcess(char *name, char *class, char *priority, char *filePath)
     }
 }
 
-
 void dispatch()
 {
     int comp = 0;
     // Check if the ready queue is empty
-    if (isEmpty(readyQueue)){
+    if (isPEmpty(readyQueue)){
         printf("\nERROR: No processes in ready queue.");
     }else{
         // Get the process to run
         PCB *temp = Pdequeue(readyQueue)->pcb;
+        //printf("\nprocess name: %s", temp->processName);
+        //printf("\nprocess data: %s", temp->data);
         while(temp != NULL){
             // Set the process' state to running
-            temp->state = 2;\
-            // Execute the process
-            system("../execute %s %d", temp->data, temp->offset+1);
+            temp->state = 2;
+            char *str = (char *)malloc(50 * sizeof(char));
+            strcpy(str, "./execute");
+            strcat(str, " ");
+            strcat(str, temp->data);
+            strcat(str, " ");
+            int length = snprintf(NULL, 0, "%d", temp->offset+1);
+            char *offsetStr = (char *)malloc(length * sizeof(char));
+            snprintf(offsetStr, length+1, "%d", temp->offset+1);
+            strcat(str, offsetStr);
+            system(str);
             // Print that the process has completed
-            printf("\nProcess %s has completed", temp->data);
+            printf("\nProcess %s has completed", temp->processName);
             comp++;
             // Free the process
-            freePCB(temp);
+            //FreePCB(temp);
+            //printf("\nFreed temp");
             // Get the next process to run
             temp = Pdequeue(readyQueue)->pcb;
             printf("\nTESTING: next temp");
