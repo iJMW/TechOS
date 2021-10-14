@@ -636,18 +636,14 @@ void dispatch()
         while((!isPEmpty(readyQueue) || !isFEmpty(blockedQueue))){
             // If the ready is empty
             if(isPEmpty(readyQueue)){ // block queue is not empty, but ready queue is
-                printf("\nBlock queue is not empty");
                 //Get the first process in the blocked queue
                 temp = Fdequeue(blockedQueue)->pcb;
                 //Unblock the process
                 temp->state = 1;
-                // Insert process from blocked queue to ready queue
-                InsertPCB(temp);
             } else if (isFEmpty(blockedQueue)) { // ready queue is not empty, but block queue is
-                printf("\nReady queue is not empty");
+                //printf("\nReady queue is not empty");
                 temp = Pdequeue(readyQueue)->pcb;
             } else { // Both queues are not empty
-                printf("\nReady queue and Blocked Queue are not empty");
                 temp = Pdequeue(readyQueue)->pcb;
                 srand(time(NULL));
                 int randNum = (rand() % (101-0+1)) + 0;
@@ -682,13 +678,12 @@ void dispatch()
                 printf("\nProcess %s has completed", temp->processName);
                 // Increase the number of processes completed
                 comp++;
-                // Free the PCB
-                FreePCB(temp);
+                // Remove PCB from queue
+                RemovePCB(temp, 1);
             }else{
                 printf("\nProcess %s suspended at %d", temp->processName, value);
                 // Divide the return
                 temp->offset = value % 256;
-                printf("\nNew Offset: %d",temp->offset);
                 // Change status of PCB to suspended
                 temp->suspended = 1;
                 // Block the PCB
