@@ -593,6 +593,7 @@ void dispatch()
     }
 }
 
+// Prints every call made by the user, except for any history call
 void history(){
     printHistoryQueue(history);
 }
