@@ -584,8 +584,8 @@ void dispatch()
             }
         }
     }
+}
 
-    void history(){
-        printHistoryQueue(history);
-    }
+void history(){
+    printHistoryQueue(history);
 }
