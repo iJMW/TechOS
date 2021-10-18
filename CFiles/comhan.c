@@ -586,6 +586,6 @@ void dispatch()
     }
 }
 
-void history(){
+void showHistory(){
     printHistoryQueue(history);
 }

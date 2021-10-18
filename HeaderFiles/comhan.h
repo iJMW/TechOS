@@ -96,6 +96,6 @@ void ShowBlockedProcesses();
 //int isNumber(char *s);
 void loadProcess(char *name, char *class, char *priority, char *filePath);
 void dispatch();
-void history();
+void showHistory();
 
 #endif
