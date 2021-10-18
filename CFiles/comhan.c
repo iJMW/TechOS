@@ -111,8 +111,8 @@ void COMHAN(){
             ShowReadyProcesses();
         }else if(strcmp(userInput, CMD_SHOW_BLOCKED_PROCESSES) == 0 || strcmp(userInput, INPUT_SHOW_BLOCKED_PROCESSES) == 0){
             ShowBlockedProcesses();
-        }else if(strcmp(userInput, "hist") == 0 || strcmp(userInput, "hist") == 0){
-            printHistoryQueue(history);
+        }else if(strcmp(userInput, CMD_HIST) == 0 || strcmp(userInput, INPUT_HIST) == 0){
+            history();
         }else if (strcmp(userInput, CMD_LOADPCB) == 0 || strcmp(userInput, INPUT_LOADPCB) == 0) {
             loadProcess(parameters[0], parameters[1], parameters[2], parameters[3]);
         }else if (strcmp(userInput, CMD_DISPATCH) == 0 || strcmp(userInput, INPUT_DISPATCH) == 0){
@@ -591,4 +591,8 @@ void dispatch()
             }
         }
     }
+}
+
+void history(){
+    printHistoryQueue(history);
 }

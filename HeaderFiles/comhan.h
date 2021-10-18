@@ -35,6 +35,7 @@
 #define CMD_SHOW_BLOCKED_PROCESSES "shblocked"
 #define CMD_DISPATCH "dispatch"
 #define CMD_LOADPCB "loadpcb"
+#define CMD_HIST "hist"
 //Input Names including the next line character
 #define INPUT_CDDATE "chdate\n"
 #define INPUT_DATE "date\n"
@@ -55,6 +56,7 @@
 #define INPUT_SHOW_BLOCKED_PROCESSES "shblocked\n"
 #define INPUT_DISPATCH "dispatch\n"
 #define INPUT_LOADPCB "loadpcb\n"
+#define INPUT_HIST "hist\n"
 
 //Used to calculate the date difference if the user decides to change the date
 /*typedef struct DateDifference{
@@ -94,5 +96,6 @@ void ShowBlockedProcesses();
 //int isNumber(char *s);
 void loadProcess(char *name, char *class, char *priority, char *filePath);
 void dispatch();
+void history();
 
 #endif
