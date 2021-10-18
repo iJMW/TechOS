@@ -320,6 +320,7 @@ void TerminateTechOS(){
     }
 }
 
+// Set the priority of a processes
 void setPriority(char *processName, char *priority){
     if(numParameters != 2){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{priority}}", CMD_SETPRIORITY, CMD_SETPRIORITY);
@@ -352,6 +353,7 @@ void setPriority(char *processName, char *priority){
     }
 }
 
+// Suspend a process
 void suspend(char *processName){
     if(numParameters != 1){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_UNBLOCK, CMD_UNBLOCK);
@@ -372,6 +374,7 @@ void suspend(char *processName){
     }
 }
 
+// Resume a process
 void resume(char *processName){
     if(numParameters != 1){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_UNBLOCK, CMD_UNBLOCK);
@@ -429,6 +432,7 @@ void showAllPCB() {
     }
 }
 
+// Show all the processes in the ready queue
 void ShowReadyProcesses(){
     if(numParameters > 0){
         printf("Invalid number of parameters. The format for the '%s' command is: %s", CMD_SHOW_READY_PROCESSES, CMD_SHOW_READY_PROCESSES);
@@ -456,6 +460,7 @@ void ShowReadyProcesses(){
     
 }
 
+// Show all the blocked processes
 void ShowBlockedProcesses(){
     if(numParameters > 0){
         printf("Invalid number of parameters. The format for the '%s' command is: %s", CMD_SHOW_BLOCKED_PROCESSES, CMD_SHOW_BLOCKED_PROCESSES);
@@ -481,6 +486,7 @@ void ShowBlockedProcesses(){
     
 }
 
+// Load a process
 void loadProcess(char *name, char *class, char *priority, char *filePath)
 {
      if(numParameters != 4){
@@ -505,6 +511,7 @@ void loadProcess(char *name, char *class, char *priority, char *filePath)
     }
 }
 
+// Dispatch all the processes
 void dispatch()
 {
     // Holds the number of processes completed
