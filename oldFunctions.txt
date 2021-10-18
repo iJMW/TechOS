@@ -1,0 +1,101 @@
+/*
+void createPCB(char *name, char *class, char *priority)
+{   
+    if(numParameters != 3){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}} {{processClass}} {{priority}}", CMD_CREATE_PCB, CMD_CREATE_PCB);
+    }else{
+        if (strlen(name) > 8){
+            printf("Error: Process name must be less than 8 characters!");
+        }else if (!isNumber(class)) {
+            printf("Please provide numbers for the class\n");
+        }else if (!isNumber(priority)){
+             printf("Please provide numbers for the priority\n");
+        }else if(atoi(priority) < 0 || atoi(priority) > 9){
+            printf("Error: Priority must be between 0 and 9");
+        }else if(FindPCB(name) != NULL){ //name must be unique
+            printf("Error: Process name must be Unique!");
+        }else if((atoi(class) != 1) && (atoi(class) != 2)){ //must be of appropriate class
+            printf("Error: Process class must be 1 (System Process) or 2 (Application Process)!");
+        }else{ //if conditions met create the PCB
+            SetUpPCB(name, atoi(class), atoi(priority));
+            printf("Created process %s", name);
+        }
+    }
+}
+
+
+// Delete the PCB from the appropriate queue
+void deletePCB(char *processName) {
+    if(numParameters != 1){
+        printf("Invalied number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_BLOCK, CMD_BLOCK);
+    }else{
+        // Find the PCB then remove it
+        PCB *p = FindPCB(processName);
+        // If the process is present in one of the queues, remove it
+        if (p != NULL) {
+            //printf("\n%s\n", RemovePCB(p, 1));
+            if(strcmp(RemovePCB(p, 1), "SUCCESS") == 0){
+                printf("Deleted process %s", processName);
+            }else{
+                printf("Process %s could not be deleted", processName);
+            }
+            
+        }else{
+            printf("ERROR: Process %s does not exist\n", processName);
+        }
+    }
+}
+
+
+// Place a process in the blocked time
+void block(char *processName) {
+    if (numParameters != 1) {
+         printf("Invalied number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_BLOCK, CMD_BLOCK);
+    } else {
+        // Get the PCB
+        PCB *p = FindPCB(processName);
+        // If the process name is not a valid length
+        if (strlen(processName) > 9) {
+            printf("Error: Process name must be less than 8 characters\n");
+        } else if (p == NULL) { // If the process is not present within one of the queues
+            printf("Process of name %s not found...\n", processName);
+        } else if (p->state == 0) {
+            printf("Process of name %s is already blocked\n", processName);
+        }else { // Remove the process from its current queue, put it in blocked state, then reinsert it
+            // Remove the PCB from its current queue
+            RemovePCB(p, 0);
+            // Blocked state is represented by integer 0
+            p->state = 0;
+            printf("Process %s blocked", processName);
+            // Insert PCB into appropriate queue
+            InsertPCB(p);
+        }
+    }
+}
+
+//Unblock a PCB and remove it from the blocked queue and insert into the ready queue
+void unblock(char *processName) {
+    if(numParameters != 1){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_UNBLOCK, CMD_UNBLOCK);
+    }else{
+        //Get the PCB
+        PCB *p = FindPCB(processName);
+        //If the length of the name is more than 8, return an error
+        if(strlen(processName) > 8){
+            printf("Error: Process name must be less than 8 characters");
+        }else if(p == NULL){//If the process does not exist, tell the user
+            printf("Error: Process of name %s does not exist\n", processName);
+        }else if(p->state == 1){
+            printf("Error: Process of name %s is already unblocked\n", processName);
+        }else{//Otherwise, remove the PCB from its current queue
+            //Remove from current queue
+            RemovePCB(p, 0);
+            //Set the state to 1 (1 = ready)
+            p->state = 1;
+            printf("Process %s unblocked", processName);
+            //Insert into queue
+            InsertPCB(p);
+        }
+    }
+}
+*/
