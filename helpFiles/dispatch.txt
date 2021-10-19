@@ -1,0 +1,12 @@
+
+dispatch:
+
+    Description:
+        Executes all PCB within the ready queue
+
+    Syntax:
+        dispatch
+
+    Example:
+        TechOS> dispatch
+        

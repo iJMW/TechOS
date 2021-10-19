@@ -1,0 +1,11 @@
+
+hist:
+
+    Description:
+        Displays all the commands executed by the user in the current session
+
+    Syntax:
+        hist
+
+    Example:
+        TechOS> hist

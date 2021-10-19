@@ -1,0 +1,12 @@
+
+loadpcb:
+
+    Description:
+        Loads a PCB with the passed information
+
+    Syntax:
+        loadpcb {{process name}} {{process class}} {{process priority}} {{relative file path}}
+
+    Example:
+        TechOS> loadpcb process1 1 1 ./processes/proc1.techos
+    

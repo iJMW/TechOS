@@ -1,29 +1,28 @@
-block:
-
-    Blocks the PCB whose name is equal to the passed 
-    name and places it in the appropriate queue
-
 chdate:
     
     Changes the TechOS's date
-
-crprocess:
-
-        Creates a PCB with the passed information
 
 date:
     
     Displays the current date
 
-delprocess:
+dispatch:
 
-    Deletes the PCB whose name is equal to the passed 
-    name
+    Executes all processes in the ready queue
 
 help:
 
     Provides information on how to use each command
     Specific commands can be passed as such 'help {{commandName}}'
+
+hist:
+
+    Prints all the commands executed by the user in the current session
+
+loadpcb:
+
+    Loads a PCB with the specified name, class, priority, and
+    data
 
 quit:
 
@@ -64,11 +63,6 @@ suspend:
 time:
 
     Displays the current Time
-
-unblock:
-
-    Unblocks the PCB whose name is equal to the passed 
-    name and places it in the appropriate queue
 
 version:
 

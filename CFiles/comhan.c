@@ -156,20 +156,18 @@ void Help(char* cmdName){
             printFile("shready.txt");
         } else if (strcmp(cmdName, CMD_SHOW_BLOCKED_PROCESSES) == 0) { // Print the help file for the shblocked command
             printFile("shblocked.txt");
-        } else if (strcmp(cmdName, CMD_BLOCK) == 0) { // Print the overview help
-            printFile("block.txt");
-        } else if (strcmp(cmdName, CMD_UNBLOCK) == 0) { // Print the overview help
-            printFile("unblock.txt");
-        } else if (strcmp(cmdName, CMD_CREATE_PCB) == 0) { // Print the overview help
-            printFile("crprocess.txt");
-        } else if (strcmp(cmdName, CMD_DELETE_PCB) == 0) { // Print the overview help
-            printFile("delprocess.txt");
-        } else if (strcmp(cmdName, CMD_SETPRIORITY) == 0) { // Print the overview help
+        } else if (strcmp(cmdName, CMD_SETPRIORITY) == 0) { // Print the set priority help
             printFile("setpr.txt");
-        } else if (strcmp(cmdName, CMD_SUSPEND) == 0) { // Print the overview help
+        } else if (strcmp(cmdName, CMD_SUSPEND) == 0) { // Print the suspend help
             printFile("suspend.txt");
-        } else if (strcmp(cmdName, CMD_RESUME) == 0) { // Print the overview help
+        } else if (strcmp(cmdName, CMD_RESUME) == 0) { // Print the resume help
             printFile("resume.txt");
+        } else if (strcmp(cmdName, CMD_HIST) == 0) { // Print the hist help
+            printFile("hist.txt");
+        } else if (strcmp(cmdName, CMD_LOADPCB) == 0) { // Print the load pcb help
+            printFile("loadpcb.txt");
+        } else if (strcmp(cmdName, CMD_DISPATCH) == 0) { // Print the dispatch help
+            printFile("dispatch.txt");
         } else if (strcmp(cmdName, "") == 0) { // Print the overview help
             printFile("overview.txt");
         } else { // Print an error for unknown command
@@ -524,12 +522,8 @@ void dispatch()
     }else{
         // Stores the value from the system
         int value;
-        // Get the first PCB to run from the ready queue
-        //PCB *temp = Pdequeue(readyQueue)->pcb;
+        // Holds the current pcb being executed
         PCB *temp;
-        // Set the prev PCB to NULL
-        //PCB *prev = NULL;
-        //PCB *prev;
         // While both queues are not empty
         while((!isPEmpty(readyQueue) || !isFEmpty(blockedQueue))){
             // If the ready is empty
@@ -543,6 +537,7 @@ void dispatch()
                 temp = Pdequeue(readyQueue)->pcb;
             } else { // Both queues are not empty
                 temp = Pdequeue(readyQueue)->pcb;
+                // Generate a randome number between 0 and 100
                 srand(time(NULL));
                 int randNum = (rand() % (101-0+1)) + 0;
                 //If random number is less than 50, unblock the first pcb
@@ -555,8 +550,6 @@ void dispatch()
                     InsertPCB(unblock);
                 }
             }
-
-            //prev = temp;
             // Set the process' state to running
             temp->state = 2;
             // Create a char pointer
