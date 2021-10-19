@@ -504,7 +504,9 @@ void loadProcess(char *name, char *class, char *priority, char *filePath)
             printf("Error: Process name must be Unique!");
         }else if((atoi(class) != 1) && (atoi(class) != 2)){ //must be of appropriate class
             printf("Error: Process class must be 1 (System Process) or 2 (Application Process)!");
-        }else{ //if conditions met create the PCB
+        }else if (!fopen(filePath, "r")) { 
+            printf("Error: No file with the name %s exists!", filePath);
+        } else{ //if conditions met create the PCB
             SetUpPCB(name, atoi(class), atoi(priority), filePath);
             printf("Loaded process %s", name);
         }
