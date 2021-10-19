@@ -538,7 +538,6 @@ void dispatch()
             } else { // Both queues are not empty
                 temp = Pdequeue(readyQueue)->pcb;
                 // Generate a randome number between 0 and 100
-                srand(time(NULL));
                 int randNum = (rand() % (101-0+1)) + 0;
                 //If random number is less than 50, unblock the first pcb
                 if(randNum < 50){
