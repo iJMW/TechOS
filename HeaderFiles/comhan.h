@@ -36,6 +36,12 @@
 #define CMD_DISPATCH "dispatch"
 #define CMD_LOADPCB "loadpcb"
 #define CMD_HIST "hist"
+#define CMD_CHANGE_DIRECTORY "cd"
+#define CMD_VIEW_DIRECTORY "ls"
+#define CMD_CREATE_FOLDER "mkdir"
+#define CMD_REMOVE_FOLDER "rmdir"
+#define CMD_CREATE_FILE "mkfile"
+#define CMD_REMOVE_FILE "rmfile"
 //Input Names including the next line character
 #define INPUT_CDDATE "chdate\n"
 #define INPUT_DATE "date\n"
@@ -57,6 +63,12 @@
 #define INPUT_DISPATCH "dispatch\n"
 #define INPUT_LOADPCB "loadpcb\n"
 #define INPUT_HIST "hist\n"
+#define INPUT_CHANGE_DIRECTORY "cd\n"
+#define INPUT_VIEW_DIRECTORY "ls\n"
+#define INPUT_CREATE_FOLDER "mkdir\n"
+#define INPUT_REMOVE_FOLDER "rmdir\n"
+#define INPUT_CREATE_FILE "mkfile\n"
+#define INPUT_REMOVE_FILE "rmfile\n"
 
 //Used to calculate the date difference if the user decides to change the date
 /*typedef struct DateDifference{
