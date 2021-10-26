@@ -3,6 +3,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <dirent.h> 
+#include <sys/stat.h>
 #include "priorityqueue.h"
 #include "fifoqueue.h"
 #include "history.h"
@@ -95,5 +97,11 @@ void ShowBlockedProcesses();
 void loadProcess(char *name, char *class, char *priority, char *filePath);
 void dispatch();
 void showHistory();
+void viewDirectory();
+void changeDirectory(char *dir);
+void createFolder(char *folderName);
+void removeFolder(char *folderName);
+void createFile(char *fileName);
+void removeFile(char *fileName);
 
 #endif

@@ -3,6 +3,7 @@
 #include "../HeaderFiles/helpermethods.h"
 #include <time.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 //Total Number of days in each month
 //int numDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -10,6 +11,8 @@
 //Global Variables for keeping track of parameters and if the user chose to quit
 int numParameters;
 int didUserQuit = 0;
+char *location = ".";
+//DIR *currentDirectory = opendir("..");
 
 //Used for keeping track of the time and date of the system
 time_t currentTime;
@@ -69,6 +72,7 @@ void COMHAN(){
         // If no parameters were passed, set the parameters to be ""
         if(numParameters == 1){
             parameters[0] = "";
+            parameters[1] = "";
         }
 
         // Reduce numParameters by one to not include the command being ran
@@ -117,6 +121,18 @@ void COMHAN(){
             loadProcess(parameters[0], parameters[1], parameters[2], parameters[3]);
         }else if (strcmp(userInput, CMD_DISPATCH) == 0 || strcmp(userInput, INPUT_DISPATCH) == 0){
             dispatch();
+        }else if (strcmp(userInput, CMD_VIEW_DIRECTORY) == 0 || strcmp(userInput, INPUT_VIEW_DIRECTORY) == 0) {
+            viewDirectory(parameters[0], parameters[1]);
+        }else if (strcmp(userInput, CMD_CHANGE_DIRECTORY) == 0 || strcmp(userInput, INPUT_CHANGE_DIRECTORY) == 0) {
+            changeDirectory(parameters[0]);
+        }else if (strcmp(userInput, CMD_CREATE_FOLDER) == 0 || strcmp(userInput, INPUT_CREATE_FOLDER) == 0) {
+            createFolder(parameters[0]);
+        }else if (strcmp(userInput, CMD_REMOVE_FOLDER) == 0 || strcmp(userInput, INPUT_REMOVE_FOLDER) == 0) {
+            removeFolder(parameters[0]);
+        }else if (strcmp(userInput, CMD_CREATE_FILE) == 0 || strcmp(userInput, INPUT_CREATE_FILE) == 0) {
+            createFile(parameters[0]);
+        }else if (strcmp(userInput, CMD_REMOVE_FILE) == 0 || strcmp(userInput, INPUT_REMOVE_FILE) == 0) {
+            removeFile(parameters[0]);
         }else{
             printf("Unrecognized command. Please try again.");
         }
@@ -587,7 +603,116 @@ void dispatch()
     }
 }
 
+// Function to display the history
 void showHistory(){
     printHistoryQueue(history);
+}
+
+// Displays the current directory
+void viewDirectory(char *passedLocation, char *size)
+{
+    char *directory = "";
+    // Get the current location
+    DIR *currentDirectory;
+    if (strcmp(passedLocation, "") == 0) {
+        currentDirectory = opendir(location);
+        directory = location;
+    } else {
+        printf("Passed Location: %s\n", passedLocation);
+        currentDirectory = opendir(passedLocation);
+        directory = passedLocation;
+    }
+
+    struct dirent *dir;
+
+    // If the current directory is valid
+    if (currentDirectory) {
+        // Read all the items from the current directory
+        while ((dir = readdir(currentDirectory)) != NULL) {
+            // Print the directory name
+            printf("\n%-20s\t", dir->d_name);
+            if(strcmp(size, "") != 0){
+                // Form the file path 
+                char *str = (char *)malloc(100 * sizeof(char));
+                strcpy(str, directory);
+                if(str[strlen(str) - 1] != '/'){
+                    strcat(str, "/");
+                }
+                strcat(str, dir->d_name);
+                // Open the file
+                FILE *file = fopen(str, "r");
+                // If the file exists
+                if(file) {
+                    fseek(file, 0, SEEK_END);
+                    long fileSize = ftell(file);
+                    printf("%ld bytes", fileSize);
+                    fseek(file, 0, SEEK_SET);
+                }
+            }
+        }
+        closedir(currentDirectory);
+    }
+}
+
+// Changeas the directory
+void changeDirectory(char *directoryName){
+    DIR *chosenDirectory = opendir(directoryName);
+    if(chosenDirectory){
+        location = directoryName;
+        printf("\nNew Location: %s", directoryName);
+    }else{
+        printf("\nERROR: Directory %s does not exist.", directoryName);
+    }
+}
+
+// Function to create a folder
+void createFolder(char *folderName){
+    if(!mkdir(folderName)){
+        printf("\nFolder Created");
+    }else{
+        printf("\nFolder cannot be created");
+    }
+}
+
+// Function to remove a folder
+void removeFolder(char *folderName){
+    if(!rmdir(folderName)){
+        printf("\nFolder Removed");
+    }else{
+        printf("\nFolder cannot be removed");
+    }
+}
+
+// Function to create a file in the current directory
+void createFile(char *fileName){
+    FILE *file = fopen(fileName, "w");
+    if(file){
+        printf("\nFile created");
+    }else{
+        printf("\nFile cannot be created");
+    }
+    fclose(file);
+}
+
+void removeFile(char *fileName){
+    FILE *file = fopen(fileName, "r");
+    char answer;
+    if (file){
+        fclose(file);
+        while(answer != 'y' && answer != 'n'){
+            printf("\nAre you sure you want to delete the file %s? (y/n) ", fileName);
+            scanf(" %c", &answer);
+            while(getchar() != '\n');
+            if (answer == 'y'){
+                if(!remove(fileName)){
+                    printf("\nFile %s removed.", fileName);
+                }else{
+                    printf("\nFile %s cannot be removed.", fileName);
+                }
+            }
+        }
+    }else{
+        printf("\nFile %s does not exist.", fileName);
+    }
 }
 
