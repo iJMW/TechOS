@@ -1,0 +1,12 @@
+
+mkdir:
+
+    Description:
+        Creates a folder in the current dirctory with the passed name
+
+    Syntax:
+        mkdir {{folder name}}
+
+    Example:
+        TechOS> mkdir testDir
+    

@@ -1,0 +1,12 @@
+
+mkfile:
+
+    Description:
+        Makes a file in the current directory
+
+    Syntax:
+        mkfile {{file name}}
+
+    Example:
+        TechOS> mkfile testFile.txt
+    

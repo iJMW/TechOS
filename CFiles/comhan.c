@@ -205,6 +205,18 @@ void Help(char* cmdName){
             printFile("loadpcb.txt");
         } else if (strcmp(cmdName, CMD_DISPATCH) == 0) { // Print the dispatch help
             printFile("dispatch.txt");
+        } else if (strcmp(cmdName, CMD_VIEW_DIRECTORY) == 0) { // Print the overview help
+            printFile("ls.txt");
+        } else if (strcmp(cmdName, CMD_CHANGE_DIRECTORY) == 0) { // Print the overview help
+            printFile("cd.txt");
+        } else if (strcmp(cmdName, CMD_CREATE_FILE) == 0) { // Print the overview help
+            printFile("mkfile.txt");
+        } else if (strcmp(cmdName, CMD_REMOVE_FILE) == 0) { // Print the overview help
+            printFile("rmfile.txt");
+        } else if (strcmp(cmdName, CMD_CREATE_FOLDER) == 0) { // Print the overview help
+            printFile("mkdir.txt");
+        } else if (strcmp(cmdName, CMD_REMOVE_FOLDER) == 0) { // Print the overview help
+            printFile("rmdir.txt");
         } else if (strcmp(cmdName, "") == 0) { // Print the overview help
             printFile("overview.txt");
         } else { // Print an error for unknown command
