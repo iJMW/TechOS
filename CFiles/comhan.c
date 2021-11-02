@@ -632,11 +632,12 @@ void showHistory(){
 // Displays the current directory
 void viewDirectory(char *tags[], char *parameters[])
 {
+    // Check for improper tags
     if((strcmp(tags[0], "-size") == 0 && numTags == 1) || strcmp(tags[0], "") == 0){
+        // Build the passed location
         char *passedLocation = concatStrings(parameters, numParameters);
-
-        char *directory = "";
         // Get the current location
+        char *directory = "";
         DIR *currentDirectory;
         if (strcmp(passedLocation, "") == 0) {
             currentDirectory = opendir(location);
@@ -684,75 +685,87 @@ void viewDirectory(char *tags[], char *parameters[])
 
 // Changes the directory
 void changeDirectory(char *parameters[]){
-    char *directoryName = concatStrings(parameters, numParameters);
-    char *newName = (char *)malloc(100 * sizeof(char));
-    strcpy(newName, location);
-    strcat(newName, "/");
-    strcat(newName, directoryName);
+    // Check the number of parameters
+    if (numParameters == 0) {
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_C, CMD_CREATE_FOLDER);
+    } else {
+        // Build the directory name
+        char *directoryName = concatStrings(parameters, numParameters);
+        char *newName = (char *)malloc(100 * sizeof(char));
+        strcpy(newName, location);
+        strcat(newName, "/");
+        strcat(newName, directoryName);
 
-    int errorType = 0;
-    //If begins with / or ./, then it is an absolute path
-    char *chosenPath = (char *)malloc(100 * sizeof(char));
-    
-    // Absolute
-    if(directoryName[0] == '/'){
-        strcpy(chosenPath, ".");
-        strcat(chosenPath, newName);
-    } 
-    
-    // Backing out of directory
-    else if(directoryName[0] == '.' && directoryName[1] == '.'){
-        // Can't back out of root directrory
-        if(strcmp(location, ".") == 0) {
-            errorType = 1;
-        }else{
-            int c = '/';
-            char *ptr = strrchr(location, c);
-            // Remove substring
-            int indexOfLastSlash = -1;
-            for(int i = strlen(location)-1; i > 0; i--){
-                if(location[i] == '/'){
-                    indexOfLastSlash = i;
-                    break;
+        int errorType = 0;
+        //If begins with / or ./, then it is an absolute path
+        char *chosenPath = (char *)malloc(100 * sizeof(char));
+        
+        // Absolute
+        if(directoryName[0] == '/'){
+            strcpy(chosenPath, ".");
+            strcat(chosenPath, newName);
+        } 
+        
+        // Backing out of directory
+        else if(directoryName[0] == '.' && directoryName[1] == '.'){
+            // Can't back out of root directrory
+            if(strcmp(location, ".") == 0) {
+                errorType = 1;
+            }else{
+                int c = '/';
+                char *ptr = strrchr(location, c);
+                // Remove substring
+                int indexOfLastSlash = -1;
+                // Get the index of the last slash
+                for(int i = strlen(location)-1; i > 0; i--){
+                    if(location[i] == '/'){
+                        indexOfLastSlash = i;
+                        break;
+                    }
                 }
+                // Remove the last directory from the path
+                chosenPath = getSubstring(location, 0, indexOfLastSlash);
             }
-            chosenPath = getSubstring(location, 0, indexOfLastSlash);
+        } 
+        
+        // Relative Path
+        else if (strcmp(directoryName, ".") != 0) {// Relative path from current location
+            // HeaderFiles
+            if (directoryName[0] == '.') {
+                directoryName = getSubstring(directoryName, 2, strlen(directoryName));
+            }
+            // Create the chosen path
+            strcpy(chosenPath, location);
+            strcat(chosenPath, "/");
+            strcat(chosenPath, directoryName);
         }
-    } 
-    
-    // Relative Path
-    else if (strcmp(directoryName, ".") != 0) {// Relative path from current location
-        // HeaderFiles
-        if (directoryName[0] == '.') {
-            directoryName = getSubstring(directoryName, 2, strlen(directoryName));
+        
+        // Open the directory
+        DIR *chosenDirectory = opendir(chosenPath);
+        if(errorType == 1){
+            printf("\nError: Already in root directory");
+        } else if(chosenDirectory){
+            location = chosenPath;
+            printf("\nNew Location: %s", chosenPath);
+        } else { 
+            printf("\nERROR: Directory %s does not exist.", chosenPath);
         }
-        strcpy(chosenPath, location);
-        strcat(chosenPath, "/");
-        strcat(chosenPath, directoryName);
-    }
-    
-    // Open the directory
-    DIR *chosenDirectory = opendir(chosenPath);
-    if(errorType == 1){
-        printf("\nError: Already in root directory");
-    } else if(chosenDirectory){
-        location = chosenPath;
-        printf("\nNew Location: %s", chosenPath);
-    } else { 
-        printf("\nERROR: Directory %s does not exist.", chosenPath);
     }
 }
 
 // Function to create a folder
 void createFolder(char *parameters[]){
+    // Check the number of parameters
     if (numParameters == 0) {
-        printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_CREATE_FILE, CMD_CREATE_FOLDER);
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_CREATE_FOLDER, CMD_CREATE_FOLDER);
     } else {
+        // Create the folder name
         char *folderName = concatStrings(parameters, numParameters);
         char *newName = (char *)malloc(100 * sizeof(char));
         strcpy(newName, location);
         strcat(newName, "/");
         strcat(newName, folderName);
+        // Make the folder
         if(!mkdir(newName)){
             printf("\nFolder Created");
         }else{
@@ -763,9 +776,11 @@ void createFolder(char *parameters[]){
 
 // Function to remove a folder
 void removeFolder(char *parameters[]){
+    // Check the number of parameters
     if(numParameters == 0){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_REMOVE_FOLDER, CMD_REMOVE_FOLDER);
     }else{
+        // Build the folder names
         char *folderName = concatStrings(parameters, numParameters);
         char *newName = (char *)malloc(100 * sizeof(char));
         strcpy(newName, location);
@@ -778,7 +793,7 @@ void removeFolder(char *parameters[]){
         while ((dir = readdir(currentDirectory)) != NULL && count < 3) {
             count++;
         }
-
+        // If the directory is storing files, don't remove it
         if (count >= 3) {
             printf("\nERROR: Folder is not empty");
         } else if(!rmdir(newName)) {
@@ -791,42 +806,54 @@ void removeFolder(char *parameters[]){
 
 // Function to create a file in the current directory
 void createFile(char *parameters[]){
+    // Check the number of parameters
     if (numParameters == 0) {
-        printf("Invalid number of parameters. The format for the '%s' command is: %s {{fileName}}", CMD_CREATE_FILE, CMD_CREATE_FOLDER);
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{fileName}}", CMD_CREATE_FILE, CMD_CREATE_FILE);
     } else {
+        // Create the file name
         char *fileName = concatStrings(parameters, numParameters);
         char *newName = (char *)malloc(100 * sizeof(char));
         strcpy(newName, location);
         strcat(newName, "/");
         strcat(newName, fileName);
+        // Create the file
         FILE *file = fopen(newName, "w");
+        // If the file can be created
         if(file){
             printf("\nFile created");
         }else{
             printf("\nFile cannot be created");
         }
+        // Close the file
         fclose(file);
     }
 }
 
 void removeFile(char *parameters[]){
+    // Check the number of parameters
     if(numParameters == 0){
-        printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_REMOVE_FILE, CMD_REMOVE_FOLDER);
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_REMOVE_FILE, CMD_REMOVE_FILE);
     }else{
+        // Create the file name
         char *fileName = concatStrings(parameters, numParameters);
         char *newName = (char *)malloc(100 * sizeof(char));
         strcpy(newName, location);
         strcat(newName, "/");
         strcat(newName, fileName);
+        // Open the file
         FILE *file = fopen(newName, "r");
         char answer;
+        // If the file exists
         if (file){
             fclose(file);
+            // Loop until the user confirms to delete the file or not
             while(answer != 'y' && answer != 'n'){
                 printf("\nAre you sure you want to delete the file %s? (y/n) ", fileName);
                 scanf(" %c", &answer);
                 while(getchar() != '\n');
+                // If the user selects to remove the file
                 if (answer == 'y'){
+                    // Print whether the file has been removed or not
                     if(!remove(newName)){
                         printf("\nFile \"%s\" removed.", fileName);
                     }else{
@@ -834,7 +861,7 @@ void removeFile(char *parameters[]){
                     }
                 }
             }
-        }else{
+        }else{ // Print if the file does not exist
             printf("\nFile \"%s\" does not exist.", fileName);
         }
     }  

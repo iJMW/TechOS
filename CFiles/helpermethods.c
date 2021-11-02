@@ -128,7 +128,7 @@ char *getClass(int val){
         return "Application Process";
     }
 }
-
+//helper method to concat array of strings togeether
 char *concatStrings(char *a[], int numParameters)
 {
     char *s = (char *)malloc(100 * sizeof(char));
@@ -146,7 +146,7 @@ char *concatStrings(char *a[], int numParameters)
     return s;
 }
 
-
+//helper method to get substring in string
 char *getSubstring(char *s, int start, int end) 
 {
     int i;
