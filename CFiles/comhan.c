@@ -702,6 +702,10 @@ void changeDirectory(char *parameters[]){
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{directory}}", CMD_CHANGE_DIRECTORY, CMD_CHANGE_DIRECTORY);
     } else {
         // Build the directory name
+        int absolute = 0;
+        if(parameters[0][0] == '/'){
+            absolute = 1;
+        }
         char *directoryName = concatStrings(parameters, numParameters);
         char *newName = (char *)malloc(100 * sizeof(char));
         strcpy(newName, location);
@@ -713,9 +717,10 @@ void changeDirectory(char *parameters[]){
         char *chosenPath = (char *)malloc(100 * sizeof(char));
         
         // Absolute
-        if(directoryName[0] == '/'){
-            strcpy(chosenPath, ".");
-            strcat(chosenPath, newName);
+        if(absolute == 1){
+            //strcpy(chosenPath, ".");
+            //strcat(chosenPath, directoryName);
+            strcpy(chosenPath, directoryName);
         } 
         
         // Backing out of directory
@@ -737,6 +742,10 @@ void changeDirectory(char *parameters[]){
                 }
                 // Remove the last directory from the path
                 chosenPath = getSubstring(location, 0, indexOfLastSlash);
+                if (directoryName[2] && directoryName[2]=='/') {
+                    char *newDir = getSubstring(directoryName, 2, strlen(directoryName));
+                    strcat(chosenPath, newDir);
+                }
             }
         } 
         
@@ -752,7 +761,6 @@ void changeDirectory(char *parameters[]){
             strcat(chosenPath, directoryName);
         }
         
-        // Open the directory
         DIR *chosenDirectory = opendir(chosenPath);
         if(errorType == 1){
             printf("\nError: Already in root directory");
@@ -829,9 +837,10 @@ void createFile(char *parameters[]){
         strcat(newName, "/");
         strcat(newName, fileName);
         // Create the file
-        FILE *file = fopen(newName, "w");
+        FILE *file = fopen(newName, "r");
         // If the file can be created
-        if(file){
+        if(!file){
+            file = fopen(newName, "w");
             printf("\nFile created");
         }else{
             printf("\nFile cannot be created");
