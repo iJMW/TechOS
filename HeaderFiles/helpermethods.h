@@ -22,5 +22,7 @@ int isNumber(char *s);
 char *getState(int s);
 char *getSuspendedStatus(int s);
 char *getClass(int val);
+char *concatStrings(char *a[],int numParameters);
+char *getSubstring(char *s, int start, int end);
 
 #endif

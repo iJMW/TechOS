@@ -10,6 +10,7 @@
 
 //Global Variables for keeping track of parameters and if the user chose to quit
 int numParameters;
+int numTags;
 int didUserQuit = 0;
 char *location = ".";
 //DIR *currentDirectory = opendir("..");
@@ -37,6 +38,7 @@ void COMHAN(){
     char *userInput = (char *)malloc(size * sizeof(char));
     //Stores the parameters
     char *parameters[size];
+    char *tags[size];
     
     //While the user chooses not to quit, display the CLI
     while(didUserQuit == 0){
@@ -50,6 +52,9 @@ void COMHAN(){
         char *stringToAdd = (char *)malloc(size * sizeof(char));
         //Iterate over the string
         numParameters = 0;
+        numTags = 0;
+        //flag to track if tag is found
+        int noDashFlag = 0;
         //Get the first portion
         str = strtok(str, delim);
         while(str != NULL){
@@ -57,22 +62,38 @@ void COMHAN(){
                 userInput = str;
                 convertToLowercase(userInput);
                 strcpy(stringToAdd, userInput);
-            }else{  // Store the parameters 
-                parameters[numParameters - 1] = str;
-                convertToLowercase(parameters[numParameters-1]);
+                numParameters++;
+            } else{  // Store the parameters
+                if (str[0] != '-') {
+                    noDashFlag = 1;
+                }
+                // There is no dash, therefore it is a parameter
+                if (noDashFlag == 1) {
+                    parameters[numParameters - 1] = str;
+                    convertToLowercase(parameters[numParameters-1]);
+                    // Increase the number of parameters
+                    numParameters++;
+                } else { // There is a dash, then it is a tag
+                    tags[numTags] = str;
+                    convertToLowercase(tags[numTags]);
+                    numTags++;
+                }
+                //This is only for the history command
                 strcat(stringToAdd, " ");
                 strcat(stringToAdd, str);
             }
             // Tokenize the same line by passing NULL
             str = strtok(NULL, delim);
-            // Increase the number of parameters
-            numParameters++;
         }
 
         // If no parameters were passed, set the parameters to be ""
         if(numParameters == 1){
             parameters[0] = "";
             parameters[1] = "";
+        }
+        // If no tags were passed, set the tags to ""
+        if(numTags == 0) {
+            tags[0] = "";
         }
 
         // Reduce numParameters by one to not include the command being ran
@@ -122,17 +143,17 @@ void COMHAN(){
         }else if (strcmp(userInput, CMD_DISPATCH) == 0 || strcmp(userInput, INPUT_DISPATCH) == 0){
             dispatch();
         }else if (strcmp(userInput, CMD_VIEW_DIRECTORY) == 0 || strcmp(userInput, INPUT_VIEW_DIRECTORY) == 0) {
-            viewDirectory(parameters[0], parameters[1]);
+            viewDirectory(tags, parameters);
         }else if (strcmp(userInput, CMD_CHANGE_DIRECTORY) == 0 || strcmp(userInput, INPUT_CHANGE_DIRECTORY) == 0) {
-            changeDirectory(parameters[0]);
+            changeDirectory(parameters);
         }else if (strcmp(userInput, CMD_CREATE_FOLDER) == 0 || strcmp(userInput, INPUT_CREATE_FOLDER) == 0) {
-            createFolder(parameters[0]);
+            createFolder(parameters);
         }else if (strcmp(userInput, CMD_REMOVE_FOLDER) == 0 || strcmp(userInput, INPUT_REMOVE_FOLDER) == 0) {
-            removeFolder(parameters[0]);
+            removeFolder(parameters);
         }else if (strcmp(userInput, CMD_CREATE_FILE) == 0 || strcmp(userInput, INPUT_CREATE_FILE) == 0) {
-            createFile(parameters[0]);
+            createFile(parameters);
         }else if (strcmp(userInput, CMD_REMOVE_FILE) == 0 || strcmp(userInput, INPUT_REMOVE_FILE) == 0) {
-            removeFile(parameters[0]);
+            removeFile(parameters);
         }else{
             printf("Unrecognized command. Please try again.");
         }
@@ -609,110 +630,213 @@ void showHistory(){
 }
 
 // Displays the current directory
-void viewDirectory(char *passedLocation, char *size)
+void viewDirectory(char *tags[], char *parameters[])
 {
-    char *directory = "";
-    // Get the current location
-    DIR *currentDirectory;
-    if (strcmp(passedLocation, "") == 0) {
-        currentDirectory = opendir(location);
-        directory = location;
-    } else {
-        printf("Passed Location: %s\n", passedLocation);
-        currentDirectory = opendir(passedLocation);
-        directory = passedLocation;
-    }
+    if((strcmp(tags[0], "-size") == 0 && numTags == 1) || strcmp(tags[0], "") == 0){
+        char *passedLocation = concatStrings(parameters, numParameters);
 
-    struct dirent *dir;
+        char *directory = "";
+        // Get the current location
+        DIR *currentDirectory;
+        if (strcmp(passedLocation, "") == 0) {
+            currentDirectory = opendir(location);
+            directory = location;
+        } else {
+            currentDirectory = opendir(passedLocation);
+            directory = passedLocation;
+        }
 
-    // If the current directory is valid
-    if (currentDirectory) {
-        // Read all the items from the current directory
-        while ((dir = readdir(currentDirectory)) != NULL) {
-            // Print the directory name
-            printf("\n%-20s\t", dir->d_name);
-            if(strcmp(size, "") != 0){
-                // Form the file path 
-                char *str = (char *)malloc(100 * sizeof(char));
-                strcpy(str, directory);
-                if(str[strlen(str) - 1] != '/'){
-                    strcat(str, "/");
-                }
-                strcat(str, dir->d_name);
-                // Open the file
-                FILE *file = fopen(str, "r");
-                // If the file exists
-                if(file) {
-                    fseek(file, 0, SEEK_END);
-                    long fileSize = ftell(file);
-                    printf("%ld bytes", fileSize);
-                    fseek(file, 0, SEEK_SET);
+        struct dirent *dir;
+
+        // If the current directory is valid
+        if (currentDirectory) {
+            // Read all the items from the current directory
+            while ((dir = readdir(currentDirectory)) != NULL) {
+                // Print the directory name
+                printf("\n%-20s\t", dir->d_name);
+                if(strcmp(tags[0], "-size") == 0 && numTags == 1){
+                    // Form the file path 
+                    char *str = (char *)malloc(100 * sizeof(char));
+                    strcpy(str, directory);
+                    if(str[strlen(str) - 1] != '/'){
+                        strcat(str, "/");
+                    }
+                    strcat(str, dir->d_name);
+                    // Open the file
+                    FILE *file = fopen(str, "r");
+                    // If the file exists
+                    if(file) {
+                        fseek(file, 0, SEEK_END);
+                        long fileSize = ftell(file);
+                        printf("%ld bytes", fileSize);
+                        fseek(file, 0, SEEK_SET);
+                    }
                 }
             }
+            closedir(currentDirectory);
+        } else {
+            printf("\nERROR: Invalid directory");
         }
-        closedir(currentDirectory);
+    }else{
+        printf("\nERROR: Invalid tag(s)");
     }
 }
 
-// Changeas the directory
-void changeDirectory(char *directoryName){
-    DIR *chosenDirectory = opendir(directoryName);
-    if(chosenDirectory){
-        location = directoryName;
-        printf("\nNew Location: %s", directoryName);
-    }else{
-        printf("\nERROR: Directory %s does not exist.", directoryName);
+// Changes the directory
+void changeDirectory(char *parameters[]){
+    char *directoryName = concatStrings(parameters, numParameters);
+    char *newName = (char *)malloc(100 * sizeof(char));
+    strcpy(newName, location);
+    strcat(newName, "/");
+    strcat(newName, directoryName);
+
+    int errorType = 0;
+    //If begins with / or ./, then it is an absolute path
+    char *chosenPath = (char *)malloc(100 * sizeof(char));
+    
+    // Absolute
+    if(directoryName[0] == '/'){
+        strcpy(chosenPath, ".");
+        strcat(chosenPath, newName);
+    } 
+    
+    // Backing out of directory
+    else if(directoryName[0] == '.' && directoryName[1] == '.'){
+        // Can't back out of root directrory
+        if(strcmp(location, ".") == 0) {
+            errorType = 1;
+        }else{
+            int c = '/';
+            char *ptr = strrchr(location, c);
+            // Remove substring
+            int indexOfLastSlash = -1;
+            for(int i = strlen(location)-1; i > 0; i--){
+                if(location[i] == '/'){
+                    indexOfLastSlash = i;
+                    break;
+                }
+            }
+            chosenPath = getSubstring(location, 0, indexOfLastSlash);
+        }
+    } 
+    
+    // Relative Path
+    else if (strcmp(directoryName, ".") != 0) {// Relative path from current location
+        // HeaderFiles
+        if (directoryName[0] == '.') {
+            directoryName = getSubstring(directoryName, 2, strlen(directoryName));
+        }
+        strcpy(chosenPath, location);
+        strcat(chosenPath, "/");
+        strcat(chosenPath, directoryName);
+    }
+    
+    // Open the directory
+    DIR *chosenDirectory = opendir(chosenPath);
+    if(errorType == 1){
+        printf("\nError: Already in root directory");
+    } else if(chosenDirectory){
+        location = chosenPath;
+        printf("\nNew Location: %s", chosenPath);
+    } else { 
+        printf("\nERROR: Directory %s does not exist.", chosenPath);
     }
 }
 
 // Function to create a folder
-void createFolder(char *folderName){
-    if(!mkdir(folderName)){
-        printf("\nFolder Created");
-    }else{
-        printf("\nFolder cannot be created");
+void createFolder(char *parameters[]){
+    if (numParameters == 0) {
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_CREATE_FILE, CMD_CREATE_FOLDER);
+    } else {
+        char *folderName = concatStrings(parameters, numParameters);
+        char *newName = (char *)malloc(100 * sizeof(char));
+        strcpy(newName, location);
+        strcat(newName, "/");
+        strcat(newName, folderName);
+        if(!mkdir(newName)){
+            printf("\nFolder Created");
+        }else{
+            printf("\nFolder cannot be created");
+        }
     }
 }
 
 // Function to remove a folder
-void removeFolder(char *folderName){
-    if(!rmdir(folderName)){
-        printf("\nFolder Removed");
+void removeFolder(char *parameters[]){
+    if(numParameters == 0){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_REMOVE_FOLDER, CMD_REMOVE_FOLDER);
     }else{
-        printf("\nFolder cannot be removed");
+        char *folderName = concatStrings(parameters, numParameters);
+        char *newName = (char *)malloc(100 * sizeof(char));
+        strcpy(newName, location);
+        strcat(newName, "/");
+        strcat(newName, folderName);
+        // Count the files in the directory
+        DIR *currentDirectory = opendir(newName);
+        struct dirent *dir;
+        int count = 0;
+        while ((dir = readdir(currentDirectory)) != NULL && count < 3) {
+            count++;
+        }
+
+        if (count >= 3) {
+            printf("\nERROR: Folder is not empty");
+        } else if(!rmdir(newName)) {
+            printf("\nFolder Removed");
+        }else{
+            printf("\nERROR: Folder does not exist");
+        }
     }
 }
 
 // Function to create a file in the current directory
-void createFile(char *fileName){
-    FILE *file = fopen(fileName, "w");
-    if(file){
-        printf("\nFile created");
-    }else{
-        printf("\nFile cannot be created");
+void createFile(char *parameters[]){
+    if (numParameters == 0) {
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{fileName}}", CMD_CREATE_FILE, CMD_CREATE_FOLDER);
+    } else {
+        char *fileName = concatStrings(parameters, numParameters);
+        char *newName = (char *)malloc(100 * sizeof(char));
+        strcpy(newName, location);
+        strcat(newName, "/");
+        strcat(newName, fileName);
+        FILE *file = fopen(newName, "w");
+        if(file){
+            printf("\nFile created");
+        }else{
+            printf("\nFile cannot be created");
+        }
+        fclose(file);
     }
-    fclose(file);
 }
 
-void removeFile(char *fileName){
-    FILE *file = fopen(fileName, "r");
-    char answer;
-    if (file){
-        fclose(file);
-        while(answer != 'y' && answer != 'n'){
-            printf("\nAre you sure you want to delete the file %s? (y/n) ", fileName);
-            scanf(" %c", &answer);
-            while(getchar() != '\n');
-            if (answer == 'y'){
-                if(!remove(fileName)){
-                    printf("\nFile %s removed.", fileName);
-                }else{
-                    printf("\nFile %s cannot be removed.", fileName);
+void removeFile(char *parameters[]){
+    if(numParameters == 0){
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_REMOVE_FILE, CMD_REMOVE_FOLDER);
+    }else{
+        char *fileName = concatStrings(parameters, numParameters);
+        char *newName = (char *)malloc(100 * sizeof(char));
+        strcpy(newName, location);
+        strcat(newName, "/");
+        strcat(newName, fileName);
+        FILE *file = fopen(newName, "r");
+        char answer;
+        if (file){
+            fclose(file);
+            while(answer != 'y' && answer != 'n'){
+                printf("\nAre you sure you want to delete the file %s? (y/n) ", fileName);
+                scanf(" %c", &answer);
+                while(getchar() != '\n');
+                if (answer == 'y'){
+                    if(!remove(newName)){
+                        printf("\nFile \"%s\" removed.", fileName);
+                    }else{
+                        printf("\nFile \"%s\" cannot be removed.", fileName);
+                    }
                 }
             }
+        }else{
+            printf("\nFile \"%s\" does not exist.", fileName);
         }
-    }else{
-        printf("\nFile %s does not exist.", fileName);
-    }
+    }  
 }
 

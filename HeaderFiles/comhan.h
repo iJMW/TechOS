@@ -98,10 +98,10 @@ void loadProcess(char *name, char *class, char *priority, char *filePath);
 void dispatch();
 void showHistory();
 void viewDirectory();
-void changeDirectory(char *dir);
-void createFolder(char *folderName);
-void removeFolder(char *folderName);
-void createFile(char *fileName);
-void removeFile(char *fileName);
+void changeDirectory(char *parameters[]);
+void createFolder(char *parameters[]);
+void removeFolder(char *parameters[]);
+void createFile(char *parameters[]);
+void removeFile(char *parameters[]);
 
 #endif

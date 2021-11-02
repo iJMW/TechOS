@@ -128,3 +128,33 @@ char *getClass(int val){
         return "Application Process";
     }
 }
+
+char *concatStrings(char *a[], int numParameters)
+{
+    char *s = (char *)malloc(100 * sizeof(char));
+    if(a[0][0] == '/'){
+        strcpy(s, ".");
+        strcat(s, a[0]);
+    }else{
+        strcpy(s, a[0]);
+    }
+    
+    for (int i = 1; i < numParameters; i++){
+        strcat(s, " ");
+        strcat(s, a[i]);
+    }
+    return s;
+}
+
+
+char *getSubstring(char *s, int start, int end) 
+{
+    int i;
+    char *newStr = (char *)malloc(100 * sizeof(char));
+    for (i = 0; (i+start) < end; i++) {
+        newStr[i] = s[i+start];
+    }
+
+    newStr[i] = '\0';
+    return newStr;
+}
