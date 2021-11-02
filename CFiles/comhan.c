@@ -703,6 +703,9 @@ void changeDirectory(char *parameters[]){
     } else {
         // Build the directory name
         int absolute = 0;
+        //If the first parameter's first element is a / then it is absolute
+        //First parameter before concatenation is the beginning of the path
+        //from the user
         if(parameters[0][0] == '/'){
             absolute = 1;
         }
