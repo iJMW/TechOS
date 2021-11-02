@@ -687,7 +687,7 @@ void viewDirectory(char *tags[], char *parameters[])
 void changeDirectory(char *parameters[]){
     // Check the number of parameters
     if (numParameters == 0) {
-        printf("Invalid number of parameters. The format for the '%s' command is: %s {{folderName}}", CMD_C, CMD_CREATE_FOLDER);
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{directory}}", CMD_CHANGE_DIRECTORY, CMD_CHANGE_DIRECTORY);
     } else {
         // Build the directory name
         char *directoryName = concatStrings(parameters, numParameters);
