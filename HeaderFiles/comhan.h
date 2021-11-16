@@ -8,6 +8,7 @@
 #include "priorityqueue.h"
 #include "fifoqueue.h"
 #include "history.h"
+#include "login.h"
 
 #ifndef COMHAN_H_
 # define COMHAN_H_
@@ -80,7 +81,7 @@
 }DateDifference;*/
 
 //Function Prototypes
-void COMHAN();
+void COMHAN(User *currentUser);
 void Help(char* cmdName);
 void Version();
 void DisplayDate();

@@ -32,14 +32,14 @@ int main() {
     userQueue = (LQueue *)malloc(sizeof(LQueue));
     initializeLQueue(userQueue);
 
-    User * valid = (User *)malloc(sizeof(User));
+    User * validUser = (User *)malloc(sizeof(User));
     int terminate = 0;
     do {
-        valid = LOGIN();
+        validUser = LOGIN();
         // Read all account after each login? If no, fix
         // If yes, write changes to user.txt during session
-        if(valid != NULL){
-            COMHAN();
+        if(validUser != NULL){
+            COMHAN(validUser);
         } else {
             printf("\nInvalid Login");
         }

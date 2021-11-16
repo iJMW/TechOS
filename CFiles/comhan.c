@@ -24,7 +24,7 @@ struct tm tm;
 DateDifference dateDiff;
 
 //Function controls flow of program
-void COMHAN(){
+void COMHAN(User *currentUser){
     //Initialize the date difference elements
     dateDiff.numDays = 0;
     dateDiff.numMonths = 0;
