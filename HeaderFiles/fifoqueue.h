@@ -5,7 +5,7 @@
 #include <string.h>
 
 #ifndef MYFIFOQUEUE_H_
-#define MYPRIORITYQUEUE_H_
+#define MYFIFOQUEUE_H_
 
 typedef struct FNode {
     PCB *pcb;

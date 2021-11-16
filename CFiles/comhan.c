@@ -12,6 +12,7 @@
 int numParameters;
 int numTags;
 int didUserQuit = 0;
+int didUserLogout = 0;
 char *location = ".";
 //DIR *currentDirectory = opendir("..");
 
@@ -32,6 +33,8 @@ void COMHAN(){
     currentTime = time(NULL);
     tm = *localtime(&currentTime);
 
+    didUserLogout = 0;
+
     //Size of input
     size_t size = 50;
     //UserInput will store the specific command
@@ -39,9 +42,9 @@ void COMHAN(){
     //Stores the parameters
     char *parameters[size];
     char *tags[size];
-    
+
     //While the user chooses not to quit, display the CLI
-    while(didUserQuit == 0){
+    while(didUserQuit == 0 && didUserLogout == 0){
         printf("\nTechOS > ");
         //Allocate memory for the string
         char *str = (char *)malloc(size * sizeof(char));
@@ -154,7 +157,9 @@ void COMHAN(){
             createFile(parameters);
         }else if (strcmp(userInput, CMD_REMOVE_FILE) == 0 || strcmp(userInput, INPUT_REMOVE_FILE) == 0) {
             removeFile(parameters);
-        }else{
+        }else if (strcmp(userInput, "logout") == 0 || strcmp(userInput, "logout\n") == 0) {
+            didUserLogout = 1;
+        } else{
             printf("Unrecognized command. Please try again.");
         }
 

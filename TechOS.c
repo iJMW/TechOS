@@ -12,11 +12,13 @@
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "HeaderFiles/login.h"
 #include "HeaderFiles/comhan.h"
 #include "HeaderFiles/customprocess.h"
+#include "HeaderFiles/linkedlist.h"
 
 //Main method that calls COMHAN function
-int main(){
+int main() {
     //Initialize Ready Queue
     readyQueue = (PQueue *)malloc(sizeof(PQueue));
     initializePQueue(readyQueue);
@@ -26,9 +28,23 @@ int main(){
     //Initialize History Queue
     history = (HQueue *)malloc(sizeof(HQueue));
     initializeHQueue(history);
-    
-    //Call the COMHAN function to execute the program
-    COMHAN();
+    //Initialize User queue
+    userQueue = (LQueue *)malloc(sizeof(LQueue));
+    initializeLQueue(userQueue);
 
+    User * valid = (User *)malloc(sizeof(User));
+    int terminate = 0;
+    do {
+        valid = LOGIN();
+        // Read all account after each login? If no, fix
+        // If yes, write changes to user.txt during session
+        if(valid != NULL){
+            COMHAN();
+        } else {
+            printf("\nInvalid Login");
+        }
+    } while(true);
+    
     return 0;
 }
+
