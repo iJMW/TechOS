@@ -13,7 +13,7 @@ int numParameters;
 int numTags;
 int didUserQuit = 0;
 int didUserLogout = 0;
-char *location = ".";
+char *location;
 //DIR *currentDirectory = opendir("..");
 
 //Used for keeping track of the time and date of the system
@@ -32,6 +32,8 @@ void COMHAN(){
     //Initialize the time
     currentTime = time(NULL);
     tm = *localtime(&currentTime);
+    // Intialize the location
+    location = ".";
 
     didUserLogout = 0;
 
