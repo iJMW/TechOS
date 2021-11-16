@@ -1,0 +1,12 @@
+
+rmfile:
+
+    Description:
+        Removes a file in the current directory
+
+    Syntax:
+        rmfile {{file name}}
+
+    Example:
+        TechOS> rmfile testFile.txt
+    

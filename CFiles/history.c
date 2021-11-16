@@ -53,6 +53,10 @@ HNode *Hdequeue(HQueue *q){
 }
 
 void Henqueue(HQueue *q, char *userInput){
+    //If the queue already has 8 elements in it, remove the first one (least recent)
+    if(Hlength(q) >= 8){
+        Hdequeue(q);
+    }
     //Increase the number of faults and create the newNodes
     HNode *newNode = (HNode *)malloc(sizeof(HNode));
     newNode->input = userInput;

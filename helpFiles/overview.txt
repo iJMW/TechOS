@@ -1,3 +1,7 @@
+cd:
+
+    Changes the current directory to the passed directory
+
 chdate:
     
     Changes the TechOS's date
@@ -24,6 +28,18 @@ loadpcb:
     Loads a PCB with the specified name, class, priority, and
     data
 
+ls:
+
+    Lists all the files adn folder in the current directory
+
+mkdir:
+
+    Creates a folder in the current directory
+
+mkfile:
+
+    Creates a file in the current directory
+
 quit:
 
     Exits the TechOS
@@ -32,6 +48,14 @@ resume:
 
     Resumes the PCB whose name is passed and places it in
     the appropriate queue
+
+rmdir:
+
+    Removes a folder from the current directory
+
+rmfile:
+
+    Removes a file from the current directory
 
 shallpcb:
 

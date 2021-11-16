@@ -1,0 +1,12 @@
+
+cd:
+
+    Description:
+        Changes the directory to the passed directory
+
+    Syntax:
+        cd {{directoryPath}}
+
+    Example:
+        TechOS> cd /HelpFiles
+    

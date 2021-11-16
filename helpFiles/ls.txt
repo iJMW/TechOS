@@ -1,0 +1,12 @@
+
+ls:
+
+    Description:
+        Displays all the files and directories in the current directory
+
+    Syntax:
+        ls {{-size}} {{directoryPath}}
+
+    Example:
+        TechOS> ls -size /TechOS/helpFiles
+    
