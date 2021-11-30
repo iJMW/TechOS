@@ -1261,6 +1261,8 @@ void runBatch(char *fileName){
                         runBatch(parameters[0]);
                     } else{
                         printf("Unrecognized command. Please try again.");
+                        //If a command is unrecognized, force the loop to finish
+                        endOfFile = 1;
                     }
 
                     //Free the str variable
