@@ -181,6 +181,8 @@ void COMHAN(User *currentUser){
             removeAdmin(unformattedParameters[0]);
         } else if(strcmp(userInput, CMD_CHANGE_PASSWORD) == 0 || strcmp(userInput, INPUT_CHANGE_PASSWORD) == 0){
             changePassword(unformattedParameters[0]);
+        } else if(strcmp(userInput, CMD_RUN_BATCH) == 0 || strcmp(userInput, INPUT_RUN_BATCH) == 0){
+            runBatch(parameters[0]);
         } else{
             printf("Unrecognized command. Please try again.");
         }
@@ -1100,3 +1102,175 @@ void removeAdmin(char *username) {
     }
 }
 
+void runBatch(char *fileName){
+    if(numParameters != 1){
+        printf("\nInvalid number of parameters. The format for the '%s' command is: %s {{fileName}}", CMD_RUN_BATCH, CMD_RUN_BATCH);
+    }else{
+        FILE *file = fopen(fileName, "r");
+        if(file == NULL){
+            printf("\nERROR: File does not exist.");
+        }else{
+            //Used to determine when the end of the file is reached
+            int endOfFile = 0;
+            didUserLogout = 0;
+            //Size of input
+            size_t size = 50;
+            //UserInput will store the specific command
+            char *userInput = (char *)malloc(size * sizeof(char));
+            //Stores the parameters
+            char *parameters[size];
+            // Stores the parameters in the capitalization that the user entered
+            char *unformattedParameters[size];
+            // Stores the tags
+            char *tags[size];
+
+            //While the user chooses not to quit, display the CLI
+            while(didUserQuit == 0 && didUserLogout == 0 && endOfFile == 0){
+                //printf("\nTechOS:%s > ", currUser->username);
+                //Allocate memory for the string
+                char *str = (char *)malloc(size * sizeof(char));
+                //Declare the delimiters, a whitespace and \n is the delimeter
+                char delim[] = " \n";
+                //Get the line
+                if(getline(&str, &size, file) == -1){
+                    endOfFile = 1;
+                }else{
+                    char *stringToAdd = (char *)malloc(size * sizeof(char));
+                    //Iterate over the string
+                    numParameters = 0;
+                    numTags = 0;
+                    //flag to track if tag is found
+                    int noDashFlag = 0;
+                    //Get the first portion
+                    str = strtok(str, delim);
+                    while(str != NULL){
+                        if(numParameters == 0){ // Store the command the user wants to run
+                            userInput = str;
+                            convertToLowercase(userInput);
+                            strcpy(stringToAdd, userInput);
+                            numParameters++;
+                        } else{  // Store the parameters
+                            if (str[0] != '-') {
+                                noDashFlag = 1;
+                            }
+                            // There is no dash, therefore it is a parameter
+                            if (noDashFlag == 1) {
+                                parameters[numParameters - 1] = str;
+                                unformattedParameters[numParameters - 1] = (char *)malloc((strlen(str)+1) * sizeof(char));
+                                strcpy(unformattedParameters[numParameters - 1], str);
+                                convertToLowercase(parameters[numParameters-1]);
+                                // Increase the number of parameters
+                                numParameters++;
+                            } else { // There is a dash, then it is a tag
+                                tags[numTags] = str;
+                                convertToLowercase(tags[numTags]);
+                                numTags++;
+                            }
+                            //This is only for the history command
+                            strcat(stringToAdd, " ");
+                            strcat(stringToAdd, str);
+                        }
+                        // Tokenize the same line by passing NULL
+                        str = strtok(NULL, delim);
+                    }
+
+                    // If no parameters were passed, set the parameters to be ""
+                    if(numParameters == 1){
+                        parameters[0] = "";
+                        parameters[1] = "";
+                    }
+                    // If no tags were passed, set the tags to ""
+                    if(numTags == 0) {
+                        tags[0] = "";
+                    }
+
+                    // Reduce numParameters by one to not include the command being ran
+                    // e.g. dont include 'help' in the parameter cound when user entered
+                    // 'help version'
+                    numParameters = numParameters - 1;
+
+                    //Output the command being ran
+                    printf("\nRunning Command: %s", stringToAdd);
+
+                    //Convert it to lowercase
+                    convertToLowercase(stringToAdd);
+                    //If it is not the history command, add it to the queue
+                    //Do we want to get rid of this?
+                    if(strcmp(stringToAdd, "hist") != 0){
+                        Henqueue(history, stringToAdd);
+                    }
+                    
+                    // Run the specific command entered by the user, pass the parameters to the command if needed
+                    if(strcmp(userInput, CMD_HELP) == 0 || strcmp(userInput, INPUT_HELP) == 0){
+                        Help(parameters[0]);
+                    }else if(strcmp(userInput, CMD_VERSION) == 0 || strcmp(userInput, INPUT_VERSION) == 0){
+                        Version();
+                    }else if(strcmp(userInput, CMD_DATE) == 0 || strcmp(userInput, INPUT_DATE) == 0){
+                        DisplayDate();
+                    }else if(strcmp(userInput, CMD_CDDATE) == 0 || strcmp(userInput, INPUT_CDDATE) == 0){
+                        ChangeDate(parameters[0]);
+                    }else if(strcmp(userInput, CMD_TIME) == 0 ||strcmp(userInput, INPUT_TIME) == 0){
+                        DisplayTime();
+                    }else if(strcmp(userInput, CMD_QUIT) == 0 || strcmp(userInput, INPUT_QUIT) == 0){
+                        TerminateTechOS();
+                    }else if(strcmp(userInput, CMD_SETPRIORITY) == 0 || strcmp(userInput, INPUT_SETPRIORITY) == 0){
+                        setPriority(parameters[0], parameters[1]);
+                    }else if(strcmp(userInput, CMD_SUSPEND) == 0 || strcmp(userInput, INPUT_SUSPEND) == 0){
+                        suspend(parameters[0]);
+                    }else if(strcmp(userInput, CMD_RESUME) == 0 || strcmp(userInput, INPUT_RESUME) == 0){
+                        resume(parameters[0]);
+                    }else if(strcmp(userInput, CMD_SHPCB) == 0 || strcmp(userInput, INPUT_SHPCB) == 0){
+                        showPCB(parameters[0]);
+                    }else if(strcmp(userInput, CMD_SHALLPCB) == 0 || strcmp(userInput, INPUT_SHALLPCB) == 0){
+                        showAllPCB();
+                    }else if(strcmp(userInput, CMD_SHOW_READY_PROCESSES) == 0 || strcmp(userInput, INPUT_SHOW_READY_PROCESSES) == 0){
+                        ShowReadyProcesses();
+                    }else if(strcmp(userInput, CMD_SHOW_BLOCKED_PROCESSES) == 0 || strcmp(userInput, INPUT_SHOW_BLOCKED_PROCESSES) == 0){
+                        ShowBlockedProcesses();
+                    }else if(strcmp(userInput, CMD_HIST) == 0 || strcmp(userInput, INPUT_HIST) == 0){
+                        showHistory();
+                    }else if (strcmp(userInput, CMD_LOADPCB) == 0 || strcmp(userInput, INPUT_LOADPCB) == 0) {
+                        loadProcess(parameters[0], parameters[1], parameters[2], parameters[3]);
+                    }else if (strcmp(userInput, CMD_DISPATCH) == 0 || strcmp(userInput, INPUT_DISPATCH) == 0){
+                        dispatch();
+                    }else if (strcmp(userInput, CMD_VIEW_DIRECTORY) == 0 || strcmp(userInput, INPUT_VIEW_DIRECTORY) == 0) {
+                        viewDirectory(tags, parameters);
+                    }else if (strcmp(userInput, CMD_CHANGE_DIRECTORY) == 0 || strcmp(userInput, INPUT_CHANGE_DIRECTORY) == 0) {
+                        changeDirectory(parameters);
+                    }else if (strcmp(userInput, CMD_CREATE_FOLDER) == 0 || strcmp(userInput, INPUT_CREATE_FOLDER) == 0) {
+                        createFolder(parameters);
+                    }else if (strcmp(userInput, CMD_REMOVE_FOLDER) == 0 || strcmp(userInput, INPUT_REMOVE_FOLDER) == 0) {
+                        removeFolder(parameters);
+                    }else if (strcmp(userInput, CMD_CREATE_FILE) == 0 || strcmp(userInput, INPUT_CREATE_FILE) == 0) {
+                        createFile(parameters);
+                    }else if (strcmp(userInput, CMD_REMOVE_FILE) == 0 || strcmp(userInput, INPUT_REMOVE_FILE) == 0) {
+                        removeFile(parameters);
+                    }else if (strcmp(userInput, "logout") == 0 || strcmp(userInput, "logout\n") == 0) {
+                        didUserLogout = 1;
+                    } else if(strcmp(userInput, CMD_CREATE_USER) == 0 || strcmp(userInput, INPUT_CREATE_USER) == 0) {
+                        createUser(unformattedParameters[0], unformattedParameters[1], unformattedParameters[2]);
+                    } else if(strcmp(userInput, CMD_REMOVE_USER) == 0 || strcmp(userInput, INPUT_REMOVE_USER) == 0) {
+                        removeUser(unformattedParameters[0]);
+                    } else if(strcmp(userInput, CMD_CREATE_ADMIN) == 0 || strcmp(userInput, INPUT_CREATE_ADMIN) == 0){
+                        addAdmin(unformattedParameters[0]);
+                    } else if(strcmp(userInput, CMD_REMOVE_ADMIN) == 0 || strcmp(userInput, INPUT_REMOVE_ADMIN) == 0){
+                        removeAdmin(unformattedParameters[0]);
+                    } else if(strcmp(userInput, CMD_CHANGE_PASSWORD) == 0 || strcmp(userInput, INPUT_CHANGE_PASSWORD) == 0){
+                        changePassword(unformattedParameters[0]);
+                    } else if(strcmp(userInput, CMD_RUN_BATCH) == 0 || strcmp(userInput, INPUT_RUN_BATCH) == 0){
+                        runBatch(parameters[0]);
+                    } else{
+                        printf("Unrecognized command. Please try again.");
+                    }
+
+                    //Free the str variable
+                    free(str);
+                }
+
+                //Free the userInput variable
+                free(userInput);
+            }
+        }
+                
+    }
+}

@@ -50,6 +50,7 @@
 #define CMD_CHANGE_PASSWORD "chpass"
 #define CMD_CREATE_ADMIN "cradmin"
 #define CMD_REMOVE_ADMIN "rmadmin"
+#define CMD_RUN_BATCH "run"
 //Input Names including the next line character
 #define INPUT_CDDATE "chdate\n"
 #define INPUT_DATE "date\n"
@@ -82,6 +83,7 @@
 #define INPUT_CHANGE_PASSWORD "chpass\n"
 #define INPUT_CREATE_ADMIN "cradmin\n"
 #define INPUT_REMOVE_ADMIN "rmadmin\n"
+#define INPUT_RUN_BATCH "run\n"
 
 //Used to calculate the date difference if the user decides to change the date
 /*typedef struct DateDifference{
@@ -119,5 +121,6 @@ void removeUser(char *username);
 void changePassword(char *username);
 void addAdmin(char *username);
 void removeAdmin(char *username);
+void runBatch(char *fileName);
 
 #endif
