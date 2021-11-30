@@ -3,3 +3,4 @@ jalen password1 1
 john password3 1
 fakeUser fakePassword 0
 fakeuser FakePassword 0
+batchUser pass 1

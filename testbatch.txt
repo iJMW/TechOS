@@ -1,0 +1,16 @@
+version
+help
+help version
+date
+chdate 01-20-2021
+time
+hist
+ls
+cd helpFiles
+ls
+mkdir testInBatch
+mkfile testInBatchFile.txt
+cruser batchUser pass 0
+quit
+help resume
+cradmin batchUser

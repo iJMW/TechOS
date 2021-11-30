@@ -1190,7 +1190,7 @@ void runBatch(char *fileName){
                     numParameters = numParameters - 1;
 
                     //Output the command being ran
-                    printf("\nRunning Command: %s", stringToAdd);
+                    printf("\nRunning Command: %s\n", stringToAdd);
 
                     //Convert it to lowercase
                     convertToLowercase(stringToAdd);
