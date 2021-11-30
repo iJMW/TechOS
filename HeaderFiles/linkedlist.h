@@ -28,8 +28,10 @@ bool isLEmpty(LQueue *q);
 LNode *Lpeek(LQueue *q);
 LNode *Ldequeue(LQueue *q);
 User *Lcontains(LQueue *q, char username[100], char password[100]);
+User *LcontainsNoPass(LQueue *q, char username[100]);
 void Lenqueue(LQueue *q, User *u);
-void removeFromLQueue(LQueue *q, User *u);
+int removeFromLQueue(LQueue *q, char username[100]);
 void printLinkedList(LQueue *q);
+int userNameTaken(LQueue *q, char username[100]);
 
 #endif

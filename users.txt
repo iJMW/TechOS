@@ -1,4 +1,5 @@
 root password 2
-jalen password1 2
-logan password2 2
-john password3 2
+jalen password1 1
+john password3 1
+fakeUser fakePassword 0
+fakeuser FakePassword 0

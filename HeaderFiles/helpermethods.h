@@ -1,3 +1,6 @@
+#include "../HeaderFiles/login.h"
+#include "../HeaderFiles/linkedlist.h"
+
 #ifndef HELPERMETHODS_H_
 #define HELPERMETHODS_H_
 
@@ -24,5 +27,7 @@ char *getSuspendedStatus(int s);
 char *getClass(int val);
 char *concatStrings(char *a[],int numParameters);
 char *getSubstring(char *s, int start, int end);
+void setPassword(User *selectedUser);
+void updateUserFile();
 
 #endif

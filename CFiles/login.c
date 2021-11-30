@@ -54,6 +54,8 @@ User *validateLogin(char *userName, char *password){
 // Used to read the accounts
 void readAccounts(FILE *file)
 {
+    userQueue = (LQueue *)malloc(sizeof(LQueue));
+    initializeLQueue(userQueue);
     User *newUser;
     size_t size = 100;
     // Declare the delimiters, a whitespace and \n is the delimeter

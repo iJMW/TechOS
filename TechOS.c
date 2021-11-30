@@ -28,9 +28,10 @@ int main() {
     //Initialize History Queue
     history = (HQueue *)malloc(sizeof(HQueue));
     initializeHQueue(history);
-    //Initialize User queue
+    // Initialize the user queue
     userQueue = (LQueue *)malloc(sizeof(LQueue));
     initializeLQueue(userQueue);
+
 
     User * validUser = (User *)malloc(sizeof(User));
     int terminate = 0;
@@ -43,6 +44,7 @@ int main() {
         } else {
             printf("\nInvalid Login");
         }
+        free(userQueue);
     } while(true);
     
     return 0;

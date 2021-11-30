@@ -45,6 +45,11 @@
 #define CMD_REMOVE_FOLDER "rmdir"
 #define CMD_CREATE_FILE "mkfile"
 #define CMD_REMOVE_FILE "rmfile"
+#define CMD_CREATE_USER "cruser"
+#define CMD_REMOVE_USER "rmuser"
+#define CMD_CHANGE_PASSWORD "chpass"
+#define CMD_CREATE_ADMIN "cradmin"
+#define CMD_REMOVE_ADMIN "rmadmin"
 //Input Names including the next line character
 #define INPUT_CDDATE "chdate\n"
 #define INPUT_DATE "date\n"
@@ -72,6 +77,11 @@
 #define INPUT_REMOVE_FOLDER "rmdir\n"
 #define INPUT_CREATE_FILE "mkfile\n"
 #define INPUT_REMOVE_FILE "rmfile\n"
+#define INPUT_CREATE_USER "cruser\n"
+#define INPUT_REMOVE_USER "rmuser\n"
+#define INPUT_CHANGE_PASSWORD "chpass\n"
+#define INPUT_CREATE_ADMIN "cradmin\n"
+#define INPUT_REMOVE_ADMIN "rmadmin\n"
 
 //Used to calculate the date difference if the user decides to change the date
 /*typedef struct DateDifference{
@@ -104,5 +114,10 @@ void createFolder(char *parameters[]);
 void removeFolder(char *parameters[]);
 void createFile(char *parameters[]);
 void removeFile(char *parameters[]);
+void createUser(char *username, char *password, char *accessLevel);
+void removeUser(char *username);
+void changePassword(char *username);
+void addAdmin(char *username);
+void removeAdmin(char *username);
 
 #endif

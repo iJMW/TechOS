@@ -1,6 +1,7 @@
 #include "../HeaderFiles/comhan.h"
 #include "../HeaderFiles/customprocess.h"
 #include "../HeaderFiles/helpermethods.h"
+#include "../HeaderFiles/linkedlist.h"
 #include <time.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -14,6 +15,8 @@ int numTags;
 int didUserQuit = 0;
 int didUserLogout = 0;
 char *location;
+//Global variable for current user
+User *currUser;
 //DIR *currentDirectory = opendir("..");
 
 //Used for keeping track of the time and date of the system
@@ -25,6 +28,8 @@ DateDifference dateDiff;
 
 //Function controls flow of program
 void COMHAN(User *currentUser){
+    //Set the global variable for the current user to the passed user struct
+    currUser = currentUser;
     //Initialize the date difference elements
     dateDiff.numDays = 0;
     dateDiff.numMonths = 0;
@@ -43,11 +48,14 @@ void COMHAN(User *currentUser){
     char *userInput = (char *)malloc(size * sizeof(char));
     //Stores the parameters
     char *parameters[size];
+    // Stores the parameters in the capitalization that the user entered
+    char *unformattedParameters[size];
+    // Stores the tags
     char *tags[size];
 
     //While the user chooses not to quit, display the CLI
     while(didUserQuit == 0 && didUserLogout == 0){
-        printf("\nTechOS > ");
+        printf("\nTechOS:%s > ", currUser->username);
         //Allocate memory for the string
         char *str = (char *)malloc(size * sizeof(char));
         //Declare the delimiters, a whitespace and \n is the delimeter
@@ -75,6 +83,8 @@ void COMHAN(User *currentUser){
                 // There is no dash, therefore it is a parameter
                 if (noDashFlag == 1) {
                     parameters[numParameters - 1] = str;
+                    unformattedParameters[numParameters - 1] = (char *)malloc((strlen(str)+1) * sizeof(char));
+                    strcpy(unformattedParameters[numParameters - 1], str);
                     convertToLowercase(parameters[numParameters-1]);
                     // Increase the number of parameters
                     numParameters++;
@@ -161,6 +171,16 @@ void COMHAN(User *currentUser){
             removeFile(parameters);
         }else if (strcmp(userInput, "logout") == 0 || strcmp(userInput, "logout\n") == 0) {
             didUserLogout = 1;
+        } else if(strcmp(userInput, CMD_CREATE_USER) == 0 || strcmp(userInput, INPUT_CREATE_USER) == 0) {
+            createUser(unformattedParameters[0], unformattedParameters[1], unformattedParameters[2]);
+        } else if(strcmp(userInput, CMD_REMOVE_USER) == 0 || strcmp(userInput, INPUT_REMOVE_USER) == 0) {
+            removeUser(unformattedParameters[0]);
+        } else if(strcmp(userInput, CMD_CREATE_ADMIN) == 0 || strcmp(userInput, INPUT_CREATE_ADMIN) == 0){
+            addAdmin(unformattedParameters[0]);
+        } else if(strcmp(userInput, CMD_REMOVE_ADMIN) == 0 || strcmp(userInput, INPUT_REMOVE_ADMIN) == 0){
+            removeAdmin(unformattedParameters[0]);
+        } else if(strcmp(userInput, CMD_CHANGE_PASSWORD) == 0 || strcmp(userInput, INPUT_CHANGE_PASSWORD) == 0){
+            changePassword(unformattedParameters[0]);
         } else{
             printf("Unrecognized command. Please try again.");
         }
@@ -243,7 +263,7 @@ void Version(){
     }
 }
 
-//Displays the current date for the user
+// Displays the current date for the user
 void DisplayDate(){
     //No parameters should be passed with this command
     if(numParameters != 0){
@@ -313,7 +333,7 @@ void ChangeDate(char *parameters){
     }
 }
 
-//Displays the current system time
+// Displays the current system time
 void DisplayTime(){
     //There should not be any parameters with this command
     if (numParameters != 0) {
@@ -343,7 +363,7 @@ void DisplayTime(){
     }
 }
 
-//Terminates the TechOS program
+// Terminates the TechOS program
 void TerminateTechOS(){
     //There should not be any parameters with this command
     if(numParameters != 0){
@@ -451,7 +471,6 @@ void resume(char *processName){
 
 // Displays the name, class, state, suspended staus, and priority of the process
 void showPCB(char *processName) {
-
     // Check the number of parameters
    if (numParameters != 1) {
        printf("Invalid number of parameters. The format for the '%s' command is: %s {{processName}}", CMD_SHPCB, CMD_SHPCB);
@@ -860,6 +879,7 @@ void createFile(char *parameters[]){
     }
 }
 
+// Removes a file from the current directory
 void removeFile(char *parameters[]){
     // Check the number of parameters
     if(numParameters == 0){
@@ -896,5 +916,187 @@ void removeFile(char *parameters[]){
             printf("\nFile \"%s\" does not exist.", fileName);
         }
     }  
+}
+
+//Adds a user to the user queue
+void createUser(char *username, char *password, char *accessLevel) {
+    //Check the number of parameters. If there are not 3, it is invalid.
+    if(numParameters != 3){
+        printf("\nInvalid number of parameters. The format for the '%s' command is: %s {{username}} {{password}} {{accessLevel}}", CMD_CREATE_USER, CMD_CREATE_USER);
+    }else{//Correct number of parameters given
+       
+        // Check that the user passed an approriate number for the access level
+        if (!isNumber(accessLevel)) {
+            printf("Acces level should be a number");
+        } else {
+            //If the user is not an administrator (1 or 2), do not allow this to occur
+            if(currUser->access != 1 && currUser->access != 2){
+                printf("\nInvalid access. Must be an administrator to perform this action.");
+            }else if(atoi(accessLevel) < 0 || atoi(accessLevel) > 2){//Make sure that the access level is between 0 and 2
+                printf("\nAccess Level must be between 0 and 2.");
+            }else if(atoi(accessLevel) != 0 && atoi(accessLevel) != 1){//If the accessLevel is 2, do not allow the user to be created
+                printf("\nERROR: Cannot create another root administrator");
+            }else if(userNameTaken(userQueue ,username) == 1){//If the username is taken, do not allow it.
+                printf("\nUsername %s is not available.", username);
+            }else{//otherwise, create the user
+                //Create the user with the specified parameters
+                User *user = (User *)malloc(sizeof(User));
+                strcpy(user->username, username);
+                strcpy(user->password, password);
+                user->access = atoi(accessLevel);
+                //Add the user to the userQueue
+                Lenqueue(userQueue, user);
+                // Write the new user to the users.txt
+                updateUserFile();
+                //print the success message
+                printf("\nUser %s has been successfully added with access level %d.", user->username, user->access);
+            }
+        }
+    }
+}
+
+// Function used to remove the user
+void removeUser(char *username) {
+    printf("\nPassed Username: %s", username);
+    // Check the appropraite number of parameters is passed
+    if (numParameters != 1) {
+        printf("\nInvalid number of parameters. The format for the '%s' command is: %s {{username}}", CMD_REMOVE_USER, CMD_REMOVE_USER);
+    } else {
+        // Check that the user has appropraite access
+        if (currUser->access != 1 && currUser->access != 2) {
+            printf("\nInvalid access. Must be an administrator to perform this action");
+        } else {
+            // Check that user exists
+            User *selectedUser = (User *)malloc(sizeof(User));
+            selectedUser = LcontainsNoPass(userQueue, username);
+            // If the user does not exist
+            if (!selectedUser) {
+                // Print the error message
+                printf("\nUser with username %s does not exist", username);
+            } else if (selectedUser->access == 2) { // Check that user isn't removing the root
+                printf("\nCannot remove the root user");
+            } else if (currUser->access == 1 && selectedUser->access == 1) { // Admin can't remove another admin
+                printf("\nAdministator cannot remove another administrator");
+            } else {
+                // Remove the user
+                removeFromLQueue(userQueue, selectedUser->username);
+                // Print that the user was removed
+                printf("\nUser %s was removed", username);
+                // Write the updates to the users.txt
+                updateUserFile();
+            }
+        }
+    }
+}
+
+// Function to change the password of a given user
+void changePassword(char *username) {
+    User *selectedUser;
+    // Check the number of parameters
+    if(numParameters != 1) {
+            printf("Invalid number of parameters. The format for the '%s' command is: %s {{username}}", CMD_CHANGE_PASSWORD, CMD_CHANGE_PASSWORD);
+    } else {
+        // If user is trying to change their own passowrd
+        if(strcmp(username,currUser->username)){
+            selectedUser = currUser;
+            setPassword(selectedUser);
+        } else {        
+            // if user is not an admin or root admin
+            if (currUser->access != 1 && currUser->access != 2) {
+                 // Print the error message
+                 printf("\nInvalid access. Must be an administrator to perform this action");
+            } else {
+                if(userNameTaken(userQueue, username) == 0){ // If the username is not found
+                    printf("\nNo user with username %s found", username);
+                } else{ // Get new user and pass to be modified
+                    selectedUser = LcontainsNoPass(userQueue, username);
+                    // Check that an admin is not trying to modify another admin
+                    if(currUser -> access == 1 && selectedUser -> access == 1){
+                        printf("\nAdministator cannot change the password of another administrator");
+                    }else{//Otherwise, set the password of the selected user
+                        setPassword(selectedUser);
+                        // Print that the password was changed
+                        printf("\nPassword for user %s has been update", username);
+                        // Write updates to the users.txt
+                        updateUserFile();
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Grants admin access to passed user
+void addAdmin(char *username) {
+    // Check the number of parameters passed
+    if (numParameters != 1) {
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{username}}", CMD_CREATE_ADMIN, CMD_CREATE_ADMIN);
+    } else {
+        // Check that the user has approiate access
+        if (currUser->access != 1 && currUser->access != 2) {
+            printf("\nInvalid access. Must be an administrator to perform this action");
+        } else {
+            // Will hold the selected user
+            User *selectedUser = (User *)malloc(sizeof(User));
+            // Get the user from the username
+            selectedUser = LcontainsNoPass(userQueue, username);
+            // If the selected user does not exist
+            if (!selectedUser) {
+                // Print the error message
+                printf("\nUser with username %s does not exist", username);
+            } else if (selectedUser->access == 2) { // If the user selected the root user
+                // Print the error message
+                printf("\nCan not modify root administator's privilege level", selectedUser->username);
+            } else if (selectedUser->access == 1) { // If the user is already an admin
+                // Print the error message
+                printf("\nUser with username %s already has administator privileges", selectedUser->username);
+            } else {
+                // Update the selected user's access
+                selectedUser->access = 1;
+                // Print that the access level was modified
+                printf("\nAdministator privilege added to account with username %s", selectedUser->username);
+                 // Write the updates to the users.txt
+                updateUserFile();
+            }
+        }
+    }
+}
+
+// Removes admin access from passed user
+void removeAdmin(char *username) {
+    // Check the number of parameters passed
+    if (numParameters != 1) {
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{username}}", CMD_REMOVE_ADMIN, CMD_REMOVE_ADMIN);
+    } else {
+        // Check that the user has approiate access
+        if (currUser->access != 1 && currUser->access != 2) {
+            printf("\nInvalid access. Must be an administrator to perform this action");
+        } else {
+            // Will hold the selected user
+            User *selectedUser = (User *)malloc(sizeof(User));
+            // Get the user from the username
+            selectedUser = LcontainsNoPass(userQueue, username);
+            // If the selected user does not exist
+            if (!selectedUser) {
+                // Print the error message
+                printf("\nUser with username %s does not exist", username);
+            } else if (selectedUser->access == 2) { // If the user selected the root user
+                // Print the error message
+                printf("\nCan not modify root administator's privilege level", selectedUser->username);
+            } else if (selectedUser->access != 1) { // If the user is not already an admin
+                // Print the error message
+                printf("\nUser with username %s does not have administator privileges", selectedUser->username);
+            } else if (currUser->access == 1 && selectedUser->access == 1) {
+                printf("\nAdministrator cannot change access level of another administrator.");
+            } else {
+                // Update the selected user's access
+                selectedUser->access = 0;
+                // Print that the access level was modified
+                printf("\nAdministator privilege removed from account with username %s", selectedUser->username);
+                 // Write the updates to the users.txt
+                updateUserFile();
+            }
+        }
+    }
 }
 

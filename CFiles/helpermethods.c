@@ -158,3 +158,53 @@ char *getSubstring(char *s, int start, int end)
     newStr[i] = '\0';
     return newStr;
 }
+
+void setPassword(User *selectedUser){
+    char *currpass = selectedUser -> password;//current password
+    char *newpass;
+    char *confirmpass;
+    printf("\nEnter new password: ");
+    scanf("%s",&newpass);//get new password
+
+    while(!strcmp(newpass,currpass) || strstr(newpass, " ") != NULL)//while passwords are identical
+    {
+        if (!strcmp(newpass,currpass)) {
+            printf("\nNew password cannot the same as the old password");
+        } else if (strstr(newpass, " ") != NULL) {
+             printf("\nPassword cannot contain spaces.");
+        }
+        printf("\nEnter new password: ");
+        scanf("%s",&newpass);//get new password
+    }
+
+    printf("\nConfirm new password: ");
+    scanf("%s",&confirmpass);//get new password
+    
+    if(strcmp(newpass,confirmpass)){
+        //selectedUser -> password = newpass;
+        strcpy(selectedUser->password, newpass);
+        printf("\nPassword changed.");
+    }
+    else{
+        printf("\nPassword not changed.");
+    }
+}
+
+// Will updated users.txt
+void updateUserFile(){
+    // Open the user file
+    FILE *file = fopen("users.txt", "w");
+
+    // Start at the head of the queue
+    LNode *temp = userQueue->head;
+    // Iterate over each user
+    while(temp != NULL) {
+        fprintf(file, "%s %s %d\n", temp->user->username, temp->user->password, temp->user->access);
+        //fprintf(file, "%s", strcat(temp->user->password, " "));
+        //fprintf(file, "%d\n", temp->user->access);
+        temp = temp->next;
+    }
+
+    // Close the user file
+    fclose(file);
+}

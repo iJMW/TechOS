@@ -68,6 +68,21 @@ User *Lcontains(LQueue *q, char username[100], char password[100]){
     return NULL;
 }
 
+User *LcontainsNoPass(LQueue *q, char username[100]){
+    if(q->head != NULL){
+        LNode *temp = q->head;
+        while(temp != NULL){
+            //If the value of temp is equivalent to the val then return true
+            if(strcmp(temp->user->username, username) == 0){
+                return temp->user;
+            }
+            temp = temp->next;
+        }
+    }
+    //Otherwise, return false
+    return NULL;
+}
+
 //Returns true if the value is in the queue
 int userNameTaken(LQueue *q, char username[100]){
     if(q->head != NULL){
@@ -103,11 +118,11 @@ void Lenqueue(LQueue *q, User *user){
     }
 }
 
-void removeFromLQueue(LQueue *q, User *user){
+int removeFromLQueue(LQueue *q, char username[100]){
     LNode *temp = q->head;
     LNode *prev = NULL;
     while(temp != NULL){
-        if(strcmp(temp->user->username, user->username) == 0){
+        if(strcmp(temp->user->username, username) == 0){
             if(prev != NULL){
                 prev->next = temp->next;
             }else{
@@ -116,11 +131,13 @@ void removeFromLQueue(LQueue *q, User *user){
                     q->tail = NULL;
                 }
             }
-            break;
+            //break;
+            return 1;
         }
         prev = temp;
         temp = temp->next;
     }
+    return 0;
 }
 
 //Outputs the PQueue for testing
