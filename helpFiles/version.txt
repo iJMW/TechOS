@@ -9,3 +9,6 @@ version:
 
     Example:
         TechOS> version
+
+    Access Level Required:
+        Basic user

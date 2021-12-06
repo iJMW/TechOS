@@ -9,4 +9,7 @@ shallpcb:
 
     Example:
         TechOS> shallpcb
+    
+    Access Level Required:
+        Basic user
         

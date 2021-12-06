@@ -9,3 +9,6 @@ hist:
 
     Example:
         TechOS> hist
+
+    Access Level Required:
+        Basic user

@@ -1,0 +1,15 @@
+
+chpass:
+
+    Description:
+        Changes password of specified user
+
+    Syntax:
+        chpass {{username}}
+
+    Example:
+        TechOS> chpass fakeuser
+
+    Access Level Required:
+        Basic user
+        

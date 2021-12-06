@@ -9,4 +9,7 @@ resume:
 
     Example:
         TechOS> resume process1
+
+    Access Level Required:
+        Basic user
         

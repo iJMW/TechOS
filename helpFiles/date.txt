@@ -9,4 +9,7 @@ date:
 
     Example:
         TechOS> date
+
+    Access Level Required:
+        Basic user
  

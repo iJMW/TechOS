@@ -160,33 +160,45 @@ char *getSubstring(char *s, int start, int end)
 }
 
 void setPassword(User *selectedUser){
-    char *currpass = selectedUser -> password;//current password
-    char *newpass;
-    char *confirmpass;
+    
+    // Allocate memory to store the current password
+    char *currpass = (char *)malloc(100 * sizeof(char));
+    strcpy(currpass, selectedUser -> password);//current password
+    
+    // Allocate memory to store the new password
+    char *newpass = (char *)malloc(100 * sizeof(char));
+    char *confirmpass = (char *)malloc(100 * sizeof(char));
+    
+    // Prompt the user to enter the new password
     printf("\nEnter new password: ");
-    scanf("%s",&newpass);//get new password
+    gets(newpass);//get new password
 
-    while(!strcmp(newpass,currpass) || strstr(newpass, " ") != NULL)//while passwords are identical
+    // Loop until user provides a valid password
+    while(strcmp(newpass,currpass) == 0 || strstr(newpass, " ") != NULL)//while passwords are identical or new pass contains spaces
     {
-        if (!strcmp(newpass,currpass)) {
+        // Display appropriate error message
+        if (strcmp(newpass,currpass) == 0) { // Check if the new password is the same as the old password
             printf("\nNew password cannot the same as the old password");
-        } else if (strstr(newpass, " ") != NULL) {
+        } else if (strstr(newpass, " ") != NULL) { // Check if the password contains spaces
              printf("\nPassword cannot contain spaces.");
         }
+        
+        // Prompt the user to enter the new password again
         printf("\nEnter new password: ");
-        scanf("%s",&newpass);//get new password
+        gets(newpass);//get new password
     }
 
+    // Prompt the user to enter the new password
     printf("\nConfirm new password: ");
-    scanf("%s",&confirmpass);//get new password
+    gets(confirmpass);//get new password
     
-    if(strcmp(newpass,confirmpass)){
-        //selectedUser -> password = newpass;
+    // Check if the password was confirmed
+    if(strcmp(newpass, confirmpass) == 0){
         strcpy(selectedUser->password, newpass);
-        printf("\nPassword changed.");
+        printf("\nPassword for user %s was changed.", selectedUser->username);
     }
     else{
-        printf("\nPassword not changed.");
+        printf("\nUnable to change password.");
     }
 }
 

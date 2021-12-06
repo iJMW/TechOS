@@ -9,4 +9,7 @@ ls:
 
     Example:
         TechOS> ls -size /TechOS/helpFiles
+
+    Access Level Required:
+        Basic user
     

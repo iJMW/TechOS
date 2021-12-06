@@ -9,3 +9,6 @@ chdate:
 
     Example:
         TechOS> chdate 01-01-2021
+
+    Access Level Required:
+        Basic user

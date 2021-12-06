@@ -9,4 +9,7 @@ cd:
 
     Example:
         TechOS> cd /HelpFiles
+
+    Access Level Required:
+        Basic user
     

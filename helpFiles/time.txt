@@ -10,3 +10,6 @@ time:
     Example:
         TechOS> time
     
+    Access Level Required:
+        Basic user
+    

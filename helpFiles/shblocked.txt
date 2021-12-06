@@ -9,4 +9,7 @@ shblocked:
 
     Example:
         TechOS> shblocked
+    
+    Access Level Required:
+        Basic user
         

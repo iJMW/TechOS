@@ -6,6 +6,18 @@ chdate:
     
     Changes the TechOS's date
 
+chpass:
+
+    Changes the password for the user with the passed username
+
+cradmin:
+
+    Promotes a user in the system to an admin
+
+cruser:
+
+    Creates a user with passed username, password, and access level
+
 date:
     
     Displays the current date
@@ -49,6 +61,10 @@ resume:
     Resumes the PCB whose name is passed and places it in
     the appropriate queue
 
+rmadmin:
+
+    Removes a user's administator privileges
+
 rmdir:
 
     Removes a folder from the current directory
@@ -56,6 +72,14 @@ rmdir:
 rmfile:
 
     Removes a file from the current directory
+
+rmuser:
+
+    Removes the user with passed username from the system
+
+run:
+
+    Executes a series of commands in order within a text file
 
 shallpcb:
 

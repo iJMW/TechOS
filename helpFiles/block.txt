@@ -1,3 +1,4 @@
+
 block:
 
     Description:
@@ -9,3 +10,6 @@ block:
 
     Example:
         TechOS> block process1
+
+    Access Level Required:
+        Basic user

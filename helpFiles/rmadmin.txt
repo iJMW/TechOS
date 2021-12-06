@@ -1,0 +1,15 @@
+
+rmadmin:
+
+    Description:
+        Remove administator privileges from the user
+
+    Syntax:
+        rmadmin {{username}}
+
+    Example:
+        TechOS> rmadmin fakeuser
+
+    Access Level Required:
+        Root Administrator
+      

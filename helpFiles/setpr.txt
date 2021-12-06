@@ -9,3 +9,7 @@ setpr:
 
     Example:
         TechOS> setpr process1 4
+    
+    Access Level Required:
+        Basic user
+    

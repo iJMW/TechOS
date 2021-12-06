@@ -9,4 +9,7 @@ shready:
 
     Example:
         TechOS> shready
+    
+    Access Level Required:
+        Basic user
         

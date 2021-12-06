@@ -9,4 +9,7 @@ suspend:
 
     Example:
         TechOS> suspend process1
+    
+    Access Level Required:
+        Basic user
         
