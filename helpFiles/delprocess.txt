@@ -1,3 +1,4 @@
+
 crprocess:
 
     Description:
@@ -9,4 +10,7 @@ crprocess:
 
     Example:
         TechOS> delprocess process1
+
+    Access Level Required:
+        Basic user
         

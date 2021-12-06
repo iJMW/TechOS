@@ -1,0 +1,15 @@
+
+rmuser:
+
+    Description:
+        Removes a user account from system
+
+    Syntax:
+        rmuser {{username}}
+
+    Example:
+        TechOS> rmuser exampleUser
+    
+    Access Level Required:
+        Administrator
+    

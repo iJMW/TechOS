@@ -9,4 +9,7 @@ loadpcb:
 
     Example:
         TechOS> loadpcb process1 1 1 ./processes/proc1.techos
+
+    Access Level Required:
+        Basic user
     

@@ -13,3 +13,6 @@ help:
         TechOS> help
         ...
         TechOS> help date
+
+    Access Level Required:
+        Basic user

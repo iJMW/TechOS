@@ -1,0 +1,15 @@
+
+run:
+
+    Description:
+        Executes the commands in sequence from a text file
+
+    Syntax:
+        run {{filename}}
+
+    Example:
+        TechOS> run exampleFile.txt
+    
+    Access Level Required:
+        Basic user
+    

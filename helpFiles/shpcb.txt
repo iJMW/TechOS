@@ -9,4 +9,7 @@ shpcb:
 
     Example:
         TechOS> shpcb process1
+    
+    Access Level Required:
+        Basic user
         

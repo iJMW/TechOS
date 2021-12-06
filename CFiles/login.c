@@ -11,7 +11,6 @@ User *LOGIN()
 
     // Read the accounts
     readAccounts(file);
-    printf("\nRead all the accounts");
 
     // Stores the username
     char userName[100];

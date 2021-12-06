@@ -10,3 +10,6 @@ mkfile:
     Example:
         TechOS> mkfile testFile.txt
     
+    Access Level Required:
+        Basic user
+        

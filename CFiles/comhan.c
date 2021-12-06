@@ -38,7 +38,8 @@ void COMHAN(User *currentUser){
     currentTime = time(NULL);
     tm = *localtime(&currentTime);
     // Intialize the location
-    location = ".";
+    location = (char *)malloc(200 * sizeof(char));
+    strcpy(location, ".");
 
     didUserLogout = 0;
 
@@ -729,31 +730,37 @@ void changeDirectory(char *parameters[]){
     if (numParameters == 0) {
         printf("Invalid number of parameters. The format for the '%s' command is: %s {{directory}}", CMD_CHANGE_DIRECTORY, CMD_CHANGE_DIRECTORY);
     } else {
-        // Build the directory name
+        
+        // Determines if the user passed an absolute path
         int absolute = 0;
+        
         //If the first parameter's first element is a / then it is absolute
         //First parameter before concatenation is the beginning of the path
         //from the user
         if(parameters[0][0] == '/'){
             absolute = 1;
         }
-        char *directoryName = concatStrings(parameters, numParameters);
-        char *newName = (char *)malloc(100 * sizeof(char));
-        strcpy(newName, location);
-        strcat(newName, "/");
-        strcat(newName, directoryName);
 
+        // Builds the path passed by the user
+        char *directoryName = concatStrings(parameters, numParameters);
+        printf("\nDirectory Name: %s", directoryName);
+
+        // Stores the error type
         int errorType = 0;
-        //If begins with / or ./, then it is an absolute path
-        char *chosenPath = (char *)malloc(100 * sizeof(char));
+        
+        // Chosen path
+        char *chosenPath = (char *)malloc(200 * sizeof(char));
+        strcpy(chosenPath, "\0");
         
         // Absolute
         if(absolute == 1){
-            //strcpy(chosenPath, ".");
-            //strcat(chosenPath, directoryName);
-            strcpy(chosenPath, directoryName);
-        } 
-        
+            if(strcmp(directoryName, "./") == 0){
+                strcpy(chosenPath, ".");
+            }else{
+                strcpy(chosenPath, directoryName);
+            }
+        }
+
         // Backing out of directory
         else if(directoryName[0] == '.' && directoryName[1] == '.'){
             // Can't back out of root directrory
@@ -781,7 +788,7 @@ void changeDirectory(char *parameters[]){
         } 
         
         // Relative Path
-        else if (strcmp(directoryName, ".") != 0) {// Relative path from current location
+        else if (strcmp(directoryName, ".") != 0 && strcmp(directoryName, "./") != 0) {// Relative path from current location
             // HeaderFiles
             if (directoryName[0] == '.') {
                 directoryName = getSubstring(directoryName, 2, strlen(directoryName));
@@ -790,17 +797,23 @@ void changeDirectory(char *parameters[]){
             strcpy(chosenPath, location);
             strcat(chosenPath, "/");
             strcat(chosenPath, directoryName);
-        }
+        } 
         
+        // Opens the chosen path
         DIR *chosenDirectory = opendir(chosenPath);
+        // Determine print
         if(errorType == 1){
             printf("\nError: Already in root directory");
         } else if(chosenDirectory){
-            location = chosenPath;
-            printf("\nNew Location: %s", chosenPath);
-        } else { 
+            strcpy(location, chosenPath);
+        } else if (strlen(chosenPath) != 0) { 
             printf("\nERROR: Directory %s does not exist.", chosenPath);
+        } else {
+            printf("\nAlready in directory passed");
         }
+
+        // Free memory allocated for the chosen path
+        free(chosenPath);
     }
 }
 
@@ -929,15 +942,15 @@ void createUser(char *username, char *password, char *accessLevel) {
        
         // Check that the user passed an approriate number for the access level
         if (!isNumber(accessLevel)) {
-            printf("Acces level should be a number");
+            printf("Access level should be a number");
         } else {
             //If the user is not an administrator (1 or 2), do not allow this to occur
             if(currUser->access != 1 && currUser->access != 2){
                 printf("\nInvalid access. Must be an administrator to perform this action.");
             }else if(atoi(accessLevel) < 0 || atoi(accessLevel) > 2){//Make sure that the access level is between 0 and 2
-                printf("\nAccess Level must be between 0 and 2.");
+                printf("\nAccess Level must be either 0 (basic user) or 1 (administator).");
             }else if(atoi(accessLevel) != 0 && atoi(accessLevel) != 1){//If the accessLevel is 2, do not allow the user to be created
-                printf("\nERROR: Cannot create another root administrator");
+                printf("\nERROR: Cannot create another root administrator.");
             }else if(userNameTaken(userQueue ,username) == 1){//If the username is taken, do not allow it.
                 printf("\nUsername %s is not available.", username);
             }else{//otherwise, create the user
@@ -959,7 +972,6 @@ void createUser(char *username, char *password, char *accessLevel) {
 
 // Function used to remove the user
 void removeUser(char *username) {
-    printf("\nPassed Username: %s", username);
     // Check the appropraite number of parameters is passed
     if (numParameters != 1) {
         printf("\nInvalid number of parameters. The format for the '%s' command is: %s {{username}}", CMD_REMOVE_USER, CMD_REMOVE_USER);
@@ -975,8 +987,10 @@ void removeUser(char *username) {
             if (!selectedUser) {
                 // Print the error message
                 printf("\nUser with username %s does not exist", username);
-            } else if (selectedUser->access == 2) { // Check that user isn't removing the root
-                printf("\nCannot remove the root user");
+            } else if (strcmp(selectedUser->username, currUser->username) == 0) { 
+                printf("\nCannot remove own account");
+            }else if (selectedUser->access == 2) { // Check that user isn't removing the root
+                printf("\nCannot remove the root administrator");
             } else if (currUser->access == 1 && selectedUser->access == 1) { // Admin can't remove another admin
                 printf("\nAdministator cannot remove another administrator");
             } else {
@@ -996,12 +1010,15 @@ void changePassword(char *username) {
     User *selectedUser;
     // Check the number of parameters
     if(numParameters != 1) {
-            printf("Invalid number of parameters. The format for the '%s' command is: %s {{username}}", CMD_CHANGE_PASSWORD, CMD_CHANGE_PASSWORD);
+        printf("Invalid number of parameters. The format for the '%s' command is: %s {{username}}", CMD_CHANGE_PASSWORD, CMD_CHANGE_PASSWORD);
     } else {
         // If user is trying to change their own passowrd
-        if(strcmp(username,currUser->username)){
+        if(strcmp(username,currUser->username) == 0){
             selectedUser = currUser;
             setPassword(selectedUser);
+            // Write updates to the users.txt
+            updateUserFile();
+
         } else {        
             // if user is not an admin or root admin
             if (currUser->access != 1 && currUser->access != 2) {
@@ -1015,10 +1032,10 @@ void changePassword(char *username) {
                     // Check that an admin is not trying to modify another admin
                     if(currUser -> access == 1 && selectedUser -> access == 1){
                         printf("\nAdministator cannot change the password of another administrator");
-                    }else{//Otherwise, set the password of the selected user
+                    } else if(selectedUser->access == 2){//Only root user (checked above) can change root password
+                        printf("\nOnly root administrator can change root administrator password");
+                    } else{//Otherwise, set the password of the selected user
                         setPassword(selectedUser);
-                        // Print that the password was changed
-                        printf("\nPassword for user %s has been update", username);
                         // Write updates to the users.txt
                         updateUserFile();
                     }
@@ -1102,11 +1119,16 @@ void removeAdmin(char *username) {
     }
 }
 
+// Runs the batch file passed
 void runBatch(char *fileName){
     if(numParameters != 1){
         printf("\nInvalid number of parameters. The format for the '%s' command is: %s {{fileName}}", CMD_RUN_BATCH, CMD_RUN_BATCH);
     }else{
-        FILE *file = fopen(fileName, "r");
+        // Append the current location to only run files in current directory
+        char *filePath = (char *)malloc(200 * sizeof(char));
+        strcpy(filePath, location);
+        strcat(filePath, "/");
+        FILE *file = fopen(/*strcat(filePath, fileName)*/ fileName, "r");
         if(file == NULL){
             printf("\nERROR: File does not exist.");
         }else{

@@ -1,0 +1,15 @@
+
+cruser:
+
+    Description:
+        Removes a user account from system
+
+    Syntax:
+        cruser {{username}}
+
+    Example:
+        TechOS> cruser exampleUser
+    
+    Access Level Required:
+        Administrator
+    

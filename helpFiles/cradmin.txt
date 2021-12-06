@@ -1,0 +1,14 @@
+
+cradmin:
+
+    Description:
+        Gives a basic user administator privileges
+
+    Syntax:
+        cradmin {{username}}
+
+    Example:
+        TechOS> cradmin fakeuser
+
+    Access Level Required:
+        Administrator

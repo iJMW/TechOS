@@ -9,4 +9,7 @@ rmdir:
 
     Example:
         TechOS> rmdir /testDir
+
+    Access Level Required:
+        Basic user
     

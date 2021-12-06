@@ -9,4 +9,7 @@ mkdir:
 
     Example:
         TechOS> mkdir testDir
+
+    Access Level Required:
+        Basic user
     

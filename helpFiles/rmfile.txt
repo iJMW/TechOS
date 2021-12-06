@@ -9,4 +9,7 @@ rmfile:
 
     Example:
         TechOS> rmfile testFile.txt
+
+     Access Level Required:
+        Basic user
     

@@ -10,3 +10,6 @@ unblock:
     Example:
         TechOS> unblock process1
     
+    Access Level Required:
+        Basic user
+    

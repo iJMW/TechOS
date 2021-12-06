@@ -9,4 +9,7 @@ quit:
 
     Example:
         TechOS> quit
+
+    Access Level Required:
+        Basic user
     

@@ -9,4 +9,7 @@ dispatch:
 
     Example:
         TechOS> dispatch
+
+    Access Level Required:
+        Basic user
         
