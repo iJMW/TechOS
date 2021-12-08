@@ -1,4 +1,4 @@
-#Contributors
+# Contributors
 
 [Jalen Wayt](https://github.com/iJMW)
 
