@@ -13,48 +13,48 @@ TechOS is a lightweight operating system written in C. Version 5 consists of com
 ## Module 1 - Basic Commands and Structure
 
 In this module, the following commands were implemented:<br />
-&nbsp;&nbsp;&nbsp;Help
-&nbsp;&nbsp;&nbsp;Version
-&nbsp;&nbsp;&nbsp;Display Date
-&nbsp;&nbsp;&nbsp;Change Date
-&nbsp;&nbsp;&nbsp;Display Time
+&nbsp;&nbsp;&nbsp;Help<br />
+&nbsp;&nbsp;&nbsp;Version<br />
+&nbsp;&nbsp;&nbsp;Display Date<br />
+&nbsp;&nbsp;&nbsp;Change Date<br />
+&nbsp;&nbsp;&nbsp;Display Time<br />
 &nbsp;&nbsp;&nbsp;Terminate TechOS<br />
 
 The structure and organization of the project was also decided and later changed.
 
 ## Module 2 - Process Management
 
-In this module, the following commands were implemented:
-&nbsp;&nbsp;&nbsp;Suspend
-&nbsp;&nbsp;&nbsp;Resume
-&nbsp;&nbsp;&nbsp;Set Priority
-&nbsp;&nbsp;&nbsp;Show PCB
-&nbsp;&nbsp;&nbsp;Show All Processes
-&nbsp;&nbsp;&nbsp;Show Ready Processes
-&nbsp;&nbsp;&nbsp;Show Blocked Processes
+In this module, the following commands were implemented:<br />
+&nbsp;&nbsp;&nbsp;Suspend<br />
+&nbsp;&nbsp;&nbsp;Resume<br />
+&nbsp;&nbsp;&nbsp;Set Priority<br />
+&nbsp;&nbsp;&nbsp;Show PCB<br />
+&nbsp;&nbsp;&nbsp;Show All Processes<br />
+&nbsp;&nbsp;&nbsp;Show Ready Processes<br />
+&nbsp;&nbsp;&nbsp;Show Blocked Processes<br />
   
-&nbsp;&nbsp;&nbsp;Temporary Commands:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create PCB
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delete PCB
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Block
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unblock
+&nbsp;&nbsp;&nbsp;Temporary Commands:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create PCB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delete PCB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Block<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unblock<br />
  
-The following procedures were implemented:
-&nbsp;&nbsp;&nbsp;AllocatePCB
-&nbsp;&nbsp;&nbsp;FreePCB
-&nbsp;&nbsp;&nbsp;SetupPCB
-&nbsp;&nbsp;&nbsp;FindPCB
-&nbsp;&nbsp;&nbsp;InsertPCB
-&nbsp;&nbsp;&nbsp;RemovePCB
+The following procedures were implemented:<br />
+&nbsp;&nbsp;&nbsp;AllocatePCB<br />
+&nbsp;&nbsp;&nbsp;FreePCB<br />
+&nbsp;&nbsp;&nbsp;SetupPCB<br />
+&nbsp;&nbsp;&nbsp;FindPCB<br />
+&nbsp;&nbsp;&nbsp;InsertPCB<br />
+&nbsp;&nbsp;&nbsp;RemovePCB<br />
   
 ## Module 3 - Interrupt Handler and Dispatcher
 
 No Commands were implemented in this module. However, the temporary commands from Module 2 were removed.
 
-The following procedures were implemented:
-  loadPCB
-  dispatch
-    Includes handling of interrupts
+The following procedures were implemented:<br />
+&nbsp;&nbsp;&nbsp;loadPCB<br />
+&nbsp;&nbsp;&nbsp;dispatch<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Includes handling of interrupts
 
 ## Module 4 - 
 
