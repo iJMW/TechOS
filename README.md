@@ -12,40 +12,40 @@ TechOS is a lightweight operating system written in C. Version 5 consists of com
 
 ## Module 1 - Basic Commands and Structure
 
-In this module, the following commands were implemented:
-  Help
-  Version
-  Display Date
-  Change Date
-  Display Time
-  Terminate TechOS
+In this module, the following commands were implemented:<br />
+&nbsp;&nbsp;&nbsp;Help
+&nbsp;&nbsp;&nbsp;Version
+&nbsp;&nbsp;&nbsp;Display Date
+&nbsp;&nbsp;&nbsp;Change Date
+&nbsp;&nbsp;&nbsp;Display Time
+&nbsp;&nbsp;&nbsp;Terminate TechOS<br />
 
 The structure and organization of the project was also decided and later changed.
 
 ## Module 2 - Process Management
 
 In this module, the following commands were implemented:
-  Suspend
-  Resume
-  Set Priority
-  Show PCB
-  Show All Processes
-  Show Ready Processes
-  Show Blocked Processes
+&nbsp;&nbsp;&nbsp;Suspend
+&nbsp;&nbsp;&nbsp;Resume
+&nbsp;&nbsp;&nbsp;Set Priority
+&nbsp;&nbsp;&nbsp;Show PCB
+&nbsp;&nbsp;&nbsp;Show All Processes
+&nbsp;&nbsp;&nbsp;Show Ready Processes
+&nbsp;&nbsp;&nbsp;Show Blocked Processes
   
-  Temporary Commands:
-    Create PCB
-    Delete PCB
-    Block
-    Unblock
+&nbsp;&nbsp;&nbsp;Temporary Commands:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create PCB
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delete PCB
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Block
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unblock
  
 The following procedures were implemented:
-  AllocatePCB
-  FreePCB
-  SetupPCB
-  FindPCB
-  InsertPCB
-  RemovePCB
+&nbsp;&nbsp;&nbsp;AllocatePCB
+&nbsp;&nbsp;&nbsp;FreePCB
+&nbsp;&nbsp;&nbsp;SetupPCB
+&nbsp;&nbsp;&nbsp;FindPCB
+&nbsp;&nbsp;&nbsp;InsertPCB
+&nbsp;&nbsp;&nbsp;RemovePCB
   
 ## Module 3 - Interrupt Handler and Dispatcher
 
