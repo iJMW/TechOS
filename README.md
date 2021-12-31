@@ -12,6 +12,12 @@ TechOS is a lightweight operating system written in C. Version 5 consists of com
 
 ## Project Information
 
+### Course Information
+
+Title: CS 450 - Operating Systems<br />
+Course Professor: [BhanuKiran Gurijala](https://engineering.wvutech.edu/faculty-and-staff/bhanukiran-gurijala)<br />
+College: [West Virginia University Institute of Technology](https://www.wvutech.edu/)
+
 ### Code Information
 
 Language: C
