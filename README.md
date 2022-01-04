@@ -20,8 +20,8 @@ College: [West Virginia University Institute of Technology](https://www.wvutech.
 
 ### Code Information
 
-Language: C
-Environment: gcc (version number here)
+Language: C<br />
+Environment: GCC 6.3.0
 
 ### Utilizing the Code
 
